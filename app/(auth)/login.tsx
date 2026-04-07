@@ -50,9 +50,9 @@ const LoginScreen = (): JSX.Element => {
       setSubmitError('');
       await signInWithEmail(values.email.trim(), values.password);
       router.replace('/(tabs)');
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Giriş yapılamadı.';
-      setSubmitError(message);
+    } catch {
+      // Generic error message to prevent email enumeration
+      setSubmitError('E-posta veya şifre hatalı.');
     }
   };
 

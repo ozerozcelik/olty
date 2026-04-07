@@ -314,6 +314,16 @@ export const updatePassword = async (password: string): Promise<void> => {
   }
 };
 
+export const requestPasswordReset = async (email: string): Promise<void> => {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: 'olty://reset-password',
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+};
+
 export const requestAccountDeletion = async (userId: string): Promise<void> => {
   const { error } = await supabase.from('deletion_requests').insert({ user_id: userId });
 
