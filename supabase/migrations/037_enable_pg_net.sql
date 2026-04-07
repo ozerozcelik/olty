@@ -1,0 +1,3 @@
+-- Remote project already has the pg_net extension provisioned.
+-- Keep this migration as a no-op so older environments can advance
+-- without re-creating extension-owned schemas or objects.

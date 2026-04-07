@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ══════════════════════════════════════════
+     OLTY PREMIUM DESIGN SYSTEM
+     "Strava for fishing meets Instagram"
+     ══════════════════════════════════════════ */
+  
+  /* Background colors */
+  --color-main: #0B1F2A;
+  --color-sand: #0B1F2A;
+  
+  /* Primary accent - Turquoise water */
+  --color-water: #2EC4B6;
+  --color-water-glow: rgba(46,196,182,0.4);
+  --color-sea: #2EC4B6;
+  
+  /* CTA Orange */
+  --color-cta: #FF7A00;
+  --color-cta-glow: rgba(255,122,0,0.4);
+  --color-coral: #FF7A00;
+  
+  /* Text colors */
+  --color-ink: #EAF4F4;
+  --color-text-primary: #EAF4F4;
+  --color-text-secondary: #9DB5B5;
+  
+  /* Surface colors */
+  --color-surface: #0F2A36;
+  --color-surface-alt: #153340;
+  --color-card: rgba(255,255,255,0.04);
+  
+  /* Border */
+  --color-border: rgba(255,255,255,0.08);
+  --color-border-strong: rgba(255,255,255,0.12);
+  
+  /* Background */
+  --background: #0B1F2A;
+}
+
+/* ══════════════════════════════════════════
+   PREMIUM COMPONENT CLASSES
+   ══════════════════════════════════════════ */
+@layer components {
+  /* Premium Glass Card */
+  .glass-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+  }
+  
+  .glass-card-hover {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+  }
+  
+  /* Premium Buttons */
+  .btn-primary {
+    background: linear-gradient(135deg, #FF7A00 0%, #FF9633 100%);
+    border-radius: 16px;
+    padding: 16px 24px;
+    box-shadow: 0 4px 16px rgba(255,122,0,0.25);
+  }
+  
+  .btn-primary-glow {
+    box-shadow: 0 0 24px rgba(255,122,0,0.4);
+  }
+  
+  .btn-secondary {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 16px 24px;
+  }
+  
+  .btn-water {
+    background: linear-gradient(135deg, #2EC4B6 0%, #4DD9CC 100%);
+    border-radius: 16px;
+    padding: 16px 24px;
+    box-shadow: 0 4px 16px rgba(46,196,182,0.25);
+  }
+  
+  /* Glass Button (legacy support) */
+  .glass-button {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 16px;
+  }
+  
+  /* Segmented Control */
+  .segmented-control {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+  }
+  
+  .segment-button {
+    border-radius: 999px;
+    padding: 12px 16px;
+  }
+  
+  .segment-button-active {
+    background: #2EC4B6;
+  }
+  
+  /* Legacy button support */
+  .primary-button {
+    background: linear-gradient(135deg, #FF7A00 0%, #FF9633 100%);
+    border-radius: 16px;
+    padding: 18px 24px;
+  }
+  
+  .secondary-button {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 18px 24px;
+  }
+  
+  /* Premium Input */
+  .input-premium {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 16px 20px;
+    color: #EAF4F4;
+  }
+  
+  .input-premium:focus {
+    border-color: rgba(46,196,182,0.5);
+    box-shadow: 0 0 0 3px rgba(46,196,182,0.15);
+  }
+  
+  /* Data Badge/Pill */
+  .data-badge {
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    padding: 6px 12px;
+  }
+  
+  .data-badge-water {
+    background: rgba(46,196,182,0.15);
+    color: #2EC4B6;
+    border-radius: 999px;
+    padding: 6px 12px;
+  }
+  
+  .data-badge-cta {
+    background: rgba(255,122,0,0.15);
+    color: #FF7A00;
+    border-radius: 999px;
+    padding: 6px 12px;
+  }
+  
+  /* Catch Data Card Overlay */
+  .catch-data-overlay {
+    background: linear-gradient(0deg, rgba(11,31,42,0.95) 0%, rgba(11,31,42,0.7) 60%, transparent 100%);
+  }
+  
+  /* Glow Effects */
+  .glow-water {
+    box-shadow: 0 0 24px rgba(46,196,182,0.35);
+  }
+  
+  .glow-cta {
+    box-shadow: 0 0 24px rgba(255,122,0,0.35);
+  }
+}

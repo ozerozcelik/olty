@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Olty Test Checklist</title>
+  <style>
+    :root {
+      --text: #1f2937;
+      --muted: #4b5563;
+      --accent: #0f766e;
+      --border: #d1d5db;
+      --bg: #f8fafc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: white;
+      line-height: 1.45;
+    }
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 36px 48px;
+    }
+    h1, h2 {
+      margin: 0 0 12px;
+    }
+    h1 {
+      font-size: 30px;
+      color: var(--accent);
+    }
+    h2 {
+      font-size: 18px;
+      margin-top: 28px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    p {
+      margin: 0 0 10px;
+      color: var(--muted);
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      margin: 6px 0;
+      padding-left: 26px;
+      position: relative;
+      break-inside: avoid;
+    }
+    li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 24px;
+    }
+    .meta {
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin: 16px 0 8px;
+    }
+    .small {
+      font-size: 12px;
+    }
+    @media print {
+      .page { max-width: none; padding: 20px 24px 28px; }
+      h2 { break-after: avoid; }
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Olty Ürün Test Checklist</h1>
+    <p>Bu liste, ürünü uçtan uca test etmek ve MVP kalitesini gerçek kullanım gibi değerlendirmek için hazırlandı.</p>
+    <div class="meta">
+      <div><strong>Kapsam:</strong> Auth, onboarding, catch log, feed, yorum, beğeni, profil, mesajlar, bildirimler, günlük oyunlar, admin, güvenlik, cihaz testleri.</div>
+      <div><strong>Önerilen test hesapları:</strong> `user_a`, `user_b`, `user_c`, `admin`</div>
+      <div><strong>Önerilen cihazlar:</strong> en az 1 iPhone, 1 Android</div>
+    </div>
+
+    <h2>1. Test Hazırlığı</h2>
+    <ul>
+      <li>4 test hesap hazır: public kullanıcı, private kullanıcı, yeni kullanıcı, admin</li>
+      <li>En az 2 gerçek cihaz hazır: iPhone ve Android</li>
+      <li>Yavaş internet ve internet kes / geri gel senaryosu hazırlanmış</li>
+      <li>En az 15 catch içeren test veri seti hazırlanmış</li>
+      <li>Fotoğraflı ve fotosuz catch örnekleri hazır</li>
+      <li>Public ve private catch karışık veri hazır</li>
+      <li>En az 5 gear item ve birkaç mesaj / yorum / beğeni var</li>
+      <li>Push izni açık ve kapalı iki ayrı cihaz senaryosu hazır</li>
+      <li>Konum izni açık ve kapalı iki ayrı cihaz senaryosu hazır</li>
+    </ul>
+
+    <h2>2. Smoke Test</h2>
+    <ul>
+      <li>Uygulama cold start'ta crash olmadan açılıyor</li>
+      <li>Login olmayan kullanıcı auth ekranına yönleniyor</li>
+      <li>Login olan kullanıcı tab yapısına yönleniyor</li>
+      <li>Feed, explore, log, map, notifications ve profile ekranları açılıyor</li>
+      <li>Blank screen veya navigation dead-end yok</li>
+      <li>Session kapatıp açınca kullanıcı oturumu doğru restore oluyor</li>
+    </ul>
+
+    <h2>3. Auth ve Onboarding</h2>
+    <ul>
+      <li>E-posta + şifre kayıt çalışıyor</li>
+      <li>Hatalı e-posta validasyonu çalışıyor</li>
+      <li>Şifre validasyonu doğru hata veriyor</li>
+      <li>Duplicate username engelleniyor</li>
+      <li>Username kuralı çalışıyor: 3-30 karakter, yalnızca a-z, 0-9, _</li>
+      <li>KVKK onayı olmadan onboarding tamamlanamıyor</li>
+      <li>Şehir seçimi kaydediliyor</li>
+      <li>Balıkçılık tipi multi-select doğru kaydediliyor</li>
+      <li>Onboarding skip akışı bozulmadan tamamlanıyor</li>
+      <li>Forgot password ve logout akışları doğru çalışıyor</li>
+    </ul>
+
+    <h2>4. Feed ve Explore</h2>
+    <ul>
+      <li>Takip edilen kullanıcıların catch'leri feed'de görünüyor</li>
+      <li>Kendi catch'leri feed'de görünüyor</li>
+      <li>Yeni kullanıcıda keşfet feed'i açılıyor</li>
+      <li>Sıralama kronolojik ve pagination düzgün</li>
+      <li>Refresh sonrası duplicate kart oluşmuyor</li>
+      <li>Blur placeholder'dan gerçek görsele geçiş düzgün</li>
+      <li>Private hesap catch'leri yetkisiz kullanıcıya görünmüyor</li>
+      <li>show_exact_location false olan catch tam konum göstermiyor</li>
+    </ul>
+
+    <h2>5. Catch Oluşturma ve Düzenleme</h2>
+    <ul>
+      <li>Fotosuz catch oluşturulabiliyor</li>
+      <li>Fotoğraflı catch oluşturulabiliyor</li>
+      <li>JPEG ve PNG yükleniyor</li>
+      <li>Büyük dosya senaryosu düzgün ele alınıyor</li>
+      <li>Upload fail olursa catch foto'suz kaydedilebiliyor</li>
+      <li>Tür seçerek catch eklenebiliyor</li>
+      <li>Tür seçmeden custom tür ile catch eklenebiliyor</li>
+      <li>Boy, ağırlık ve not alanı validasyonları doğru</li>
+      <li>Public/private toggle ve catch release toggle doğru çalışıyor</li>
+      <li>Konumu cihazdan çekme ve manuel konum girişi çalışıyor</li>
+      <li>Catch edit ve delete akışı çalışıyor</li>
+      <li>Başkasının catch'ini edit / delete yapamıyorsun</li>
+    </ul>
+
+    <h2>6. Catch Detay, Beğeni ve Yorum</h2>
+    <ul>
+      <li>Catch detay ekranı açılıyor</li>
+      <li>Public catch herkesçe görüntülenebiliyor</li>
+      <li>Private catch sadece yetkililerce açılıyor</li>
+      <li>Like optimistic update doğru</li>
+      <li>Unlike doğru</li>
+      <li>Double-tap like çalışıyor</li>
+      <li>Duplicate like oluşmuyor</li>
+      <li>Yorum ekleme çalışıyor</li>
+      <li>280 karakter üzeri yorum engelleniyor</li>
+      <li>Kendi yorumunu silebiliyorsun</li>
+      <li>Kendi catch'indeki başkasının yorumunu silebiliyorsun</li>
+      <li>Yetkisiz kullanıcı yorum silemiyor</li>
+    </ul>
+
+    <h2>7. Profil ve Sosyal</h2>
+    <ul>
+      <li>Kendi profil ekranı açılıyor</li>
+      <li>Başka kullanıcı profili açılıyor</li>
+      <li>Takip et / takipten çık çalışıyor</li>
+      <li>Private profil takip mantığı doğru</li>
+      <li>Follower / following listeleri doğru</li>
+      <li>Profil edit, avatar güncelleme ve bio limiti doğru çalışıyor</li>
+      <li>Rozetler ve catch grid düzgün görünüyor</li>
+    </ul>
+
+    <h2>8. Bildirimler ve Mesajlaşma</h2>
+    <ul>
+      <li>In-app notifications listeleniyor</li>
+      <li>Like, comment, follow, badge ve level up bildirimleri doğru düşüyor</li>
+      <li>Bildirim okundu / okunmadı durumu doğru</li>
+      <li>Notification settings ekranı çalışıyor</li>
+      <li>Conversation list açılıyor</li>
+      <li>Yeni mesaj gönderilebiliyor</li>
+      <li>Karşı taraf mesajı görüyor</li>
+      <li>Paylaşım üzerinden catch gönderme akışı çalışıyor</li>
+      <li>Yetkisiz kullanıcı başka conversation'a mesaj yazamıyor</li>
+    </ul>
+
+    <h2>9. Günlük Oyunlar</h2>
+    <ul>
+      <li>Günün sorusu görünüyor</li>
+      <li>Günün fish challenge'ı görünüyor</li>
+      <li>Aynı kullanıcı aynı soruya ikinci kez cevap veremiyor</li>
+      <li>Cevap verince UI durumu doğru güncelleniyor</li>
+      <li>Reveal sonrası doğru / yanlış hesap doğru</li>
+      <li>XP ödülü doğru işleniyor</li>
+      <li>3 gün üst üste cron ile kayıt oluşuyor</li>
+      <li>Bugünkü kayıtlar Supabase'te var</li>
+      <li>Reveal cron'u doğru saatte çalışıyor</li>
+    </ul>
+
+    <h2>10. Leaderboard, Harita, Hava</h2>
+    <ul>
+      <li>Leaderboard açılıyor</li>
+      <li>Weekly catch count doğru</li>
+      <li>Biggest fish sıralaması doğru</li>
+      <li>All-time XP doğru</li>
+      <li>City / country filtreleri doğru</li>
+      <li>Map ekranı açılıyor</li>
+      <li>Yaklaşık konum masking doğru</li>
+      <li>Hava widget'ı ve balık skoru düzgün çalışıyor</li>
+    </ul>
+
+    <h2>11. Gear, Fishdex, Search</h2>
+    <ul>
+      <li>Gear list açılıyor</li>
+      <li>Yeni gear ekleniyor</li>
+      <li>Gear edit ve delete çalışıyor</li>
+      <li>Tier seçimi kaydediliyor</li>
+      <li>Fishdex ekranları açılıyor</li>
+      <li>Arama ekranı kullanıcı buluyor</li>
+      <li>Kendi ve başka kullanıcının fishdex görünümü doğru</li>
+    </ul>
+
+    <h2>12. Admin</h2>
+    <ul>
+      <li>Admin dışı kullanıcı admin route'a giremiyor</li>
+      <li>Admin panel açılıyor</li>
+      <li>Daily question admin ekranı çalışıyor</li>
+      <li>Fish challenge admin ekranı çalışıyor</li>
+      <li>Weekly challenge admin ekranı çalışıyor</li>
+      <li>Admin işlem sonrası public UI doğru güncelleniyor</li>
+    </ul>
+
+    <h2>13. Güvenlik ve Yetki</h2>
+    <ul>
+      <li>Private catch API'den yetkisiz okunamıyor</li>
+      <li>Başkasının storage alanına yazılamıyor</li>
+      <li>Kendi olmayan kaydı update / delete yapılamıyor</li>
+      <li>Logout sonrası session temizleniyor</li>
+      <li>identify-fish auth, quota ve size limitleri çalışıyor</li>
+      <li>Mesaj, yorum, beğeni ve bildirim RLS kuralları doğru</li>
+    </ul>
+
+    <h2>14. Dayanıklılık ve Gerçek Cihaz Testi</h2>
+    <div class="grid">
+      <ul>
+        <li>İnternet kesikken kontrollü hata veriyor</li>
+        <li>Retry sonrası veri toparlıyor</li>
+        <li>Çok hızlı tıklamada duplicate kayıt oluşmuyor</li>
+        <li>Arka plana alıp dönünce state bozulmuyor</li>
+        <li>Uzun listelerde performans bozulmuyor</li>
+        <li>Görsel olmayan catch kartları düzgün render oluyor</li>
+      </ul>
+      <ul>
+        <li>iPhone login / logout</li>
+        <li>iPhone catch upload / push / location</li>
+        <li>Android login / logout</li>
+        <li>Android catch upload / push / location</li>
+        <li>KVKK consent akışı uçtan uca doğru</li>
+        <li>Account deletion akışı uçtan uca doğru</li>
+      </ul>
+    </div>
+
+    <h2>15. Çıkış Kriteri</h2>
+    <ul>
+      <li>P0 crash yok</li>
+      <li>P1 bloklayıcı bug yok</li>
+      <li>Günlük oyun 3 gün üst üste otomatik oluşuyor</li>
+      <li>Tüm core akışlar gerçek cihazda geçti</li>
+      <li>Yetki / RLS ihlali bulunmadı</li>
+      <li>Veri kaybı veya duplicate kayıt sorunu yok</li>
+    </ul>
+
+    <p class="small">Dosya kaynağı: Olty repo feature ve launch checklist dokümanları üzerinden derlenmiştir.</p>
+  </div>
+</body>
+</html>
