@@ -112,7 +112,7 @@ export const SkeletonText = ({
       <Skeleton
         borderRadius={radii.sm}
         height={lineHeight}
-        key={index}
+        key={`skeleton-line-${index}`}
         width={index === lines - 1 ? lastLineWidth : '100%'}
       />
     ))}

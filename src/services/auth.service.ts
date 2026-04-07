@@ -331,3 +331,23 @@ export const requestAccountDeletion = async (userId: string): Promise<void> => {
     throw new Error(error.message);
   }
 };
+
+export const exportUserData = async (): Promise<Record<string, unknown>> => {
+  const { data: { session } } = await supabase.auth.getSession();
+  
+  if (!session?.access_token) {
+    throw new Error('Oturum bulunamadı');
+  }
+
+  const response = await supabase.functions.invoke('export-data', {
+    headers: {
+      Authorization: `Bearer ${session.access_token}`,
+    },
+  });
+
+  if (response.error) {
+    throw new Error(response.error.message ?? 'Veri dışa aktarılamadı');
+  }
+
+  return response.data as Record<string, unknown>;
+};

@@ -28,3 +28,7 @@ export const track = (
 export const trackScreen = (name: string): void => {
   client?.capture('$screen', { screen_name: name });
 };
+
+export const resetAnalytics = (): void => {
+  client?.reset();
+};

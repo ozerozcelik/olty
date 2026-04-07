@@ -4,6 +4,7 @@ import type { Session } from '@supabase/supabase-js';
 
 import { hasRequiredPublicEnv } from '@/lib/env';
 import { supabase } from '@/lib/supabase';
+import { resetAnalytics } from '@/lib/analytics';
 import { ensureProfileForSession } from '@/services/auth.service';
 import type { ProfileRow } from '@/types/app.types';
 
@@ -130,6 +131,8 @@ if (hasRequiredPublicEnv) {
       return;
     }
 
+    // Reset analytics on logout
+    resetAnalytics();
     useAuthStore.getState().setProfile(null);
     useAuthStore.getState().setProfileReady(true);
   });

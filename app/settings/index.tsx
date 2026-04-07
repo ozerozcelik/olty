@@ -29,7 +29,7 @@ import { SettingsSection } from '@/components/SettingsSection';
 import { SettingsRow } from '@/components/SettingsRow';
 import { SettingsToggleRow } from '@/components/SettingsToggleRow';
 import { FISHING_TYPE_OPTIONS, TURKEY_CITIES } from '@/lib/constants';
-import { requestAccountDeletion, signOut, updatePassword } from '@/services/auth.service';
+import { requestAccountDeletion, signOut, updatePassword, exportUserData } from '@/services/auth.service';
 import { moderateImage } from '@/services/moderation.service';
 import { updateProfile } from '@/services/profiles.service';
 import { uploadAvatar } from '@/services/storage.service';
@@ -98,6 +98,7 @@ const SettingsScreen = (): JSX.Element => {
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
   const [passwordLoading, setPasswordLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+  const [exportLoading, setExportLoading] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<string>('');
   const [deleteError, setDeleteError] = useState<string>('');
   const [notifLikes, setNotifLikes] = useState<boolean>(profile?.notif_likes ?? true);
@@ -117,6 +118,9 @@ const SettingsScreen = (): JSX.Element => {
   const [showGearPublic, setShowGearPublic] = useState<boolean>(profile?.show_gear_public ?? true);
   const [showFishdexPublic, setShowFishdexPublic] = useState<boolean>(
     profile?.show_fishdex_public ?? true,
+  );
+  const [marketingConsent, setMarketingConsent] = useState<boolean>(
+    profile?.marketing_consent ?? false,
   );
   const { control, handleSubmit, reset, setValue, watch, formState } = useForm<SettingsFormValues>({
     defaultValues: profile ? getSettingsFormValues(profile) : undefined,
@@ -160,7 +164,8 @@ const SettingsScreen = (): JSX.Element => {
     showFishingTypesPublic !== profile.show_fishing_types_public ||
     showSocialLinksPublic !== profile.show_social_links_public ||
     showGearPublic !== profile.show_gear_public ||
-    showFishdexPublic !== profile.show_fishdex_public;
+    showFishdexPublic !== profile.show_fishdex_public ||
+    marketingConsent !== profile.marketing_consent;
 
   const pickAvatar = async (): Promise<void> => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -237,6 +242,7 @@ const SettingsScreen = (): JSX.Element => {
         show_social_links_public: showSocialLinksPublic,
         show_gear_public: showGearPublic,
         show_fishdex_public: showFishdexPublic,
+        marketing_consent: marketingConsent,
       };
 
       const updatedProfile = await updateProfile(session.user.id, payload);
@@ -290,6 +296,24 @@ const SettingsScreen = (): JSX.Element => {
       setDeleteError(error instanceof Error ? error.message : 'Silme talebi gönderilemedi.');
     } finally {
       setDeleteLoading(false);
+    }
+  };
+
+  const handleExportData = async (): Promise<void> => {
+    setExportLoading(true);
+
+    try {
+      const data = await exportUserData();
+      const jsonString = JSON.stringify(data, null, 2);
+      const { Share } = await import('react-native');
+      await Share.share({
+        message: jsonString,
+        title: 'Olty Veri Dışa Aktarımı',
+      });
+    } catch (error: unknown) {
+      Alert.alert('Hata', error instanceof Error ? error.message : 'Veri dışa aktarılamadı.');
+    } finally {
+      setExportLoading(false);
     }
   };
 
@@ -507,6 +531,14 @@ const SettingsScreen = (): JSX.Element => {
           <SettingsToggleRow label="Hesabım gizli olsun" onValueChange={setIsPrivate} value={isPrivate} />
         </SettingsSection>
 
+        <SettingsSection title="İletişim Tercihleri">
+          <SettingsToggleRow
+            label="Pazarlama e-postaları almak istiyorum"
+            onValueChange={setMarketingConsent}
+            value={marketingConsent}
+          />
+        </SettingsSection>
+
         <SettingsSection title="Profil Görünürlüğü">
           <SettingsToggleRow
             label="Şehrimi göster"
@@ -546,6 +578,18 @@ const SettingsScreen = (): JSX.Element => {
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.8} style={styles.accountButton} onPress={() => router.push('/gear')}>
             <Text style={styles.accountButtonText}>Ekipmanlarım</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            disabled={exportLoading}
+            onPress={() => void handleExportData()}
+            style={styles.accountButton}
+          >
+            {exportLoading ? (
+              <ActivityIndicator color="#7DD4E8" size="small" />
+            ) : (
+              <Text style={styles.accountButtonText}>Verilerimi İndir (KVKK)</Text>
+            )}
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.8}
             style={styles.dangerButton}
