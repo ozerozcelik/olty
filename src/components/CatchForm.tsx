@@ -894,28 +894,22 @@ export const CatchForm = ({
 
       <Modal animationType="slide" visible={mapModalVisible}>
         <View style={styles.modalContainer}>
-          <MapView
-            style={styles.flex1}
-            initialRegion={
-              selectedMapCoordinate
-                ? {
-                    latitude: selectedMapCoordinate.latitude,
-                    longitude: selectedMapCoordinate.longitude,
-                    latitudeDelta: 0.3,
-                    longitudeDelta: 0.3,
-                  }
-                : TURKEY_REGION
-            }
-            onPress={handleMapPress}
-            provider={PROVIDER_DEFAULT}
-          >
-            {selectedMapCoordinate ? <Marker coordinate={selectedMapCoordinate} /> : null}
-          </MapView>
-
           <View style={styles.mapModalHeader}>
             <Text style={styles.mapModalTitle}>Haritadan konum seç</Text>
             <Text style={styles.mapModalSubtitle}>
-              Haritada bir noktaya dokunarak iğneni bırak.
+              Harita görünümü bu sürümde devre dışı. GPS ile güncelleyip konumu onaylayabilirsin.
+            </Text>
+          </View>
+
+          <View style={styles.mapFallbackCard}>
+            <Text style={styles.mapFallbackLabel}>Seçili koordinat</Text>
+            <Text style={styles.mapFallbackValue}>
+              {selectedMapCoordinate
+                ? `${selectedMapCoordinate.latitude.toFixed(5)}, ${selectedMapCoordinate.longitude.toFixed(5)}`
+                : 'Henüz seçilmedi'}
+            </Text>
+            <Text style={styles.mapFallbackHint}>
+              Mevcut konumunu kullanırsan otomatik koşullar da güncellenir.
             </Text>
           </View>
 
@@ -923,10 +917,17 @@ export const CatchForm = ({
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.mapConfirmButton}
+              onPress={() => void handleUseLocation()}
+            >
+              <Text style={styles.submitButtonText}>GPS ile Konumu Doldur</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.mapConfirmButton}
               onPress={() => void handleConfirmMapLocation()}
             >
               <Text style={styles.submitButtonText}>
-                {isResolvingLocation ? 'Konum çözülüyor...' : 'Konumu Onayla'}
+                {isResolvingLocation ? 'Konum çözülüyor...' : 'Bu Konumu Kullan'}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1287,6 +1288,35 @@ const styles = StyleSheet.create({
   mapModalSubtitle: {
     marginTop: 4,
     fontSize: 14,
+    color: 'rgba(255,255,255,0.70)',
+  },
+  mapFallbackCard: {
+    marginHorizontal: 16,
+    marginTop: 120,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    backgroundColor: COLORS.surfaceAlt,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  mapFallbackLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.8,
+    color: COLORS.textMuted,
+    textTransform: 'uppercase',
+  },
+  mapFallbackValue: {
+    marginTop: 8,
+    fontSize: 16,
+    fontWeight: '600',
+    color: COLORS.ink,
+  },
+  mapFallbackHint: {
+    marginTop: 8,
+    fontSize: 13,
+    lineHeight: 20,
     color: 'rgba(255,255,255,0.70)',
   },
   mapModalButtons: {

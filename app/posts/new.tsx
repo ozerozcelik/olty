@@ -10,6 +10,7 @@ import { z } from 'zod';
 
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 import { POST_TYPE_OPTIONS } from '@/lib/posts';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { moderateImage } from '@/services/moderation.service';
 import { createPost, uploadPostImage } from '@/services/posts.service';
 import { useAuthStore } from '@/stores/useAuthStore';
@@ -54,7 +55,7 @@ const PostsNewScreen = (): JSX.Element => {
   const pickImage = async (): Promise<string | null> => {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      mediaTypes: ['images'],
+      mediaTypes: 'images',
       quality: 0.9,
     });
 
@@ -274,7 +275,7 @@ const PostsNewScreen = (): JSX.Element => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0A2028',
+    backgroundColor: SPORT_THEME.bg,
     flex: 1,
   },
   content: {
@@ -291,7 +292,7 @@ const styles = StyleSheet.create({
     width: 48,
   },
   headerButtonText: {
-    color: '#D4FF00',
+    color: SPORT_THEME.active,
     fontSize: 15,
     fontWeight: '600',
   },
@@ -299,7 +300,7 @@ const styles = StyleSheet.create({
     width: 48,
   },
   title: {
-    color: '#F0F7F9',
+    color: SPORT_THEME.text,
     fontSize: 24,
     fontWeight: '700',
   },
@@ -307,23 +308,23 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   label: {
-    color: '#F0F7F9',
+    color: SPORT_THEME.text,
     fontSize: 15,
     fontWeight: '600',
   },
   titleInput: {
-    backgroundColor: 'rgba(255,255,255,0.07)',
-    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 20,
     borderWidth: 1,
-    color: '#F0F7F9',
+    color: SPORT_THEME.text,
     fontSize: 20,
     fontWeight: '700',
     paddingHorizontal: 16,
     paddingVertical: 16,
   },
   counter: {
-    color: 'rgba(240,247,249,0.45)',
+    color: SPORT_THEME.textMuted,
     fontSize: 12,
     textAlign: 'right',
   },
@@ -333,37 +334,37 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   typePill: {
-    backgroundColor: 'rgba(255,255,255,0.07)',
-    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 999,
     borderWidth: 1,
     paddingHorizontal: 14,
     paddingVertical: 10,
   },
   typePillActive: {
-    backgroundColor: '#D4FF00',
-    borderColor: '#D4FF00',
+    backgroundColor: SPORT_THEME.active,
+    borderColor: SPORT_THEME.active,
   },
   typePillText: {
-    color: 'rgba(240,247,249,0.65)',
+    color: SPORT_THEME.textMuted,
     fontSize: 13,
     fontWeight: '600',
   },
   typePillTextActive: {
-    color: '#0A2028',
+    color: SPORT_THEME.bg,
   },
   imagePicker: {
     alignItems: 'center',
     aspectRatio: 4 / 3,
-    backgroundColor: 'rgba(255,255,255,0.07)',
-    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 24,
     borderWidth: 1,
     justifyContent: 'center',
     overflow: 'hidden',
   },
   imagePickerText: {
-    color: 'rgba(240,247,249,0.65)',
+    color: SPORT_THEME.textMuted,
     fontSize: 15,
     fontWeight: '600',
   },
@@ -372,11 +373,11 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   bodyInput: {
-    backgroundColor: 'rgba(255,255,255,0.07)',
-    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 24,
     borderWidth: 1,
-    color: '#F0F7F9',
+    color: SPORT_THEME.text,
     fontSize: 16,
     minHeight: 220,
     paddingHorizontal: 16,
@@ -388,15 +389,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   addImageButton: {
-    backgroundColor: 'rgba(125,212,232,0.15)',
-    borderColor: 'rgba(125,212,232,0.34)',
+    backgroundColor: 'rgba(212,255,0,0.10)',
+    borderColor: 'rgba(212,255,0,0.24)',
     borderRadius: 999,
     borderWidth: 1,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
   addImageButtonText: {
-    color: '#D4FF00',
+    color: SPORT_THEME.active,
     fontSize: 12,
     fontWeight: '700',
   },
@@ -406,15 +407,15 @@ const styles = StyleSheet.create({
     paddingRight: 16,
   },
   galleryImage: {
-    backgroundColor: '#0F2C35',
+    backgroundColor: SPORT_THEME.surfaceAlt,
     borderRadius: 18,
     height: 96,
     width: 96,
   },
   galleryAddTile: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.07)',
-    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 18,
     borderWidth: 1,
     height: 96,
@@ -422,17 +423,17 @@ const styles = StyleSheet.create({
     width: 96,
   },
   galleryAddText: {
-    color: 'rgba(240,247,249,0.65)',
+    color: SPORT_THEME.textMuted,
     fontSize: 13,
     fontWeight: '600',
   },
   errorText: {
-    color: '#EF6B6B',
+    color: SPORT_THEME.warning,
     fontSize: 13,
   },
   publishButton: {
     alignItems: 'center',
-    backgroundColor: '#E8845A',
+    backgroundColor: SPORT_THEME.warning,
     borderRadius: 22,
     justifyContent: 'center',
     minHeight: 56,
@@ -441,7 +442,7 @@ const styles = StyleSheet.create({
     opacity: 0.65,
   },
   publishButtonText: {
-    color: '#FFFFFF',
+    color: SPORT_THEME.text,
     fontSize: 16,
     fontWeight: '700',
   },

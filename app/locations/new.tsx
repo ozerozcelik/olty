@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 import { createFishingLocation } from '@/services/fishingLocations.service';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { FishingLocationMapItem, LocationType } from '@/types/app.types';
 
@@ -40,11 +41,19 @@ const SEASONS: SeasonOption[] = ['İlkbahar', 'Yaz', 'Sonbahar', 'Kış', 'Tüm 
 
 const styles = StyleSheet.create({
   mapCard: {
-    backgroundColor: 'rgba(255,255,255,0.07)',
-    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 24,
     borderWidth: 1,
     overflow: 'hidden',
+  },
+  infoCard: {
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
+    borderRadius: 24,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
   },
   map: {
     height: 240,
@@ -61,8 +70,8 @@ const styles = StyleSheet.create({
   },
   crosshair: {
     alignItems: 'center',
-    backgroundColor: 'rgba(10,32,40,0.90)',
-    borderColor: 'rgba(125,212,232,0.65)',
+    backgroundColor: 'rgba(5,6,8,0.90)',
+    borderColor: 'rgba(212,255,0,0.55)',
     borderRadius: 18,
     borderWidth: 2,
     height: 36,
@@ -70,17 +79,17 @@ const styles = StyleSheet.create({
     width: 36,
   },
   fieldLabel: {
-    color: '#F0F7F9',
+    color: SPORT_THEME.text,
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 8,
   },
   textField: {
-    backgroundColor: 'rgba(255,255,255,0.05)',
-    borderColor: 'rgba(255,255,255,0.10)',
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 18,
     borderWidth: 1,
-    color: '#F0F7F9',
+    color: SPORT_THEME.text,
     fontSize: 15,
     paddingHorizontal: 14,
     paddingVertical: 14,
@@ -219,8 +228,8 @@ const NewLocationScreen = (): JSX.Element => {
           </View>
         </View>
 
-        <View className="rounded-[24px] border border-white/10 bg-white/10 px-4 py-4">
-          <Text className="text-sm font-semibold text-ink">Merkez Konum</Text>
+        <View style={styles.infoCard}>
+          <Text className="text-sm font-semibold text-white">Merkez Konum</Text>
           <Text className="mt-2 text-sm text-white/70">
             Haritayı kaydır, iğneyi istediğin noktaya getir.
           </Text>
@@ -250,12 +259,12 @@ const NewLocationScreen = (): JSX.Element => {
                 <TouchableOpacity
                   activeOpacity={0.8}
                   className={`rounded-full border px-4 py-3 ${
-                    isSelected ? 'border-sea bg-sea' : 'border-white/10 bg-white/5'
+                    isSelected ? 'border-coral bg-coral' : 'border-white/10 bg-[#11141A]'
                   }`}
                   key={item.value}
                   onPress={() => setLocationType(item.value)}
                 >
-                  <Text className={isSelected ? 'font-semibold text-white' : 'text-ink'}>
+                  <Text className={isSelected ? 'font-semibold text-white' : 'text-white/70'}>
                     {item.label}
                   </Text>
                 </TouchableOpacity>
@@ -297,12 +306,12 @@ const NewLocationScreen = (): JSX.Element => {
                 <TouchableOpacity
                   activeOpacity={0.8}
                   className={`rounded-full border px-4 py-3 ${
-                    isSelected ? 'border-sea bg-sea' : 'border-white/10 bg-white/5'
+                    isSelected ? 'border-coral bg-coral' : 'border-white/10 bg-[#11141A]'
                   }`}
                   key={item}
                   onPress={() => setLocationBestSeason(item)}
                 >
-                  <Text className={isSelected ? 'font-semibold text-white' : 'text-ink'}>
+                  <Text className={isSelected ? 'font-semibold text-white' : 'text-white/70'}>
                     {item}
                   </Text>
                 </TouchableOpacity>
@@ -317,22 +326,22 @@ const NewLocationScreen = (): JSX.Element => {
             <TouchableOpacity
               activeOpacity={0.8}
               className={`flex-1 rounded-2xl border px-4 py-3 ${
-                locationIsPublic ? 'border-sea bg-sea' : 'border-white/10 bg-white/5'
+                locationIsPublic ? 'border-coral bg-coral' : 'border-white/10 bg-[#11141A]'
               }`}
               onPress={() => setLocationIsPublic(true)}
             >
-              <Text className={`text-center font-semibold ${locationIsPublic ? 'text-white' : 'text-ink'}`}>
+              <Text className={`text-center font-semibold ${locationIsPublic ? 'text-white' : 'text-white/70'}`}>
                 Herkese Açık
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
               className={`flex-1 rounded-2xl border px-4 py-3 ${
-                !locationIsPublic ? 'border-sea bg-sea' : 'border-white/10 bg-white/5'
+                !locationIsPublic ? 'border-coral bg-coral' : 'border-white/10 bg-[#11141A]'
               }`}
               onPress={() => setLocationIsPublic(false)}
             >
-              <Text className={`text-center font-semibold ${!locationIsPublic ? 'text-white' : 'text-ink'}`}>
+              <Text className={`text-center font-semibold ${!locationIsPublic ? 'text-white' : 'text-white/70'}`}>
                 Sadece Ben
               </Text>
             </TouchableOpacity>

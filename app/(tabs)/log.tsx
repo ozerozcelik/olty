@@ -6,7 +6,7 @@ import { StyleSheet, Text,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
-import { T } from '@/lib/theme';
+import { SPORT_THEME } from '@/lib/sport-theme';
 
 const FISH_ID_ROUTE = '/fish-id' as Href;
 const POSTS_ROUTE = '/posts/new' as Href;
@@ -77,39 +77,39 @@ const LogScreen = (): JSX.Element => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: T.bgCard,
+    backgroundColor: SPORT_THEME.bg,
     paddingHorizontal: 20,
   },
   card: {
     borderRadius: 28,
     borderWidth: 1,
-    borderColor: T.glassBorder,
-    backgroundColor: T.glass,
+    borderColor: SPORT_THEME.border,
+    backgroundColor: SPORT_THEME.surface,
     paddingHorizontal: 20,
     paddingVertical: 24,
   },
   title: {
     fontSize: 22,
     fontWeight: '700',
-    color: T.textPrimary,
+    color: SPORT_THEME.text,
   },
   subtitle: {
     marginTop: 8,
     fontSize: 14,
     lineHeight: 22,
-    color: T.textSecondary,
+    color: SPORT_THEME.textMuted,
   },
   buttonCoral: {
     marginTop: 24,
     borderRadius: 20,
-    backgroundColor: T.coral,
+    backgroundColor: SPORT_THEME.warning,
     paddingHorizontal: 18,
     paddingVertical: 18,
   },
   buttonSea: {
     marginTop: 12,
     borderRadius: 20,
-    backgroundColor: T.teal,
+    backgroundColor: SPORT_THEME.active,
     paddingHorizontal: 18,
     paddingVertical: 18,
   },
@@ -117,40 +117,40 @@ const styles = StyleSheet.create({
     marginTop: 12,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: T.glassBorder,
-    backgroundColor: T.glass,
+    borderColor: SPORT_THEME.border,
+    backgroundColor: SPORT_THEME.surface,
     paddingHorizontal: 18,
     paddingVertical: 18,
   },
   buttonTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: SPORT_THEME.bg,
   },
   buttonTitleDark: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#0A1E26',
+    color: SPORT_THEME.bg,
   },
   buttonTitleLight: {
     fontSize: 16,
     fontWeight: '600',
-    color: T.textPrimary,
+    color: SPORT_THEME.text,
   },
   buttonDescription: {
     marginTop: 4,
     fontSize: 13,
-    color: 'rgba(255,255,255,0.85)',
+    color: 'rgba(5,6,8,0.78)',
   },
   buttonDescriptionDark: {
     marginTop: 4,
     fontSize: 13,
-    color: 'rgba(10,30,38,0.70)',
+    color: 'rgba(5,6,8,0.78)',
   },
   buttonDescriptionLight: {
     marginTop: 4,
     fontSize: 13,
-    color: T.textSecondary,
+    color: SPORT_THEME.textMuted,
   },
 });
 

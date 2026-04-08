@@ -13,11 +13,6 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 import { SPORT_THEME } from '@/lib/sport-theme';
-import MapView, {
-  Marker,
-  PROVIDER_DEFAULT,
-  type MapPressEvent,
-} from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
@@ -62,17 +57,11 @@ export const WeatherLocationPickerModal = ({
   const [pendingLocation, setPendingLocation] =
     useState<WeatherLocationSelection | null>(initialLocation);
   const [isBusy, setIsBusy] = useState<boolean>(false);
-  const [mapReady, setMapReady] = useState<boolean>(false);
 
   useEffect(() => {
     if (visible) {
       setPendingLocation(initialLocation);
       setSearchValue(initialLocation?.label ?? '');
-      // Delay map initialization to prevent crash
-      const timer = setTimeout(() => setMapReady(true), 100);
-      return () => clearTimeout(timer);
-    } else {
-      setMapReady(false);
     }
   }, [initialLocation, visible]);
 
@@ -113,15 +102,6 @@ export const WeatherLocationPickerModal = ({
     } finally {
       setIsBusy(false);
     }
-  };
-
-  const handleMapPress = (event: MapPressEvent): void => {
-    const nextCoordinate = event.nativeEvent.coordinate;
-    setPendingLocation({
-      latitude: nextCoordinate.latitude,
-      longitude: nextCoordinate.longitude,
-      label: pendingLocation?.label ?? 'Seçilen Konum',
-    });
   };
 
   const handleConfirm = async (): Promise<void> => {
@@ -199,28 +179,13 @@ export const WeatherLocationPickerModal = ({
           </View>
 
           <View style={styles.mapContainer}>
-            {mapReady ? (
-              <MapView
-                initialRegion={mapRegion}
-                onPress={handleMapPress}
-                provider={PROVIDER_DEFAULT}
-                style={styles.map}
-              >
-                {pendingLocation ? (
-                  <Marker
-                    coordinate={{
-                      latitude: pendingLocation.latitude,
-                      longitude: pendingLocation.longitude,
-                    }}
-                  />
-                ) : null}
-              </MapView>
-            ) : (
-              <View style={styles.mapLoading}>
-                <ActivityIndicator color={COLORS.accent} size="large" />
-                <Text style={styles.mapLoadingText}>Harita yükleniyor...</Text>
-              </View>
-            )}
+            <View style={styles.mapLoading}>
+              <Text style={styles.mapEmoji}>📍</Text>
+              <Text style={styles.mapLoadingText}>Harita seçimi bu ekranda basitleştirildi.</Text>
+              <Text style={styles.mapHelperText}>
+                Arama yap veya mevcut konumunu kullan. Konum bilgisi aşağıda görünecek.
+              </Text>
+            </View>
           </View>
 
           <View style={styles.footer}>
@@ -347,10 +312,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 12,
+    paddingHorizontal: 24,
+  },
+  mapEmoji: {
+    fontSize: 34,
   },
   mapLoadingText: {
     fontSize: 14,
     color: COLORS.textMuted,
+    textAlign: 'center',
+  },
+  mapHelperText: {
+    fontSize: 13,
+    lineHeight: 20,
+    color: COLORS.textLabel,
+    textAlign: 'center',
   },
   footer: {
     paddingHorizontal: 20,
