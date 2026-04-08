@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Image } from 'expo-image';
 import {
   Pressable,
   View,
@@ -9,6 +10,8 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { SPORT_THEME } from '@/lib/sport-theme';
+
+const APP_LOGO = require('../assets/yenilogo.png');
 
 const COLORS = {
   bgDeep: SPORT_THEME.bg,
@@ -39,7 +42,7 @@ export default function WelcomeScreen(): JSX.Element {
       >
         {/* Logo */}
         <View style={styles.logoContainer}>
-          <Text style={styles.logoEmoji}>🎣</Text>
+          <Image contentFit="contain" source={APP_LOGO} style={styles.logoImage} />
         </View>
 
         {/* Title */}
@@ -99,8 +102,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 24,
   },
-  logoEmoji: {
-    fontSize: 44,
+  logoImage: {
+    height: 62,
+    width: 62,
   },
   title: {
     fontSize: 44,

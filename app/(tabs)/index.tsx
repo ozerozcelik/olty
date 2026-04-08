@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
 import {
   useInfiniteQuery,
   useMutation,
@@ -28,7 +29,7 @@ import { EmptyFeed } from '@/components/EmptyFeed';
 import { PostCard } from '@/components/PostCard';
 import { SkeletonFeed } from '@/components/Skeleton';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
-import { WeatherWidget } from '@/components/WeatherWidget';
+import { WeatherWidgetCompact } from '@/components/WeatherWidgetCompact';
 import { SPORT_THEME } from '@/lib/sport-theme';
 import { T } from '@/lib/theme';
 import { getFeedCatches } from '@/services/catches.service';
@@ -40,6 +41,7 @@ import type { CatchFeedItem, PostCardItem } from '@/types/app.types';
 const PAGE_SIZE = 20;
 const FISH_ID_ROUTE = '/fish-id' as Href;
 const POSTS_DETAIL_ROUTE = (id: string): Href => `/posts/${id}` as Href;
+const APP_LOGO = require('../../assets/yenilogo.png');
 
 type FeedEntry =
   | { kind: 'catch'; created_at: string; id: string; item: CatchFeedItem }
@@ -259,7 +261,7 @@ const FeedScreen = (): JSX.Element => {
           <>
             <View style={[styles.header, { paddingTop: Math.max(insets.top + 8, 56) }]}>
               <View>
-                <Text style={styles.wordmark}>OLTY.</Text>
+                <Image contentFit="contain" source={APP_LOGO} style={styles.wordmarkLogo} />
                 <Text style={styles.feedTag}>PERFORMANCE FEED</Text>
               </View>
               <View style={styles.headerActions}>
@@ -279,7 +281,7 @@ const FeedScreen = (): JSX.Element => {
                 </TouchableOpacity>
               </View>
             </View>
-            <WeatherWidget />
+            <WeatherWidgetCompact />
           </>
         }
         maxToRenderPerBatch={10}
@@ -324,12 +326,9 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     paddingHorizontal: 4,
   },
-  wordmark: {
-    color: SPORT_THEME.active,
-    fontSize: 24,
-    fontWeight: '700',
-    fontStyle: 'italic',
-    letterSpacing: 1.2,
+  wordmarkLogo: {
+    height: 26,
+    width: 108,
   },
   feedTag: {
     color: SPORT_THEME.textMuted,

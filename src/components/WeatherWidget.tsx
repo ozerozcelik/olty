@@ -52,7 +52,7 @@ const COLORS = {
 const HOURLY_ITEM_WIDTH = 68;
 const HOURLY_ITEM_GAP = 10;
 const HOURLY_ITEM_SPAN = HOURLY_ITEM_WIDTH + HOURLY_ITEM_GAP;
-const HOURLY_LOGO = require('../../assets/splash-icon.png');
+const HOURLY_LOGO = require('../../assets/yenilogo.png');
 
 interface ForecastTabProps {
   item: DailyForecastItem;

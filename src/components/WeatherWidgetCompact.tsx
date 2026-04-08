@@ -15,12 +15,12 @@ import {
   Text,
   View,
 } from 'react-native';
+import Svg, { Circle, Path } from 'react-native-svg';
 
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 import { WeatherLocationPickerModal } from '@/components/WeatherLocationPickerModal';
 import { useWeather } from '@/hooks/useWeather';
 import { calculateFishingScore } from '@/services/weather.service';
-import { usePreferencesStore } from '@/stores/usePreferencesStore';
 import type {
   BestFishingTime,
   FishingScoreFactor,
@@ -67,6 +67,8 @@ const getWeatherEmoji = (code: number): string => {
   if (code >= 95 && code <= 99) return '⛈️';
   return '🌤️';
 };
+
+const formatHour24 = (iso: string): string => iso.slice(11, 16);
 
 const getWindDirectionLabel = (degrees: number | null): string => {
   if (degrees === null) return '--';
@@ -427,7 +429,6 @@ const DetailsModal = ({
 
 export const WeatherWidgetCompact = (): JSX.Element => {
   const weatherQuery = useWeather();
-  const windSpeedUnit = usePreferencesStore((state) => state.windSpeedUnit);
   const [pickerVisible, setPickerVisible] = useState(false);
   const [detailsVisible, setDetailsVisible] = useState(false);
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
@@ -558,6 +559,7 @@ export const WeatherWidgetCompact = (): JSX.Element => {
     const displayedWindSpeed = selectedHourlyEntry?.windSpeed ?? displayForecastDay.windSpeed;
     const displayedPressure = selectedHourlyEntry?.pressure ?? displayForecastDay.pressure;
     const displayedWaveHeight = selectedHourlyEntry?.waveHeight ?? displayForecastDay.waveHeight;
+    const displayedRainProbability = selectedHourlyEntry?.precipitationProbability ?? null;
 
     const activeFishingScore = selectedHourlyEntry
       ? calculateFishingScore({
@@ -584,6 +586,7 @@ export const WeatherWidgetCompact = (): JSX.Element => {
       displayedWindSpeed,
       displayedPressure,
       displayedWaveHeight,
+      displayedRainProbability,
       activeFishingScore,
       hourlyDayLabel: getHourlyDayLabel(selectedHourlyEntry?.time ?? null, selectedForecastDay.date),
     };
@@ -617,6 +620,7 @@ export const WeatherWidgetCompact = (): JSX.Element => {
     displayedWindSpeed,
     displayedPressure,
     displayedWaveHeight,
+    displayedRainProbability,
     activeFishingScore,
     hourlyDayLabel,
   } = displayValues;
@@ -624,20 +628,42 @@ export const WeatherWidgetCompact = (): JSX.Element => {
   const goldenHourActive = isGoldenHour(displayForecastDay);
   const tideData = displayForecastDay.tideData;
   const bestTimes = displayForecastDay.bestTimes ?? [];
+  const chartSamples = hourlyTimelineEntries.slice(0, 6);
+  const chartTemps = chartSamples.map((item) => item.temperature);
+  const chartMaxTemp = Math.max(...chartTemps, 1);
+  const chartMinTemp = Math.min(...chartTemps, 0);
+  const chartHeight = 110;
+  const chartWidth = 308;
+  const yRange = Math.max(1, chartMaxTemp - chartMinTemp);
+
+  const chartPoints = chartSamples.map((item, index) => {
+    const x = (index * (chartWidth - 16)) / Math.max(1, chartSamples.length - 1) + 8;
+    const y = 10 + (1 - (item.temperature - chartMinTemp) / yRange) * (chartHeight - 22);
+
+    return { x, y, item };
+  });
+
+  const chartPath = chartPoints
+    .map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`)
+    .join(' ');
+
+  const forecastRows = weather.forecastDays.slice(0, 3);
+  const minForRows = Math.min(...forecastRows.map((row) => row.temperature - 4));
+  const maxForRows = Math.max(...forecastRows.map((row) => row.temperature + 4));
+  const rowSpan = Math.max(1, maxForRows - minForRows);
 
   return (
     <>
       <View style={styles.card}>
-        {/* Row 1: Location + Day Selector + Score */}
-        <View style={styles.headerRow}>
+        <View style={styles.headerTopRow}>
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => setPickerVisible(true)}
-            style={styles.locationBtn}
+            style={styles.locationWrap}
           >
-            <Ionicons color={COLORS.primary} name="location" size={14} />
-            <Text style={styles.locationText} numberOfLines={1}>
-              {weatherQuery.location?.label ?? 'Konum Seç'}
+            <Ionicons color={COLORS.textSecondary} name="location" size={14} />
+            <Text numberOfLines={1} style={styles.locationHeadline}>
+              {(weatherQuery.location?.label ?? 'Konum Seç').toUpperCase()}
             </Text>
           </TouchableOpacity>
 
@@ -646,73 +672,128 @@ export const WeatherWidgetCompact = (): JSX.Element => {
             onSelect={setSelectedDayIndex}
             selectedIndex={selectedDayIndex}
           />
+        </View>
 
-          <View style={[styles.scoreBadge, { backgroundColor: getScoreColor(activeFishingScore.score) }]}>
-            <Text style={styles.scoreIcon}>🎣</Text>
-            <Text style={styles.scoreValue}>{activeFishingScore.score}</Text>
+        <View style={styles.heroRow}>
+          <View style={styles.heroLeft}>
+            <Text style={styles.heroCondition}>{displayForecastDay.weatherLabel}</Text>
+            <Text style={styles.heroSubline}>
+              En yüksek {Math.round(displayForecastDay.temperature + 3)}°  En düşük {Math.round(displayForecastDay.temperature - 4)}°
+            </Text>
+          </View>
+          <View style={styles.heroRight}>
+            <Text style={styles.heroTemp}>{Math.round(displayedTemperature)}°C</Text>
           </View>
         </View>
 
-        {/* Row 2: Key Metrics */}
-        <View style={styles.metricsRow}>
-          <MetricChip
-            icon={getWeatherEmoji(displayedWeatherCode)}
-            value={`${Math.round(displayedTemperature)}°`}
-          />
-          <MetricChip
-            icon="💨"
-            value={`${Math.round(displayedWindSpeed)} ${windSpeedUnit === 'kt' ? 'kn' : 'km/h'}`}
-          />
-          <MetricChip
-            icon="🌊"
-            value={displayedWaveHeight ? `${formatCompact(displayedWaveHeight)}m` : '--'}
-          />
-          <MetricChip
-            icon="📊"
-            value={`${displayedPressure}`}
-          />
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Zamana Göre Koşullar</Text>
+          <View style={styles.legendRow}>
+            <Text style={styles.legendItem}>● Gelgit</Text>
+            <Text style={[styles.legendItem, styles.legendSafe]}>● Uygun Dalga</Text>
+            <Text style={[styles.legendItem, styles.legendHigh]}>● Yüksek Dalga</Text>
+          </View>
         </View>
 
-        {/* Row 3: Hourly Timeline */}
-        {hourlyTimelineEntries.length > 0 ? (
-          <View
-            onLayout={(e) => setHourlyViewportWidth(e.nativeEvent.layout.width)}
-            style={styles.hourlySection}
-          >
-            <View style={styles.hourlyHeader}>
-              <Text style={styles.hourlyTitle}>Saatlik</Text>
-              {hourlyDayLabel ? (
-                <View style={styles.hourlyDayBadge}>
-                  <Text style={styles.hourlyDayText}>{hourlyDayLabel}</Text>
+        <View style={styles.chartWrap}>
+          <View style={styles.chartGridLines}>
+            <View style={styles.chartGridLine} />
+            <View style={styles.chartGridLine} />
+            <View style={styles.chartGridLine} />
+          </View>
+
+          <View style={styles.chartBarsRow}>
+            {chartSamples.map((sample) => {
+              const rain = sample.precipitationProbability ?? 0;
+              const wave = sample.waveHeight ?? 0;
+              const barHeight = Math.max(26, (rain / 100) * 96);
+              const barColor = wave >= 1.5
+                ? 'rgba(255,85,0,0.28)'
+                : wave >= 0.8
+                  ? 'rgba(120,170,255,0.20)'
+                  : 'rgba(212,255,0,0.24)';
+
+              return (
+                <View key={sample.time} style={styles.chartBarCol}>
+                  <View style={[styles.chartBar, { backgroundColor: barColor, height: barHeight }]} />
+                  <Text style={styles.chartTime}>{formatHour24(sample.time)}</Text>
                 </View>
-              ) : null}
-            </View>
-            <ScrollView
-              contentContainerStyle={[
-                styles.hourlyStrip,
-                { paddingHorizontal: Math.max(0, (hourlyViewportWidth - HOURLY_ITEM_WIDTH) / 2) },
-              ]}
-              decelerationRate="normal"
-              horizontal
-              onMomentumScrollEnd={handleHourlyMomentumEnd}
-              onScroll={handleHourlyScroll}
-              onScrollEndDrag={handleHourlyMomentumEnd}
-              ref={hourlyScrollRef}
-              scrollEventThrottle={16}
-              showsHorizontalScrollIndicator={false}
-            >
-              {hourlyTimelineEntries.map((item) => (
-                <CompactHourlyItem
-                  isNow={selectedForecastDay.isToday && item.time === defaultHourlyTime}
-                  isSelected={item.time === selectedHourlyEntry?.time}
-                  item={item}
-                  key={item.time}
+              );
+            })}
+          </View>
+
+          {chartPoints.length > 1 ? (
+            <Svg height={chartHeight} pointerEvents="none" style={styles.chartLineOverlay} width={chartWidth}>
+              <Path d={chartPath} fill="none" stroke={COLORS.textPrimary} strokeWidth={2.6} />
+              {chartPoints.map((point) => (
+                <Circle
+                  cx={point.x}
+                  cy={point.y}
+                  fill={COLORS.card}
+                  key={point.item.time}
+                  r={3.5}
+                  stroke={COLORS.textPrimary}
+                  strokeWidth={2}
                 />
               ))}
-            </ScrollView>
-            <View pointerEvents="none" style={styles.hourlyCenterGuide} />
+            </Svg>
+          ) : null}
+        </View>
+
+        <View style={styles.metricCardsRow}>
+          <View style={styles.metricCard}>
+            <Ionicons color={COLORS.secondary} name="navigate-outline" size={18} />
+            <Text style={styles.metricMain}>{Math.round(displayedWindSpeed)} km/sa</Text>
+            <Text style={styles.metricSub}>{getWindDirectionLabel(displayForecastDay.windDirection)}</Text>
           </View>
-        ) : null}
+          <View style={styles.metricCard}>
+            <Ionicons color={COLORS.secondary} name="water-outline" size={18} />
+            <Text style={styles.metricMain}>{displayedWaveHeight ? `${formatCompact(displayedWaveHeight)} m` : '--'}</Text>
+            <Text style={styles.metricSub}>Dalga</Text>
+          </View>
+          <View style={styles.metricCard}>
+            <Ionicons color={COLORS.secondary} name="speedometer-outline" size={18} />
+            <Text style={styles.metricMain}>{displayedPressure} hPa</Text>
+            <Text style={[styles.metricSub, { color: COLORS.primary }]}>Basınç</Text>
+          </View>
+          <View style={styles.metricCard}>
+            <Ionicons color={COLORS.secondary} name="rainy-outline" size={18} />
+            <Text style={styles.metricMain}>{displayedRainProbability ?? 0}%</Text>
+            <Text style={styles.metricSub}>Yağış</Text>
+          </View>
+        </View>
+
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.hourlyForecastRow}>
+          {hourlyTimelineEntries.slice(0, 6).map((item) => (
+            <View key={item.time} style={styles.hourCell}>
+              <Text style={styles.hourCellTime}>{formatHour24(item.time)}</Text>
+              <Text style={styles.hourCellEmoji}>{getWeatherEmoji(item.weatherCode)}</Text>
+              <Text style={styles.hourCellTemp}>{Math.round(item.temperature)}°</Text>
+            </View>
+          ))}
+        </ScrollView>
+
+        <View style={styles.dailyList}>
+          {forecastRows.map((row) => {
+            const minT = Math.round(row.temperature - 4);
+            const maxT = Math.round(row.temperature + 3);
+            const left = ((minT - minForRows) / rowSpan) * 130;
+            const width = Math.max(24, ((maxT - minT) / rowSpan) * 130);
+
+            return (
+              <View key={row.date} style={styles.dailyRow}>
+                <Text style={styles.dailyName}>{row.shortLabel}</Text>
+                <Text style={styles.dailyIcon}>{getWeatherEmoji(row.weatherCode)}</Text>
+                <Text style={styles.dailyMin}>{minT}°</Text>
+                <View style={styles.rangeTrack}>
+                  <View style={[styles.rangeFill, { left, width }]} />
+                </View>
+                <Text style={styles.dailyMax}>{maxT}°</Text>
+                <Text style={styles.dailyWave}>{row.waveHeight ? `${formatCompact(row.waveHeight)} m` : '--'}</Text>
+              </View>
+            );
+          })}
+        </View>
 
         {/* Row 4: Quick Info Chips */}
         <View style={styles.infoRow}>
@@ -753,7 +834,6 @@ export const WeatherWidgetCompact = (): JSX.Element => {
           ) : null}
         </View>
 
-        {/* Row 5: Details Button */}
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => setDetailsVisible(true)}
@@ -796,7 +876,233 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginHorizontal: 16,
     marginBottom: 12,
-    padding: 12,
+    padding: 14,
+  },
+
+  headerTopRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  locationWrap: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 6,
+    maxWidth: '68%',
+  },
+  locationHeadline: {
+    color: COLORS.textSecondary,
+    fontSize: 10,
+    fontWeight: '600',
+    letterSpacing: 1,
+  },
+  heroRow: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  heroLeft: {
+    flex: 1,
+  },
+  heroCondition: {
+    color: COLORS.textPrimary,
+    fontSize: 32,
+    fontWeight: '800',
+    lineHeight: 36,
+  },
+  heroSubline: {
+    color: COLORS.textSecondary,
+    fontSize: 16,
+    marginTop: 6,
+  },
+  heroRight: {
+    alignItems: 'flex-end',
+  },
+  heroTemp: {
+    color: COLORS.textPrimary,
+    fontSize: 44,
+    fontWeight: '900',
+    lineHeight: 48,
+  },
+  sectionHeader: {
+    marginTop: 6,
+  },
+  sectionTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  legendRow: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 6,
+  },
+  legendItem: {
+    color: COLORS.textSecondary,
+    fontSize: 11,
+  },
+  legendSafe: {
+    color: '#A7E07A',
+  },
+  legendHigh: {
+    color: '#FFB1B9',
+  },
+  chartWrap: {
+    borderColor: COLORS.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginTop: 10,
+    overflow: 'hidden',
+    paddingBottom: 8,
+    paddingHorizontal: 8,
+    paddingTop: 8,
+    position: 'relative',
+  },
+  chartGridLines: {
+    gap: 24,
+    left: 8,
+    position: 'absolute',
+    right: 8,
+    top: 28,
+  },
+  chartGridLine: {
+    borderTopColor: 'rgba(255,255,255,0.06)',
+    borderTopWidth: 1,
+  },
+  chartBarsRow: {
+    alignItems: 'flex-end',
+    flexDirection: 'row',
+    gap: 8,
+    height: 132,
+    justifyContent: 'space-between',
+  },
+  chartBarCol: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  chartBar: {
+    borderRadius: 4,
+    width: '86%',
+  },
+  chartTime: {
+    color: COLORS.textSecondary,
+    fontSize: 11,
+    fontWeight: '600',
+    marginTop: 6,
+  },
+  chartLineOverlay: {
+    left: 0,
+    position: 'absolute',
+    top: 12,
+  },
+  metricCardsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 12,
+  },
+  metricCard: {
+    alignItems: 'center',
+    backgroundColor: COLORS.cardAlt,
+    borderColor: COLORS.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    flex: 1,
+    minHeight: 84,
+    justifyContent: 'center',
+    paddingHorizontal: 6,
+    paddingVertical: 8,
+  },
+  metricMain: {
+    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '700',
+    marginTop: 8,
+    textAlign: 'center',
+  },
+  metricSub: {
+    color: COLORS.textSecondary,
+    fontSize: 11,
+    marginTop: 3,
+  },
+  hourlyForecastRow: {
+    marginTop: 12,
+  },
+  hourCell: {
+    alignItems: 'center',
+    marginRight: 14,
+    width: 52,
+  },
+  hourCellTime: {
+    color: COLORS.textSecondary,
+    fontSize: 11,
+    fontWeight: '600',
+  },
+  hourCellEmoji: {
+    fontSize: 20,
+    marginVertical: 3,
+  },
+  hourCellTemp: {
+    color: COLORS.textPrimary,
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  dailyList: {
+    borderTopColor: COLORS.border,
+    borderTopWidth: 1,
+    marginTop: 12,
+    paddingTop: 8,
+  },
+  dailyRow: {
+    alignItems: 'center',
+    borderBottomColor: 'rgba(255,255,255,0.06)',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    minHeight: 42,
+  },
+  dailyName: {
+    color: COLORS.textPrimary,
+    fontSize: 15,
+    fontWeight: '600',
+    width: 52,
+  },
+  dailyIcon: {
+    fontSize: 17,
+    width: 26,
+  },
+  dailyMin: {
+    color: COLORS.textSecondary,
+    fontSize: 14,
+    width: 34,
+  },
+  rangeTrack: {
+    backgroundColor: 'rgba(255,255,255,0.10)',
+    borderRadius: 999,
+    flex: 1,
+    height: 6,
+    marginHorizontal: 8,
+    position: 'relative',
+  },
+  rangeFill: {
+    backgroundColor: COLORS.textPrimary,
+    borderRadius: 999,
+    height: 6,
+    position: 'absolute',
+    top: 0,
+  },
+  dailyMax: {
+    color: COLORS.textPrimary,
+    fontSize: 16,
+    fontWeight: '700',
+    width: 40,
+  },
+  dailyWave: {
+    color: COLORS.textSecondary,
+    fontSize: 13,
+    textAlign: 'right',
+    width: 48,
   },
 
   // Header Row

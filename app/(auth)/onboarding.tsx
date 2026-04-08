@@ -15,7 +15,7 @@ import { SPORT_THEME } from '@/lib/sport-theme';
 import { completeOnboarding } from '@/services/profiles.service';
 import { useAuthStore } from '@/stores/useAuthStore';
 
-const SPLASH_LOGO = require('../../assets/splash-icon.png');
+const SPLASH_LOGO = require('../../assets/yenilogo.png');
 
 type Step = 1 | 2 | 3;
 

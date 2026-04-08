@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -28,6 +29,8 @@ const COLORS = {
   divider: 'rgba(255,255,255,0.08)',
   socialText: 'rgba(255,255,255,0.88)',
 };
+
+const APP_LOGO = require('../../assets/yenilogo.png');
 
 const loginSchema = z.object({
   email: z.string().email('Geçerli bir e-posta gir'),
@@ -81,7 +84,7 @@ const LoginScreen = (): JSX.Element => {
           style={[styles.heroSection, { paddingTop: Math.max(insets.top + 16, 48) }]}
         >
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>OLTY.</Text>
+            <Image contentFit="contain" source={APP_LOGO} style={styles.badgeLogo} />
           </View>
 
           <Text style={styles.heroTitle}>
@@ -238,16 +241,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.borderDefault,
     borderRadius: 14,
-    paddingVertical: 7,
-    paddingHorizontal: 14,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     marginBottom: 28,
   },
-  badgeText: {
-    fontSize: 20,
-    letterSpacing: 0.4,
-    color: COLORS.volt,
-    fontWeight: '700',
-    fontStyle: 'italic',
+  badgeLogo: {
+    height: 22,
+    width: 88,
   },
   heroTitle: {
     fontSize: 34,

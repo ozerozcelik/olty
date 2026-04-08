@@ -8,9 +8,9 @@ const config: ExpoConfig = {
   version: '1.0.0',
   orientation: 'portrait',
   userInterfaceStyle: 'light',
-  icon: './assets/icon.png',
+  icon: './assets/yenilogo.png',
   splash: {
-    image: './assets/splash-icon.png',
+    image: './assets/yenilogo.png',
     resizeMode: 'contain',
     backgroundColor: '#f6f3ea',
   },
@@ -43,7 +43,7 @@ const config: ExpoConfig = {
   },
   web: {
     bundler: 'metro',
-    favicon: './assets/favicon.png',
+    favicon: './assets/yenilogo.png',
   },
   experiments: {
     typedRoutes: true,
