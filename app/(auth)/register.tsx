@@ -10,22 +10,23 @@ import { z } from 'zod';
 
 import { OptionModal } from '@/components/OptionModal';
 import { FISHING_TYPE_OPTIONS, TURKEY_CITIES } from '@/lib/constants';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { checkUsernameAvailability, signUpWithEmail } from '@/services/auth.service';
 import type { FishingType } from '@/types/app.types';
 
 const COLORS = {
-  bgDeep: '#0D2830',
-  bgCard: 'rgba(125,212,232,0.06)',
-  borderDefault: 'rgba(125,212,232,0.18)',
-  borderActive: '#7DD4E8',
-  teal: '#7DD4E8',
-  tealGlow: 'rgba(125,212,232,0.12)',
-  textPrimary: '#E8F7FA',
-  textSecondary: 'rgba(125,212,232,0.50)',
-  textTertiary: 'rgba(125,212,232,0.30)',
-  coral: '#E8845A',
-  error: '#E85A5A',
-  success: '#5AE88C',
+  bgDeep: SPORT_THEME.bg,
+  bgCard: 'rgba(255,255,255,0.04)',
+  borderDefault: SPORT_THEME.border,
+  borderActive: SPORT_THEME.active,
+  teal: SPORT_THEME.active,
+  tealGlow: 'rgba(212,255,0,0.12)',
+  textPrimary: SPORT_THEME.text,
+  textSecondary: SPORT_THEME.textMuted,
+  textTertiary: 'rgba(139,146,165,0.68)',
+  coral: SPORT_THEME.active,
+  error: '#F87171',
+  success: '#86EFAC',
 };
 
 const registerSchema = z.object({
@@ -227,9 +228,9 @@ const RegisterScreen = (): JSX.Element => {
           {/* Header */}
           <View style={styles.headerSection}>
             <Text style={styles.title}>
-              Olty{`'`}ye{'\n'}<Text style={styles.titleAccent}>katıl.</Text>
+              TRACK YOUR{'\n'}<Text style={styles.titleAccent}>NEXT STRIKE.</Text>
             </Text>
-            <Text style={styles.subtitle}>Balıkçılık profilini oluştur</Text>
+            <Text style={styles.subtitle}>Olty topluluguna katil ve performans profilini olustur.</Text>
           </View>
 
           {/* Form */}
@@ -507,19 +508,21 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     fontSize: 13,
-    color: COLORS.textSecondary,
+    color: COLORS.teal,
   },
   headerSection: {
     gap: 6,
     marginBottom: 24,
   },
   title: {
-    fontSize: 30,
-    fontWeight: '500',
+    fontSize: 32,
+    fontWeight: '700',
+    lineHeight: 38,
+    letterSpacing: 0.5,
     color: COLORS.textPrimary,
   },
   titleAccent: {
-    color: COLORS.teal,
+    color: COLORS.textSecondary,
   },
   subtitle: {
     fontSize: 13,
@@ -543,7 +546,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgCard,
     borderWidth: 1,
     borderColor: COLORS.borderDefault,
-    borderRadius: 14,
+    borderRadius: 16,
     paddingVertical: 13,
     paddingHorizontal: 16,
     flexDirection: 'row',
@@ -552,7 +555,7 @@ const styles = StyleSheet.create({
   },
   inputContainerActive: {
     borderColor: COLORS.borderActive,
-    backgroundColor: 'rgba(125,212,232,0.10)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
   },
   inputText: {
     fontSize: 13,
@@ -587,11 +590,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: COLORS.borderDefault,
-    backgroundColor: 'rgba(125,212,232,0.04)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
   },
   pillSelected: {
     borderColor: COLORS.teal,
-    backgroundColor: 'rgba(125,212,232,0.15)',
+    backgroundColor: 'rgba(212,255,0,0.14)',
   },
   pillText: {
     fontSize: 11,
@@ -608,8 +611,8 @@ const styles = StyleSheet.create({
     paddingRight: 13,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'rgba(125,212,232,0.12)',
-    backgroundColor: 'rgba(125,212,232,0.05)',
+    borderColor: 'rgba(255,255,255,0.10)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
   },
   checkbox: {
     width: 17,
@@ -617,7 +620,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1.5,
     borderColor: COLORS.teal,
-    backgroundColor: 'rgba(125,212,232,0.15)',
+    backgroundColor: 'rgba(212,255,0,0.13)',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 2,
@@ -650,7 +653,7 @@ const styles = StyleSheet.create({
   },
   checkboxSmallActive: {
     borderColor: COLORS.teal,
-    backgroundColor: 'rgba(125,212,232,0.15)',
+    backgroundColor: 'rgba(212,255,0,0.13)',
   },
   marketingText: {
     flex: 1,
@@ -669,14 +672,20 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center',
     marginTop: 4,
+    shadowColor: COLORS.teal,
+    shadowOpacity: 0.32,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
   },
   ctaButtonDisabled: {
     opacity: 0.5,
   },
   ctaButtonText: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: '#0A0C10',
+    letterSpacing: 0.2,
   },
   ghostLink: {
     alignItems: 'center',

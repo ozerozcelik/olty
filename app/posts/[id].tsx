@@ -130,7 +130,7 @@ const PostDetailScreen = (): JSX.Element => {
                   borderColor: badgeColors?.border,
                 }]}
                 >
-                  <Text style={[styles.typeBadgeText, { color: badgeColors?.text ?? '#7DD4E8' }]}>
+                  <Text style={[styles.typeBadgeText, { color: badgeColors?.text ?? '#D4FF00' }]}> 
                     {getPostTypeLabel(post.type)}
                   </Text>
                 </View>
@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
   },
   commentButton: {
     alignItems: 'center',
-    backgroundColor: '#7DD4E8',
+    backgroundColor: '#D4FF00',
     borderRadius: 18,
     justifyContent: 'center',
     minHeight: 48,

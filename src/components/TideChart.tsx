@@ -11,15 +11,15 @@ interface TideChartProps {
 }
 
 const COLORS = {
-  water: '#2EC4B6',
-  waterLight: 'rgba(46,196,182,0.3)',
-  waterDark: '#1A8A7F',
-  high: '#FF7A00',
-  low: '#3B82F6',
-  text: '#EAF4F4',
-  textMuted: 'rgba(234,244,244,0.55)',
+  water: '#D4FF00',
+  waterLight: 'rgba(212,255,0,0.3)',
+  waterDark: '#A4C900',
+  high: '#FF5500',
+  low: '#5C87FF',
+  text: '#FFFFFF',
+  textMuted: 'rgba(139,146,165,0.72)',
   grid: 'rgba(255,255,255,0.08)',
-  currentTime: '#FF7A00',
+  currentTime: '#FF5500',
 };
 
 const parseTime = (timeStr: string): number => {
@@ -250,7 +250,7 @@ export const TideChart = ({
               cy={point.y}
               r={6}
               fill={point.event.type === 'high' ? COLORS.high : COLORS.low}
-              stroke="#0B1F2A"
+              stroke="#050608"
               strokeWidth={2}
             />
             <SvgText

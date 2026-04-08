@@ -177,8 +177,8 @@ export const DailyQuestionCard = (): JSX.Element | null => {
       <GlassView borderRadius={28} intensity={18} style={{ flex: 1, paddingHorizontal: 16, paddingVertical: 20 }}>
       <ConfettiBurst visible={showConfetti} />
       <View className="flex-row items-center justify-between gap-3">
-        <Text className="text-lg font-semibold text-[#F0F7F9]">🎯 Günün Tahmini</Text>
-        <Text className={`text-sm font-medium ${isCountdownWarning ? 'text-[#F2A71B]' : 'text-sea'}`}>{countdown}</Text>
+        <Text className="text-lg font-semibold text-[#FFFFFF]">🎯 Günün Tahmini</Text>
+        <Text className={`text-sm font-medium ${isCountdownWarning ? 'text-[#FBBF24]' : 'text-sea'}`}>{countdown}</Text>
       </View>
       <Text className="mt-4 text-xl font-semibold text-[#F0F7F9]">{question.question_tr}</Text>
 
@@ -189,11 +189,11 @@ export const DailyQuestionCard = (): JSX.Element | null => {
 
             return (
               <TouchableOpacity activeOpacity={0.8}
-                className={`rounded-2xl border px-4 py-3 ${isSelected ? 'border-[#7DD4E8] bg-[rgba(125,212,232,0.20)]' : 'border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.08)]'}`}
+                className={`rounded-2xl border px-4 py-3 ${isSelected ? 'border-[#D4FF00] bg-[rgba(212,255,0,0.16)]' : 'border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.08)]'}`}
                 key={`${question.id}-${option}`}
                 onPress={() => setSelectedIndex(index)}
               >
-                <Text className={`text-base ${isSelected ? 'font-semibold text-[#7DD4E8]' : 'text-[#F0F7F9]'}`}>
+                <Text className={`text-base ${isSelected ? 'font-semibold text-[#D4FF00]' : 'text-[#FFFFFF]'}`}>
                   {option}
                 </Text>
               </TouchableOpacity>
@@ -229,7 +229,7 @@ export const DailyQuestionCard = (): JSX.Element | null => {
             const isCorrectOption = question.correct_index === index;
             const className = resolvedAnswer.isCorrect === null
               ? isChosen
-                ? 'border-[#7DD4E8] bg-[rgba(125,212,232,0.20)]'
+                ? 'border-[#D4FF00] bg-[rgba(212,255,0,0.16)]'
                 : 'border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.08)]'
               : isCorrectOption
                 ? 'border-[#4CAF7D] bg-[rgba(76,175,125,0.20)]'
@@ -238,8 +238,8 @@ export const DailyQuestionCard = (): JSX.Element | null => {
                   : 'border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.08)]';
             const textClassName = resolvedAnswer.isCorrect === null
               ? isChosen
-                ? 'text-[#7DD4E8]'
-                : 'text-[#F0F7F9]'
+                ? 'text-[#D4FF00]'
+                : 'text-[#FFFFFF]'
               : isCorrectOption
                 ? 'text-[#4CAF7D]'
                 : isChosen
@@ -261,13 +261,13 @@ export const DailyQuestionCard = (): JSX.Element | null => {
             <>
               <Text className="text-sm font-medium text-white/45">⏳ Cevap 20:00&apos;de aciklanacak</Text>
               <View className="self-start rounded-full bg-[#43A047]/15 px-3 py-1.5">
-                <Text className="text-sm font-semibold text-[#7DE29A]">+10 XP katılım puanı kazandın!</Text>
+                <Text className="text-sm font-semibold text-[#86EFAC]">+10 XP katılım puanı kazandın!</Text>
               </View>
             </>
           ) : resolvedAnswer.isCorrect ? (
             <>
               <Animated.View className="self-start rounded-full bg-[#43A047]/15 px-3 py-1.5" style={{ opacity: chipOpacity, transform: [{ translateX: chipTranslateX }] }}>
-                <Text className="text-sm font-semibold text-[#7DE29A]">+25 XP bonus!</Text>
+                <Text className="text-sm font-semibold text-[#86EFAC]">+25 XP bonus!</Text>
               </Animated.View>
               <Text className="text-sm text-[#7DE29A]">Doğru tahmin! Harika bir balıkçı içgüdüsün var. 🎣</Text>
             </>

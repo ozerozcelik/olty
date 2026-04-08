@@ -22,7 +22,7 @@ export const CatchShareSheet = ({
     <Modal animationType="slide" onRequestClose={onClose} transparent visible={visible}>
       <View className="flex-1 justify-end bg-black/35">
         <TouchableOpacity activeOpacity={0.8} className="flex-1" onPress={onClose} />
-        <View className="rounded-t-[32px] bg-sand px-5 pb-8 pt-5">
+        <View className="rounded-t-[32px] bg-main px-5 pb-8 pt-5">
           <View className="mb-5 items-center">
             <View className="h-1.5 w-14 rounded-full bg-white/15" />
             <Text className="mt-4 text-xl font-semibold text-ink">Gönderiyi Paylaş</Text>
@@ -36,7 +36,7 @@ export const CatchShareSheet = ({
               onPress={onShareInMessages}
             >
               <View className="h-11 w-11 items-center justify-center rounded-full bg-sea/10">
-                <Ionicons color="#7DD4E8" name="chatbubble-ellipses-outline" size={20} />
+                <Ionicons color="#D4FF00" name="chatbubble-ellipses-outline" size={20} />
               </View>
               <View className="flex-1">
                 <Text className="text-base font-semibold text-ink">Mesajla gönder</Text>
@@ -52,7 +52,7 @@ export const CatchShareSheet = ({
               onPress={onShareExternally}
             >
               <View className="h-11 w-11 items-center justify-center rounded-full bg-coral/10">
-                <Ionicons color="#E8845A" name="share-social-outline" size={20} />
+                <Ionicons color="#FF5500" name="share-social-outline" size={20} />
               </View>
               <View className="flex-1">
                 <Text className="text-base font-semibold text-ink">Linki paylaş</Text>

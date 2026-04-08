@@ -27,7 +27,7 @@ import { WeeklyChallengeCard } from '@/components/WeeklyChallengeCard';
 import { DailyQuestionCard } from '@/components/daily/DailyQuestionCard';
 import { FishIdCard } from '@/components/daily/FishIdCard';
 import { useDebounce } from '@/hooks/useDebounce';
-import { T } from '@/lib/theme';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { getDiscoveryCatches } from '@/services/catches.service';
 import { getLeaderboard } from '@/services/gamification.service';
 import { searchProfiles } from '@/services/profiles.service';
@@ -137,14 +137,14 @@ const ExploreScreen = (): JSX.Element => {
       style={[styles.container, { paddingTop: Math.max(insets.top, 12) }]}
     >
       <View style={styles.header}>
-         <Text style={styles.title}>Keşfet</Text>
+        <Text style={styles.title}>EXPLORE</Text>
         <GlassView borderRadius={22} intensity={18} style={styles.iconButtonContent}>
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.iconButton}
             onPress={() => router.push('/search')}
           >
-            <Ionicons color={T.textPrimary} name="search-outline" size={20} />
+            <Ionicons color={SPORT_THEME.active} name="search-outline" size={20} />
           </TouchableOpacity>
         </GlassView>
       </View>
@@ -290,7 +290,7 @@ const ExploreScreen = (): JSX.Element => {
               style={styles.searchInput}
               onChangeText={setSearchValue}
               placeholder="Kullanıcı ara"
-              placeholderTextColor={T.textTertiary}
+              placeholderTextColor={SPORT_THEME.textMuted}
               value={searchValue}
             />
           </GlassView>
@@ -342,7 +342,7 @@ const ExploreScreen = (): JSX.Element => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: T.bg,
+    backgroundColor: SPORT_THEME.bg,
     paddingHorizontal: 16,
   },
   header: {
@@ -352,9 +352,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   title: {
-    color: T.textPrimary,
+    color: SPORT_THEME.active,
     fontSize: 28,
     fontWeight: '700',
+    letterSpacing: 0.6,
+    fontStyle: 'italic',
   },
   iconButton: {
     alignItems: 'center',
@@ -378,12 +380,12 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
   },
   cardTitle: {
-    color: T.textPrimary,
+    color: SPORT_THEME.text,
     fontSize: 17,
     fontWeight: '600',
   },
   cardSubtitle: {
-    color: T.textSecondary,
+    color: SPORT_THEME.textMuted,
     fontSize: 13,
     marginTop: 4,
   },
@@ -400,20 +402,20 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   segmentButtonActive: {
-    backgroundColor: T.teal,
+    backgroundColor: SPORT_THEME.active,
   },
   glassSegmentContainer: {
     borderRadius: 999,
     flex: 1,
   },
   segmentText: {
-    color: T.textSecondary,
+    color: '#D6DCE8',
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
   },
   segmentTextActive: {
-    color: '#0A1E26',
+    color: '#050608',
     fontWeight: '600',
   },
   leaderboardContent: {
@@ -437,21 +439,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   periodButtonActive: {
-    backgroundColor: T.coral,
-    borderColor: T.coral,
+    backgroundColor: SPORT_THEME.active,
+    borderColor: SPORT_THEME.active,
   },
   periodButtonText: {
-    color: T.textSecondary,
+    color: '#D6DCE8',
     fontSize: 13,
     fontWeight: '600',
     textAlign: 'center',
   },
   periodButtonTextActive: {
-    color: '#FFFFFF',
+    color: '#050608',
   },
   searchInput: {
     borderRadius: 16,
-    color: T.textPrimary,
+    color: SPORT_THEME.text,
     fontSize: 16,
     paddingHorizontal: 16,
     paddingVertical: 16,
@@ -460,7 +462,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   emptyText: {
-    color: T.textTertiary,
+    color: SPORT_THEME.textMuted,
     fontSize: 14,
     textAlign: 'center',
   },
@@ -472,12 +474,12 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   gamesTitle: {
-    color: T.textPrimary,
+    color: SPORT_THEME.text,
     fontSize: 20,
     fontWeight: '700',
   },
   gamesSubtitle: {
-    color: T.textSecondary,
+    color: SPORT_THEME.textMuted,
     fontSize: 14,
     lineHeight: 20,
     marginTop: 4,

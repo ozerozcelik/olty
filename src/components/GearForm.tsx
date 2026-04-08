@@ -85,7 +85,7 @@ export const GearForm = ({
   return (
     <>
       <ScrollView
-        className="flex-1 bg-sand"
+        className="flex-1 bg-main"
         contentContainerStyle={{ gap: 18, paddingHorizontal: 16, paddingBottom: 40, paddingTop: 16 }}
       >
         <View className="flex-row items-center gap-3">

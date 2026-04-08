@@ -139,7 +139,7 @@ const ShareCatchScreen = (): JSX.Element => {
   );
 
   return (
-    <View className="flex-1 bg-sand px-4 pt-4">
+    <View className="flex-1 bg-main px-4 pt-4">
       <View className="mb-4 flex-row items-center gap-3">
         <TouchableOpacity
           activeOpacity={0.8}
@@ -161,7 +161,7 @@ const ShareCatchScreen = (): JSX.Element => {
             />
           ) : (
             <View className="flex-1 items-center justify-center">
-              <Ionicons color="#7DD4E8" name="image-outline" size={24} />
+              <Ionicons color="#D4FF00" name="image-outline" size={24} />
             </View>
           )}
         </View>

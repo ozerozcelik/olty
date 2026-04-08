@@ -186,7 +186,7 @@ const SearchScreen = (): JSX.Element => {
             />
           ) : (
             <View className="flex-1 items-center justify-center">
-              <Ionicons color="#7DD4E8" name="image-outline" size={24} />
+              <Ionicons color="#D4FF00" name="image-outline" size={24} />
             </View>
           )}
         </View>
@@ -200,7 +200,7 @@ const SearchScreen = (): JSX.Element => {
   };
 
   return (
-    <View className="flex-1 bg-sand px-4 pt-4">
+    <View className="flex-1 bg-main px-4 pt-4">
       <View className="mb-4 flex-row items-center gap-3">
         <TouchableOpacity
           activeOpacity={0.8}
@@ -244,7 +244,7 @@ const SearchScreen = (): JSX.Element => {
 
       {isEmptyQuery ? (
         <View className="flex-1 items-center justify-center px-8">
-          <Ionicons color="#7DD4E8" name="search-outline" size={36} />
+          <Ionicons color="#D4FF00" name="search-outline" size={36} />
           <Text className="mt-4 text-center text-base leading-7 text-white/70">
             Kullanıcı, hashtag, tür, konum veya not arayarak sonuçları burada görebilirsin.
           </Text>

@@ -40,7 +40,7 @@ interface AnimatedButtonProps extends Omit<PressableProps, 'style' | 'children'>
 
 const variantStyles: Record<ButtonVariant, { bg: readonly [string, string]; text: string; border?: string }> = {
   primary: {
-    bg: ['#00D084', '#00B874'] as const,
+    bg: ['#D4FF00', '#B8DB00'] as const,
     text: '#FFFFFF',
   },
   secondary: {
@@ -48,21 +48,21 @@ const variantStyles: Record<ButtonVariant, { bg: readonly [string, string]; text
     text: '#FFFFFF',
   },
   coral: {
-    bg: ['#E8845A', '#D9734A'] as const,
+    bg: ['#FF5500', '#D64600'] as const,
     text: '#FFFFFF',
   },
   sea: {
-    bg: ['#7DD4E8', '#5BC4DB'] as const,
-    text: '#0B1622',
+    bg: ['#D4FF00', '#E7FF66'] as const,
+    text: '#050608',
   },
   outline: {
     bg: ['transparent', 'transparent'] as const,
-    text: '#F8FAFC',
+    text: '#FFFFFF',
     border: colors.border.strong,
   },
   ghost: {
     bg: ['transparent', 'transparent'] as const,
-    text: '#94A3B8',
+    text: '#8B92A5',
   },
 };
 

@@ -3,12 +3,12 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 
 const COLORS = {
-  background: '#0B1622',
-  surface: 'rgba(255,255,255,0.10)',
+  background: '#050608',
+  surface: 'rgba(255,255,255,0.04)',
   border: 'rgba(255,255,255,0.10)',
-  text: '#F8FAFC',
-  textMuted: 'rgba(240,247,249,0.45)',
-  error: '#A6422B',
+  text: '#FFFFFF',
+  textMuted: '#8B92A5',
+  error: '#FF5500',
 };
 
 interface AuthTextFieldProps {

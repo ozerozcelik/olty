@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { TouchableOpacity } from '@/components/TouchableOpacity';
-import { T } from '@/lib/theme';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { useNotificationStore } from '@/stores/useNotificationStore';
 
 const TabBarBackground = (): JSX.Element | null => {
@@ -21,7 +21,7 @@ const TabBarBackground = (): JSX.Element | null => {
       <BlurView
         blurAmount={25}
         blurType="dark"
-        reducedTransparencyFallbackColor="rgba(7,24,32,0.97)"
+        reducedTransparencyFallbackColor="rgba(5,6,8,0.96)"
         style={StyleSheet.absoluteFill}
       />
     );
@@ -37,9 +37,9 @@ const TabLayout = (): JSX.Element => {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: T.teal,
+        tabBarActiveTintColor: SPORT_THEME.active,
         tabBarBackground: () => <TabBarBackground />,
-        tabBarInactiveTintColor: T.textTertiary,
+        tabBarInactiveTintColor: SPORT_THEME.textMuted,
         tabBarLabelStyle: styles.tabBarLabel,
         tabBarStyle: styles.tabBar,
       }}
@@ -83,7 +83,7 @@ const TabLayout = (): JSX.Element => {
               style={styles.centerTabButton}
             >
               <View style={styles.centerTabIcon}>
-                <Ionicons color="#FFFFFF" name="add" size={28} />
+                <Ionicons color="#050608" name="add" size={28} />
               </View>
             </TouchableOpacity>
           ),
@@ -141,33 +141,36 @@ const TabLayout = (): JSX.Element => {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: Platform.OS === 'ios' ? 'transparent' : T.bgDeep,
-    borderTopColor: T.glassBorder,
+    backgroundColor: Platform.OS === 'ios' ? 'transparent' : SPORT_THEME.bg,
+    borderTopColor: SPORT_THEME.border,
     borderTopWidth: 1,
-    height: 64,
+    height: 68,
     paddingBottom: 10,
+    paddingTop: 6,
     position: Platform.OS === 'ios' ? 'absolute' : 'relative',
   },
   tabBarLabel: {
     fontSize: 11,
+    fontWeight: '600',
+    letterSpacing: 0.25,
   },
   centerTabButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: -10,
+    marginTop: -12,
   },
   centerTabIcon: {
     alignItems: 'center',
-    backgroundColor: T.coral,
+    backgroundColor: SPORT_THEME.active,
     borderRadius: 28,
     elevation: 8,
     height: 56,
     justifyContent: 'center',
     marginBottom: 18,
-    shadowColor: T.coral,
-    shadowOpacity: 0.45,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 6 },
+    shadowColor: SPORT_THEME.active,
+    shadowOpacity: 0.35,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 8 },
     width: 56,
   },
   notificationWrap: {
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   badge: {
-    backgroundColor: T.coral,
+    backgroundColor: SPORT_THEME.warning,
     borderRadius: 999,
     minWidth: 18,
     paddingHorizontal: 6,
@@ -185,7 +188,7 @@ const styles = StyleSheet.create({
     top: -3,
   },
   badgeText: {
-    color: T.textPrimary,
+    color: '#FFFFFF',
     fontSize: 10,
     fontWeight: '700',
     textAlign: 'center',

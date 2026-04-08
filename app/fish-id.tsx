@@ -309,7 +309,7 @@ const FishIdScreen = (): JSX.Element => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-sand">
+    <SafeAreaView className="flex-1 bg-main">
       <ScrollView
         className="flex-1"
         contentContainerStyle={{ paddingBottom: 32, paddingHorizontal: 20, paddingTop: 16 }}

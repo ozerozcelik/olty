@@ -11,6 +11,7 @@ import { Animated,
 } from 'react-native';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { completeOnboarding } from '@/services/profiles.service';
 import { useAuthStore } from '@/stores/useAuthStore';
 
@@ -179,15 +180,15 @@ const OnboardingScreen = (): JSX.Element => {
 };
 
 const COLORS = {
-  background: '#0B1622',
+  background: SPORT_THEME.bg,
   surface: 'rgba(255,255,255,0.10)',
-  border: 'rgba(255,255,255,0.10)',
-  text: '#F8FAFC',
+  border: SPORT_THEME.border,
+  text: SPORT_THEME.text,
   textMuted: 'rgba(255,255,255,0.70)',
   textSubtle: 'rgba(255,255,255,0.45)',
-  accent: '#7DD4E8',
-  coral: '#FF6B6B',
-  accentBg: 'rgba(125,212,232,0.10)',
+  accent: SPORT_THEME.active,
+  coral: SPORT_THEME.warning,
+  accentBg: 'rgba(212,255,0,0.12)',
 };
 
 const styles = StyleSheet.create({

@@ -18,12 +18,14 @@ interface PostCardProps {
 }
 
 const COLORS = {
-  surface: '#0F2A36',
-  border: 'rgba(255,255,255,0.08)',
-  textPrimary: '#EAF4F4',
-  textSecondary: '#9DB5B5',
-  textMuted: 'rgba(234,244,244,0.55)',
-  placeholder: '#153340',
+  surface: '#11141A',
+  border: 'rgba(255,255,255,0.10)',
+  textPrimary: '#FFFFFF',
+  textSecondary: '#8B92A5',
+  textMuted: 'rgba(139,146,165,0.78)',
+  placeholder: '#0B0E14',
+  accent: '#D4FF00',
+  like: '#FF5500',
 };
 
 const getPostPreview = (body: string): string => {
@@ -111,7 +113,7 @@ const PostCardComponent = ({ item, onPress, onLike, onComment, isLiked = false }
           style={styles.footerItem}
         >
           <Ionicons 
-            color={isLiked ? '#FF6B6B' : COLORS.textMuted} 
+            color={isLiked ? COLORS.like : COLORS.textMuted} 
             name={isLiked ? 'heart' : 'heart-outline'} 
             size={20} 
           />
@@ -150,6 +152,9 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 16,
     overflow: 'hidden',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    borderColor: COLORS.border,
+    borderWidth: 1,
   },
   cardInner: {
     overflow: 'hidden',
@@ -239,6 +244,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   footerTextLiked: {
-    color: '#FF6B6B',
+    color: COLORS.like,
   },
 });

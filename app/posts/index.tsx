@@ -54,7 +54,7 @@ const PostsIndexScreen = (): JSX.Element => {
         ),
       };
     });
-  }, [queryClient, selectedType]);
+  }, [queryClient, selectedType, postsQuery]);
 
   const handleTogglePostLike = useCallback(async (item: PostCardItem): Promise<void> => {
     updatePostCache(item);
@@ -126,7 +126,7 @@ const PostsIndexScreen = (): JSX.Element => {
           <RefreshControl
             onRefresh={() => void postsQuery.refetch()}
             refreshing={postsQuery.isRefetching}
-            tintColor="#7DD4E8"
+            tintColor="#D4FF00"
           />
         }
         renderItem={({ item }) => (
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   newButton: {
     alignItems: 'center',
-    backgroundColor: '#7DD4E8',
+    backgroundColor: '#D4FF00',
     borderRadius: 20,
     height: 40,
     justifyContent: 'center',
@@ -205,8 +205,8 @@ const styles = StyleSheet.create({
     paddingVertical: 9,
   },
   filterPillActive: {
-    backgroundColor: '#7DD4E8',
-    borderColor: '#7DD4E8',
+    backgroundColor: '#D4FF00',
+    borderColor: '#D4FF00',
   },
   filterPillText: {
     color: 'rgba(240,247,249,0.65)',

@@ -9,7 +9,7 @@ import {
 } from '@/utils/hashtags';
 
 const COLORS = {
-  accent: '#7DD4E8',
+  accent: '#D4FF00',
 };
 
 interface HashtagTextProps extends TextProps {

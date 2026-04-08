@@ -61,7 +61,7 @@ export const PasswordChangeModal = ({
             <BlurView
               blurAmount={30}
               blurType="dark"
-              reducedTransparencyFallbackColor="#0B1622"
+              reducedTransparencyFallbackColor="#050608"
               style={StyleSheet.absoluteFill}
             />
           ) : null}
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     overflow: 'hidden',
-    backgroundColor: Platform.OS === 'ios' ? 'transparent' : '#0B1622',
+    backgroundColor: Platform.OS === 'ios' ? 'transparent' : '#050608',
   },
   sheetContent: {
     paddingHorizontal: 20,

@@ -19,8 +19,8 @@ const config: Config = {
         // ══════════════════════════════════════════
         
         // Background colors
-        main: '#0B1F2A',
-        sand: '#0B1F2A',
+        main: '#050608',
+        sand: '#050608',
         
         // Card backgrounds (semi-transparent)
         card: 'rgba(255,255,255,0.04)',
@@ -29,52 +29,52 @@ const config: Config = {
         
         // Primary accent - Turquoise water
         water: {
-          DEFAULT: '#2EC4B6',
-          light: '#4DD9CC',
-          dark: '#239E92',
-          muted: 'rgba(46,196,182,0.15)',
-          glow: 'rgba(46,196,182,0.4)',
+          DEFAULT: '#D4FF00',
+          light: '#E7FF66',
+          dark: '#A4C900',
+          muted: 'rgba(212,255,0,0.15)',
+          glow: 'rgba(212,255,0,0.4)',
         },
         
         // CTA Orange
         cta: {
-          DEFAULT: '#FF7A00',
-          light: '#FF9633',
-          dark: '#E06B00',
-          muted: 'rgba(255,122,0,0.15)',
-          glow: 'rgba(255,122,0,0.4)',
+          DEFAULT: '#FF5500',
+          light: '#FF7D3B',
+          dark: '#D64600',
+          muted: 'rgba(255,85,0,0.15)',
+          glow: 'rgba(255,85,0,0.4)',
         },
         
         // Legacy accent mappings
-        sea: '#2EC4B6',
-        seaLight: '#4DD9CC',
-        seaDark: '#239E92',
-        coral: '#FF7A00',
-        coralLight: '#FF9633',
-        coralDark: '#E06B00',
+        sea: '#D4FF00',
+        seaLight: '#E7FF66',
+        seaDark: '#A4C900',
+        coral: '#FF5500',
+        coralLight: '#FF7D3B',
+        coralDark: '#D64600',
         
         // Text colors
-        ink: '#EAF4F4',
-        textPrimary: '#EAF4F4',
-        textSecondary: '#9DB5B5',
-        textTertiary: '#6B8A8A',
-        textMuted: 'rgba(234,244,244,0.45)',
+        ink: '#FFFFFF',
+        textPrimary: '#FFFFFF',
+        textSecondary: '#8B92A5',
+        textTertiary: '#6E7789',
+        textMuted: 'rgba(139,146,165,0.65)',
         
         // Surface colors with depth
         surface: {
-          DEFAULT: '#0F2A36',
-          light: '#153340',
-          lighter: '#1A3D4A',
-          dark: '#081820',
+          DEFAULT: '#11141A',
+          light: '#171C24',
+          lighter: '#202631',
+          dark: '#0B0E14',
         },
-        surfaceAlt: '#153340',
+        surfaceAlt: '#171C24',
         
         // Border colors
         border: {
-          DEFAULT: 'rgba(255,255,255,0.08)',
+          DEFAULT: 'rgba(255,255,255,0.10)',
           subtle: 'rgba(255,255,255,0.05)',
-          strong: 'rgba(255,255,255,0.12)',
-          focus: 'rgba(46,196,182,0.5)',
+          strong: 'rgba(255,255,255,0.14)',
+          focus: 'rgba(212,255,0,0.5)',
         },
         
         // Overlay colors
@@ -87,38 +87,38 @@ const config: Config = {
         
         // Brand colors
         brand: {
-          primary: '#2EC4B6',
-          secondary: '#FF7A00',
+          primary: '#D4FF00',
+          secondary: '#FF5500',
         },
         
         // Accent (legacy support)
         accent: {
-          DEFAULT: '#2EC4B6',
-          50: '#E6FAF8',
-          100: '#B3F0EB',
-          200: '#80E6DE',
-          300: '#4DD9CC',
-          400: '#2EC4B6',
-          500: '#239E92',
-          600: '#1A7A71',
-          700: '#125650',
-          800: '#0A3330',
-          900: '#051A18',
+          DEFAULT: '#D4FF00',
+          50: '#F9FFE0',
+          100: '#F3FFC1',
+          200: '#EAFF8F',
+          300: '#E1FF5C',
+          400: '#D4FF00',
+          500: '#B8DB00',
+          600: '#93AF00',
+          700: '#6E8400',
+          800: '#4A5800',
+          900: '#2A3300',
         },
         
         // Secondary
         secondary: {
-          DEFAULT: '#FF7A00',
-          50: '#FFF5EB',
-          100: '#FFE5CC',
-          200: '#FFD5AD',
-          300: '#FFC58F',
-          400: '#FFB570',
-          500: '#FF7A00',
-          600: '#E06B00',
-          700: '#B85800',
-          800: '#8F4400',
-          900: '#663100',
+          DEFAULT: '#FF5500',
+          50: '#FFF1E8',
+          100: '#FFD9C4',
+          200: '#FFC09F',
+          300: '#FFA67A',
+          400: '#FF8D55',
+          500: '#FF5500',
+          600: '#D64600',
+          700: '#A83600',
+          800: '#7A2700',
+          900: '#4D1800',
         },
         
         // Semantic colors
@@ -135,22 +135,22 @@ const config: Config = {
           muted: 'rgba(239,68,68,0.15)',
         },
         info: {
-          DEFAULT: '#2EC4B6',
-          muted: 'rgba(46,196,182,0.15)',
+          DEFAULT: '#D4FF00',
+          muted: 'rgba(212,255,0,0.15)',
         },
         
         // Level colors (gamification)
         level: {
           acemi: '#6B8A8A',
           balikci: '#22C55E',
-          uzman: '#2EC4B6',
+          uzman: '#D4FF00',
           usta: '#8B5CF6',
-          kaptan: '#FF7A00',
+          kaptan: '#FF5500',
           legend: '#FFD700',
         },
         
         // Legacy support
-        background: '#0B1F2A',
+        background: '#050608',
       },
       
       // Extended border radius
@@ -164,11 +164,11 @@ const config: Config = {
       
       // Box shadows
       boxShadow: {
-        'glow': '0 0 24px rgba(46,196,182,0.35)',
-        'glow-water': '0 0 24px rgba(46,196,182,0.35)',
-        'glow-cta': '0 0 24px rgba(255,122,0,0.35)',
-        'glow-coral': '0 0 24px rgba(255,122,0,0.35)',
-        'glow-sea': '0 0 24px rgba(46,196,182,0.35)',
+        'glow': '0 0 24px rgba(212,255,0,0.35)',
+        'glow-water': '0 0 24px rgba(212,255,0,0.35)',
+        'glow-cta': '0 0 24px rgba(255,85,0,0.35)',
+        'glow-coral': '0 0 24px rgba(255,85,0,0.35)',
+        'glow-sea': '0 0 24px rgba(212,255,0,0.35)',
         'card': '0 4px 24px rgba(0, 0, 0, 0.25)',
         'card-hover': '0 8px 32px rgba(0, 0, 0, 0.35)',
         'elevated': '0 12px 48px rgba(0, 0, 0, 0.4)',

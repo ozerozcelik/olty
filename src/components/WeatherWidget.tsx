@@ -22,7 +22,6 @@ import { T } from '@/lib/theme';
 import { calculateFishingScore } from '@/services/weather.service';
 import { usePreferencesStore } from '@/stores/usePreferencesStore';
 import type {
-  BestFishingTime,
   DailyForecastItem,
   FishingScoreFactor,
   GoldenHourInfo,
@@ -82,10 +81,6 @@ interface ScoreTone {
   pillColor: string;
 }
 
-interface BestTimeChipProps {
-  item: BestFishingTime;
-}
-
 interface TideInfoProps {
   tideData: TideData | null;
 }
@@ -99,22 +94,7 @@ interface TomorrowTrendProps {
   trend: 'better' | 'worse' | 'same' | null;
 }
 
-const BestTimeChip = ({ item }: BestTimeChipProps): React.ReactElement => (
-  <View style={styles.bestTimeChip}>
-    <Text style={styles.bestTimeIcon}>⏰</Text>
-    <View style={styles.bestTimeContent}>
-      <Text style={styles.bestTimeTime}>{item.time}</Text>
-      <Text style={styles.bestTimeLabel}>{item.label}</Text>
-    </View>
-    <View style={[styles.bestTimeScoreBadge, { backgroundColor: getScoreColor(item.score) }]}>
-      <Text style={styles.bestTimeScoreText}>{item.score}</Text>
-    </View>
-  </View>
-);
-
 const TideInfo = ({ tideData }: TideInfoProps): React.ReactElement | null => {
-  const [showChart, setShowChart] = useState<boolean>(false);
-
   if (!tideData) {
     return null;
   }
@@ -126,54 +106,33 @@ const TideInfo = ({ tideData }: TideInfoProps): React.ReactElement | null => {
 
   return (
     <View style={styles.tideInfoCard}>
-      <TouchableOpacity 
-        activeOpacity={0.8} 
-        onPress={() => hasChartData && setShowChart(!showChart)}
-        style={styles.tideHeader}
-      >
+      <View style={styles.tideHeader}>
         <View style={styles.tideHeaderLeft}>
           <Text style={styles.tideIcon}>🌊</Text>
           <Text style={styles.tideTitle}>Gelgit</Text>
         </View>
-        {hasChartData ? (
-          <View style={styles.tideChartToggle}>
-            <Ionicons 
-              name={showChart ? 'stats-chart' : 'stats-chart-outline'} 
-              size={16} 
-              color={showChart ? COLORS.accent : COLORS.textSecondary} 
-            />
+        <View style={styles.tideChartBadge}>
+          <Ionicons color={COLORS.accent} name="bar-chart-outline" size={14} />
+          <Text style={styles.tideChartBadgeText}>{hasChartData ? 'Grafik' : 'Veri az'}</Text>
+        </View>
+      </View>
+
+      {hasChartData ? <TideChart height={122} tideData={tideData} /> : null}
+
+      <View style={styles.tideContent}>
+        <View style={styles.tideCurrentState}>
+          <Text style={styles.tideStateEmoji}>{stateEmoji}</Text>
+          <Text style={styles.tideStateLabel}>{stateLabel}</Text>
+        </View>
+        {nextEvent ? (
+          <View style={styles.tideNextEvent}>
+            <Text style={styles.tideNextLabel}>
+              Sonraki {nextEvent.type === 'high' ? 'yüksek' : 'alçak'}:
+            </Text>
+            <Text style={styles.tideNextTime}>{nextEvent.time}</Text>
           </View>
         ) : null}
-      </TouchableOpacity>
-      
-      {showChart && hasChartData ? (
-        <TideChart tideData={tideData} />
-      ) : (
-        <View style={styles.tideContent}>
-          <View style={styles.tideCurrentState}>
-            <Text style={styles.tideStateEmoji}>{stateEmoji}</Text>
-            <Text style={styles.tideStateLabel}>{stateLabel}</Text>
-          </View>
-          {nextEvent ? (
-            <View style={styles.tideNextEvent}>
-              <Text style={styles.tideNextLabel}>
-                Sonraki {nextEvent.type === 'high' ? 'yüksek' : 'alçak'}:
-              </Text>
-              <Text style={styles.tideNextTime}>{nextEvent.time}</Text>
-            </View>
-          ) : null}
-          {hasChartData ? (
-            <TouchableOpacity 
-              activeOpacity={0.8}
-              onPress={() => setShowChart(true)} 
-              style={styles.showChartButton}
-            >
-              <Ionicons name="bar-chart-outline" size={14} color={COLORS.accent} />
-              <Text style={styles.showChartText}>Grafiği gör</Text>
-            </TouchableOpacity>
-          ) : null}
-        </View>
-      )}
+      </View>
     </View>
   );
 };
@@ -589,6 +548,7 @@ export const WeatherWidget = (): JSX.Element => {
   const [selectedHourlyTime, setSelectedHourlyTime] = useState<string | null>(null);
   const [hourlyViewportWidth, setHourlyViewportWidth] = useState<number>(0);
   const [goldenHourInfoVisible, setGoldenHourInfoVisible] = useState<boolean>(false);
+  const [metricsInfoVisible, setMetricsInfoVisible] = useState<boolean>(false);
   const badgeScale = useRef<Animated.Value>(new Animated.Value(1)).current;
   const hourlyScrollRef = useRef<ScrollView | null>(null);
   const hourlySelectedIndexRef = useRef<number>(-1);
@@ -962,8 +922,23 @@ export const WeatherWidget = (): JSX.Element => {
           ) : null}
 
           <View style={styles.sectionHeaderRow}>
-            <Text style={styles.sectionTitle}>Günün Koşulları</Text>
-            <Text style={styles.sectionTag}>{selectedTimeLabel}</Text>
+            <View style={styles.sectionTitleRow}>
+              <Text style={styles.sectionTitle}>Günün Koşulları</Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                onPress={() => setMetricsInfoVisible(true)}
+                style={styles.metricsInfoBtn}
+              >
+                <Ionicons color={COLORS.textSecondary} name="information-circle-outline" size={18} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.sectionTagWrap}>
+              <Text style={styles.sectionTag}>{selectedTimeLabel}</Text>
+              {displayForecastDay.goldenHour?.isActive ? (
+                <Text style={styles.goldenHourCompact}>Altın Saat</Text>
+              ) : null}
+            </View>
           </View>
 
           {/* 2x2 Metrics Grid */}
@@ -1103,27 +1078,11 @@ export const WeatherWidget = (): JSX.Element => {
           {/* Tomorrow Trend & Golden Hour */}
           <View style={styles.enhancedSection}>
             <TomorrowTrendBadge trend={weather.tomorrowTrend} />
-            <GoldenHourBadge 
-              goldenHour={displayForecastDay.goldenHour} 
+            <GoldenHourBadge
+              goldenHour={displayForecastDay.goldenHour}
               onInfoPress={() => setGoldenHourInfoVisible(true)}
             />
           </View>
-
-          {/* Best Fishing Times */}
-          {displayForecastDay.bestTimes && displayForecastDay.bestTimes.length > 0 ? (
-            <View style={styles.bestTimesSection}>
-              <Text style={styles.sectionTitle}>En İyi Saatler</Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.bestTimesScroll}
-              >
-                {displayForecastDay.bestTimes.map((item, index) => (
-                  <BestTimeChip item={item} key={`${item.time}-${index}`} />
-                ))}
-              </ScrollView>
-            </View>
-          ) : null}
 
           {/* Tide Info */}
           <TideInfo tideData={displayForecastDay.tideData} />
@@ -1174,6 +1133,35 @@ export const WeatherWidget = (): JSX.Element => {
           </View>
         </TouchableOpacity>
       </Modal>
+
+      <Modal
+        animationType="fade"
+        transparent
+        visible={metricsInfoVisible}
+        onRequestClose={() => setMetricsInfoVisible(false)}
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => setMetricsInfoVisible(false)}
+          style={styles.goldenHourModalOverlay}
+        >
+          <View style={styles.goldenHourModalContent}>
+            <View style={styles.goldenHourModalHeader}>
+              <Text style={styles.goldenHourModalTitle}>ℹ️ Koşullar Nasıl Okunur?</Text>
+              <TouchableOpacity onPress={() => setMetricsInfoVisible(false)}>
+                <Ionicons color={COLORS.textSecondary} name="close" size={24} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.goldenHourModalList}>
+              <Text style={styles.goldenHourModalListItem}>• Dalga: Düşük dalga çoğu kıyı avında avantaj sağlar.</Text>
+              <Text style={styles.goldenHourModalListItem}>• Rüzgar: Yön ve şiddet, su hareketini ve balık davranışını etkiler.</Text>
+              <Text style={styles.goldenHourModalListItem}>• Basınç: Ani düşüş/yükseliş balık iştahını değiştirebilir.</Text>
+              <Text style={styles.goldenHourModalListItem}>• Yağış: Yüzey aktivitesi ve görüş koşullarını etkiler.</Text>
+              <Text style={styles.goldenHourModalListItem}>• Balık skoru: Saatlik koşullara göre anlık av verimi tahmini.</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </>
   );
 };
@@ -1181,12 +1169,12 @@ export const WeatherWidget = (): JSX.Element => {
 const styles = StyleSheet.create({
   outerWrap: {
     paddingHorizontal: 16,
-    paddingBottom: 8,
-    marginBottom: 4,
+    paddingBottom: 4,
+    marginBottom: 2,
   },
   forecastTabsScroll: {
     paddingRight: 4,
-    marginBottom: 12,
+    marginBottom: 8,
   },
   shadowCard: {
     shadowColor: '#000',
@@ -1196,7 +1184,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   card: {
-    padding: 16,
+    padding: 12,
   },
   headerRow: {
     flexDirection: 'row',
@@ -1224,7 +1212,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.cardBorder,
   },
   heroRow: {
-    marginTop: 16,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -1235,8 +1223,8 @@ const styles = StyleSheet.create({
   },
   heroTemp: {
     color: COLORS.textPrimary,
-    fontSize: 52,
-    lineHeight: 56,
+    fontSize: 44,
+    lineHeight: 48,
     fontWeight: '800',
   },
   heroWeatherRow: {
@@ -1335,33 +1323,50 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 12,
+    marginTop: 12,
+    marginBottom: 10,
+  },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  metricsInfoBtn: {
+    padding: 2,
+  },
+  sectionTagWrap: {
+    alignItems: 'flex-end',
   },
   sectionTitle: {
     color: T.textPrimary,
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
   },
   sectionTag: {
     color: T.teal,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
+  },
+  goldenHourCompact: {
+    color: T.gold,
+    fontSize: 10,
+    fontWeight: '700',
+    marginTop: 2,
   },
   // 2x2 Metrics Grid
   metricsGrid: {
-    gap: 10,
+    gap: 8,
   },
   metricsRow: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 8,
   },
   metricPill: {
     flex: 1,
     backgroundColor: T.glass,
     borderWidth: 1,
     borderColor: T.glassBorder,
-    borderRadius: 16,
+    borderRadius: 14,
     padding: 14,
   },
   metricPillHeader: {
@@ -1390,7 +1395,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
-    marginTop: 14,
+    marginTop: 10,
   },
   sunMoonChip: {
     flexDirection: 'row',
@@ -1453,7 +1458,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   hourlySection: {
-    marginTop: 14,
+    marginTop: 10,
     position: 'relative',
   },
   hourlySectionTitle: {
@@ -1570,61 +1575,14 @@ const styles = StyleSheet.create({
   },
   // Enhanced fishing features styles
   enhancedSection: {
-    marginTop: 16,
+    marginTop: 10,
     gap: 10,
-  },
-  bestTimesSection: {
-    marginTop: 16,
-  },
-  bestTimesScroll: {
-    paddingVertical: 8,
-    gap: 10,
-  },
-  bestTimeChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: T.glass,
-    borderRadius: 14,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: T.glassBorder,
-    gap: 8,
-    minWidth: 120,
-  },
-  bestTimeIcon: {
-    fontSize: 16,
-  },
-  bestTimeContent: {
-    flex: 1,
-  },
-  bestTimeTime: {
-    color: T.textPrimary,
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  bestTimeLabel: {
-    color: T.textSecondary,
-    fontSize: 11,
-    marginTop: 2,
-  },
-  bestTimeScoreBadge: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bestTimeScoreText: {
-    color: T.textPrimary,
-    fontSize: 11,
-    fontWeight: '800',
   },
   tideInfoCard: {
-    marginTop: 16,
+    marginTop: 10,
     backgroundColor: T.glass,
     borderRadius: 16,
-    padding: 14,
+    padding: 12,
     borderWidth: 1,
     borderColor: T.glassBorder,
   },
@@ -1639,10 +1597,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  tideChartToggle: {
+  tideChartBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 999,
     backgroundColor: T.tealGlow,
-    borderRadius: 8,
-    padding: 6,
+  },
+  tideChartBadgeText: {
+    color: T.teal,
+    fontSize: 11,
+    fontWeight: '700',
   },
   tideIcon: {
     fontSize: 18,
@@ -1685,27 +1652,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 2,
   },
-  showChartButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: T.tealGlow,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 999,
-    marginTop: 8,
-  },
-  showChartText: {
-    color: T.teal,
-    fontSize: 12,
-    fontWeight: '600',
-  },
   goldenHourCard: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: T.glass,
-    borderRadius: 16,
-    padding: 14,
+    borderRadius: 14,
+    padding: 12,
     borderWidth: 1,
     borderColor: T.glassBorder,
     gap: 10,

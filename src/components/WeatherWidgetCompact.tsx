@@ -34,16 +34,16 @@ import type {
 // ============================================
 
 const COLORS = {
-  background: '#0B1622',
-  card: '#162030',
-  cardAlt: '#1B2A3D',
-  cardBorder: 'rgba(148,163,184,0.16)',
-  primary: '#00D084',
+  background: '#050608',
+  card: '#11141A',
+  cardAlt: '#171C24',
+  cardBorder: 'rgba(255,255,255,0.10)',
+  primary: '#D4FF00',
   secondary: '#3B82F6',
-  textPrimary: '#F8FAFC',
-  textSecondary: '#94A3B8',
-  border: 'rgba(148,163,184,0.16)',
-  green: '#00D084',
+  textPrimary: '#FFFFFF',
+  textSecondary: '#8B92A5',
+  border: 'rgba(255,255,255,0.10)',
+  green: '#D4FF00',
   red: '#FB7185',
   gold: '#FBBF24',
 };

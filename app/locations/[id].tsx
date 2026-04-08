@@ -26,8 +26,8 @@ const LocationDetailScreen = (): JSX.Element => {
     return (
       <>
         <Stack.Screen options={{ title: 'Yer İmi' }} />
-        <View className="flex-1 items-center justify-center bg-sand">
-          <ActivityIndicator color="#7DD4E8" />
+        <View className="flex-1 items-center justify-center bg-main">
+          <ActivityIndicator color="#D4FF00" />
         </View>
       </>
     );
@@ -39,7 +39,7 @@ const LocationDetailScreen = (): JSX.Element => {
     <>
       <Stack.Screen options={{ title: item.name }} />
       <ScrollView
-        className="flex-1 bg-sand px-4"
+        className="flex-1 bg-main px-4"
         contentContainerStyle={{ gap: 16, paddingBottom: 32, paddingTop: Math.max(insets.top, 16) }}
       >
         <View className="rounded-[28px] border border-white/10 bg-white/10 px-5 py-5">

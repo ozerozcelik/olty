@@ -24,7 +24,7 @@ const MessagesScreen = (): JSX.Element => {
 
   return (
     <View
-      className="flex-1 bg-sand px-4"
+      className="flex-1 bg-main px-4"
       style={{ paddingTop: Math.max(insets.top, 12) }}
     >
       <View className="mb-4 flex-row items-center gap-3">

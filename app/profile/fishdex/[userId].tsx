@@ -84,7 +84,7 @@ const FishdexScreen = (): JSX.Element => {
 
   if (!canViewFishdex) {
     return (
-      <View className="flex-1 bg-sand px-4 pt-4">
+      <View className="flex-1 bg-main px-4 pt-4">
         <Stack.Screen options={{ title: 'Fishdex' }} />
         <View className="rounded-[28px] border border-white/10 bg-white/10 p-5">
           <Text className="text-xl font-semibold text-ink">Fishdex gizli</Text>
@@ -99,7 +99,7 @@ const FishdexScreen = (): JSX.Element => {
   const overview = fishdexQuery.data!;
 
   return (
-    <View className="flex-1 bg-sand">
+    <View className="flex-1 bg-main">
       <Stack.Screen options={{ title: 'Fishdex' }} />
       <FlatList
         className="flex-1"

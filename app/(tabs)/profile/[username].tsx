@@ -7,11 +7,7 @@ import { getOrCreateConversation } from '@/services/messages.service';
 import { getProfileByUsername, getProfileDetails } from '@/services/profiles.service';
 import { followUser, isFollowing, unfollowUser } from '@/services/social.service';
 import { SplashScreen } from '@/components/SplashScreen';
-
-const COLORS = {
-  textPrimary: '#EAF4F4',
-  textSecondary: '#9DB5B5',
-};
+import { SPORT_THEME } from '@/lib/sport-theme';
 
 const OtherProfileScreen = (): JSX.Element => {
   const { username } = useLocalSearchParams<{ username: string }>();
@@ -41,12 +37,12 @@ const OtherProfileScreen = (): JSX.Element => {
   // Error state
   if (profileQuery.isError || detailsQuery.isError) {
     return (
-      <View className="flex-1 items-center justify-center bg-sand px-6">
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: SPORT_THEME.bg, paddingHorizontal: 24 }}>
         <Text style={{ fontSize: 48, marginBottom: 16 }}>😔</Text>
-        <Text style={{ color: COLORS.textPrimary, fontSize: 18, fontWeight: '600', textAlign: 'center' }}>
+        <Text style={{ color: SPORT_THEME.text, fontSize: 18, fontWeight: '600', textAlign: 'center' }}>
           Profil bulunamadı
         </Text>
-        <Text style={{ color: COLORS.textSecondary, fontSize: 14, textAlign: 'center', marginTop: 8 }}>
+        <Text style={{ color: SPORT_THEME.textMuted, fontSize: 14, textAlign: 'center', marginTop: 8 }}>
           Bu kullanıcı mevcut değil veya bağlantı hatası oluştu.
         </Text>
       </View>
@@ -58,7 +54,7 @@ const OtherProfileScreen = (): JSX.Element => {
   }
 
   return (
-    <View className="flex-1">
+    <View style={{ flex: 1, backgroundColor: SPORT_THEME.bg }}>
       <ProfileView
         isFollowLoading={followMutation.isPending || unfollowMutation.isPending}
         isFollowing={followingQuery.data ?? false}

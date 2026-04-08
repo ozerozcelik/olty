@@ -88,7 +88,7 @@ export const UserListScreen = ({ userId, mode }: UserListScreenProps): JSX.Eleme
   }
 
   return (
-    <View className="flex-1 bg-sand px-4 pt-4">
+    <View className="flex-1 bg-main px-4 pt-4">
       <View className="mb-4 flex-row items-center gap-3">
         <TouchableOpacity activeOpacity={0.8} className="rounded-full border border-white/10 bg-white/10 p-3" onPress={() => router.back()}>
           <Ionicons color="#F0F7F9" name="arrow-back" size={20} />

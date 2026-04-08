@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 
 const COLORS = {
-  text: '#F8FAFC',
-  accent: '#7DD4E8',
-  surface: 'rgba(255,255,255,0.10)',
-  border: '#B8B1A2',
+  text: '#FFFFFF',
+  accent: '#D4FF00',
+  surface: 'rgba(255,255,255,0.04)',
+  border: 'rgba(255,255,255,0.10)',
 };
 
 interface CheckboxFieldProps {

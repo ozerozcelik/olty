@@ -29,6 +29,7 @@ import { PostCard } from '@/components/PostCard';
 import { SkeletonFeed } from '@/components/Skeleton';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 import { WeatherWidget } from '@/components/WeatherWidget';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { T } from '@/lib/theme';
 import { getFeedCatches } from '@/services/catches.service';
 import { getPosts, likePost, unlikePost } from '@/services/posts.service';
@@ -110,7 +111,7 @@ const FeedScreen = (): JSX.Element => {
         ),
       };
     });
-  }, [queryClient]);
+  }, [queryClient, query]);
 
   const handleToggleLike = useCallback(async (item: CatchFeedItem): Promise<void> => {
     updateFeedCache(item);
@@ -147,7 +148,7 @@ const FeedScreen = (): JSX.Element => {
         ),
       };
     });
-  }, [queryClient]);
+  }, [queryClient, postsQuery]);
 
   const handleTogglePostLike = useCallback(async (item: PostCardItem): Promise<void> => {
     updatePostCache(item);
@@ -257,14 +258,17 @@ const FeedScreen = (): JSX.Element => {
         ListHeaderComponent={
           <>
             <View style={[styles.header, { paddingTop: Math.max(insets.top + 8, 56) }]}>
-              <Text style={styles.wordmark}>OLTY</Text>
+              <View>
+                <Text style={styles.wordmark}>OLTY.</Text>
+                <Text style={styles.feedTag}>PERFORMANCE FEED</Text>
+              </View>
               <View style={styles.headerActions}>
                 <TouchableOpacity
                   activeOpacity={0.85}
                   onPress={() => router.push('/search')}
                   style={styles.searchButton}
                 >
-                  <Ionicons color={T.teal} name="search-outline" size={18} />
+                  <Ionicons color={SPORT_THEME.active} name="search-outline" size={18} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.85}
@@ -307,7 +311,7 @@ const FeedScreen = (): JSX.Element => {
 const styles = StyleSheet.create({
   bgContainer: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: T.bg,
+    backgroundColor: SPORT_THEME.bg,
   },
   list: {
     backgroundColor: 'transparent',
@@ -321,10 +325,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   wordmark: {
-    color: T.teal,
-    fontSize: 22,
+    color: SPORT_THEME.active,
+    fontSize: 24,
     fontWeight: '700',
-    letterSpacing: 2,
+    fontStyle: 'italic',
+    letterSpacing: 1.2,
+  },
+  feedTag: {
+    color: SPORT_THEME.textMuted,
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 1.4,
+    marginTop: 2,
   },
   headerActions: {
     alignItems: 'center',
@@ -333,8 +345,8 @@ const styles = StyleSheet.create({
   },
   searchButton: {
     alignItems: 'center',
-    backgroundColor: T.glass,
-    borderColor: T.glassBorder,
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 20,
     borderWidth: 1,
     height: 40,
@@ -342,13 +354,18 @@ const styles = StyleSheet.create({
     width: 40,
   },
   aiButton: {
-    backgroundColor: T.coral,
+    backgroundColor: SPORT_THEME.active,
     borderRadius: 999,
     paddingHorizontal: 14,
     paddingVertical: 8,
+    shadowColor: SPORT_THEME.active,
+    shadowOpacity: 0.28,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 7 },
+    elevation: 5,
   },
   aiButtonText: {
-    color: '#FFFFFF',
+    color: '#050608',
     fontSize: 13,
     fontWeight: '700',
   },

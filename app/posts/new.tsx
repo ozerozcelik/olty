@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     width: 48,
   },
   headerButtonText: {
-    color: '#7DD4E8',
+    color: '#D4FF00',
     fontSize: 15,
     fontWeight: '600',
   },
@@ -341,8 +341,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   typePillActive: {
-    backgroundColor: '#7DD4E8',
-    borderColor: '#7DD4E8',
+    backgroundColor: '#D4FF00',
+    borderColor: '#D4FF00',
   },
   typePillText: {
     color: 'rgba(240,247,249,0.65)',
@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   addImageButtonText: {
-    color: '#7DD4E8',
+    color: '#D4FF00',
     fontSize: 12,
     fontWeight: '700',
   },

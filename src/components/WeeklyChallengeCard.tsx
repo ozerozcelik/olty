@@ -76,7 +76,7 @@ export const WeeklyChallengeCard = (): JSX.Element | null => {
       <Text className="mt-4 text-xl font-semibold text-[#F0F7F9]">{challenge.title_tr}</Text>
       <Text className="mt-2 text-sm leading-6 text-[rgba(240,247,249,0.65)]">{challenge.description_tr}</Text>
       <View className="mt-4 h-2.5 overflow-hidden rounded-full bg-[rgba(255,255,255,0.10)]">
-        <View className="h-full rounded-full bg-[#7DD4E8]" style={{ width: `${Math.max(challengeProgress * 100, 8)}%` }} />
+        <View className="h-full rounded-full bg-[#D4FF00]" style={{ width: `${Math.max(challengeProgress * 100, 8)}%` }} />
       </View>
       <View className="mt-4 flex-row items-center gap-2">
         {leaders.map((leader) => (

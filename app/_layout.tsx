@@ -53,12 +53,12 @@ const navigationTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: '#0A2028',
-    card: 'rgba(10,32,40,0.97)',
-    primary: '#7DD4E8',
-    text: '#F0F7F9',
+    background: '#050608',
+    card: 'rgba(10,14,20,0.97)',
+    primary: '#D4FF00',
+    text: '#FFFFFF',
     border: 'rgba(255,255,255,0.12)',
-    notification: '#E8845A',
+    notification: '#FF5500',
   },
 };
 

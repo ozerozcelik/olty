@@ -74,7 +74,7 @@ const DailyQuestionAdminScreen = (): JSX.Element => {
 
   return (
     <ScrollView
-      className="flex-1 bg-sand"
+      className="flex-1 bg-main"
       contentContainerStyle={{ gap: 16, paddingHorizontal: 16, paddingBottom: 40, paddingTop: 16 }}
     >
       <Text className="text-2xl font-semibold text-ink">Günün sorusu</Text>

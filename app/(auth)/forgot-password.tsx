@@ -16,18 +16,19 @@ import { TouchableOpacity } from '@/components/TouchableOpacity';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { z } from 'zod';
 
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { requestPasswordReset } from '@/services/auth.service';
 
 const COLORS = {
-  bgDeep: '#0D2830',
-  bgCard: 'rgba(125,212,232,0.06)',
-  borderDefault: 'rgba(125,212,232,0.18)',
-  borderActive: '#7DD4E8',
-  teal: '#7DD4E8',
-  textPrimary: '#E8F7FA',
-  textSecondary: 'rgba(125,212,232,0.50)',
-  textTertiary: 'rgba(125,212,232,0.30)',
-  coral: '#E8845A',
+  bgDeep: SPORT_THEME.bg,
+  bgCard: 'rgba(255,255,255,0.04)',
+  borderDefault: SPORT_THEME.border,
+  borderActive: SPORT_THEME.active,
+  teal: SPORT_THEME.active,
+  textPrimary: SPORT_THEME.text,
+  textSecondary: SPORT_THEME.textMuted,
+  textTertiary: 'rgba(139,146,165,0.65)',
+  coral: SPORT_THEME.warning,
   error: '#E85A5A',
   success: '#5AE88C',
 };
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
   },
   inputContainerActive: {
     borderColor: COLORS.borderActive,
-    backgroundColor: 'rgba(125,212,232,0.10)',
+    backgroundColor: 'rgba(212,255,0,0.10)',
   },
   inputText: {
     fontSize: 13,

@@ -9,27 +9,27 @@
      ══════════════════════════════════════════ */
   
   /* Background colors */
-  --color-main: #0B1F2A;
-  --color-sand: #0B1F2A;
+  --color-main: #050608;
+  --color-sand: #050608;
   
   /* Primary accent - Turquoise water */
-  --color-water: #2EC4B6;
-  --color-water-glow: rgba(46,196,182,0.4);
-  --color-sea: #2EC4B6;
+  --color-water: #D4FF00;
+  --color-water-glow: rgba(212,255,0,0.4);
+  --color-sea: #D4FF00;
   
   /* CTA Orange */
-  --color-cta: #FF7A00;
-  --color-cta-glow: rgba(255,122,0,0.4);
-  --color-coral: #FF7A00;
+  --color-cta: #FF5500;
+  --color-cta-glow: rgba(255,85,0,0.4);
+  --color-coral: #FF5500;
   
   /* Text colors */
-  --color-ink: #EAF4F4;
-  --color-text-primary: #EAF4F4;
-  --color-text-secondary: #9DB5B5;
+  --color-ink: #FFFFFF;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #8B92A5;
   
   /* Surface colors */
-  --color-surface: #0F2A36;
-  --color-surface-alt: #153340;
+  --color-surface: #11141A;
+  --color-surface-alt: #171C24;
   --color-card: rgba(255,255,255,0.04);
   
   /* Border */
@@ -37,7 +37,7 @@
   --color-border-strong: rgba(255,255,255,0.12);
   
   /* Background */
-  --background: #0B1F2A;
+  --background: #050608;
 }
 
 /* ══════════════════════════════════════════
@@ -59,14 +59,14 @@
   
   /* Premium Buttons */
   .btn-primary {
-    background: linear-gradient(135deg, #FF7A00 0%, #FF9633 100%);
+    background: linear-gradient(135deg, #FF5500 0%, #FF7D3B 100%);
     border-radius: 16px;
     padding: 16px 24px;
-    box-shadow: 0 4px 16px rgba(255,122,0,0.25);
+    box-shadow: 0 4px 16px rgba(255,85,0,0.25);
   }
   
   .btn-primary-glow {
-    box-shadow: 0 0 24px rgba(255,122,0,0.4);
+    box-shadow: 0 0 24px rgba(255,85,0,0.4);
   }
   
   .btn-secondary {
@@ -77,10 +77,10 @@
   }
   
   .btn-water {
-    background: linear-gradient(135deg, #2EC4B6 0%, #4DD9CC 100%);
+    background: linear-gradient(135deg, #D4FF00 0%, #E7FF66 100%);
     border-radius: 16px;
     padding: 16px 24px;
-    box-shadow: 0 4px 16px rgba(46,196,182,0.25);
+    box-shadow: 0 4px 16px rgba(212,255,0,0.25);
   }
   
   /* Glass Button (legacy support) */
@@ -103,12 +103,12 @@
   }
   
   .segment-button-active {
-    background: #2EC4B6;
+    background: #D4FF00;
   }
   
   /* Legacy button support */
   .primary-button {
-    background: linear-gradient(135deg, #FF7A00 0%, #FF9633 100%);
+    background: linear-gradient(135deg, #FF5500 0%, #FF7D3B 100%);
     border-radius: 16px;
     padding: 18px 24px;
   }
@@ -126,12 +126,12 @@
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 16px;
     padding: 16px 20px;
-    color: #EAF4F4;
+    color: #FFFFFF;
   }
   
   .input-premium:focus {
-    border-color: rgba(46,196,182,0.5);
-    box-shadow: 0 0 0 3px rgba(46,196,182,0.15);
+    border-color: rgba(212,255,0,0.5);
+    box-shadow: 0 0 0 3px rgba(212,255,0,0.15);
   }
   
   /* Data Badge/Pill */
@@ -142,30 +142,30 @@
   }
   
   .data-badge-water {
-    background: rgba(46,196,182,0.15);
-    color: #2EC4B6;
+    background: rgba(212,255,0,0.15);
+    color: #D4FF00;
     border-radius: 999px;
     padding: 6px 12px;
   }
   
   .data-badge-cta {
-    background: rgba(255,122,0,0.15);
-    color: #FF7A00;
+    background: rgba(255,85,0,0.15);
+    color: #FF5500;
     border-radius: 999px;
     padding: 6px 12px;
   }
   
   /* Catch Data Card Overlay */
   .catch-data-overlay {
-    background: linear-gradient(0deg, rgba(11,31,42,0.95) 0%, rgba(11,31,42,0.7) 60%, transparent 100%);
+    background: linear-gradient(0deg, rgba(5,6,8,0.95) 0%, rgba(5,6,8,0.7) 60%, transparent 100%);
   }
   
   /* Glow Effects */
   .glow-water {
-    box-shadow: 0 0 24px rgba(46,196,182,0.35);
+    box-shadow: 0 0 24px rgba(212,255,0,0.35);
   }
   
   .glow-cta {
-    box-shadow: 0 0 24px rgba(255,122,0,0.35);
+    box-shadow: 0 0 24px rgba(255,85,0,0.35);
   }
 }

@@ -9,27 +9,28 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { z } from 'zod';
 
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { signInWithEmail } from '@/services/auth.service';
 
 const COLORS = {
-  bgDeep: '#0D2830',
-  bgHero: '#0D3D4A',
-  bgCard: 'rgba(125,212,232,0.06)',
-  borderDefault: 'rgba(125,212,232,0.18)',
-  borderActive: '#7DD4E8',
-  teal: '#7DD4E8',
-  tealGlow: 'rgba(125,212,232,0.12)',
-  textPrimary: '#E8F7FA',
-  textSecondary: 'rgba(125,212,232,0.50)',
-  textTertiary: 'rgba(125,212,232,0.30)',
-  coral: '#E8845A',
-  error: '#E85A5A',
-  divider: 'rgba(125,212,232,0.12)',
-  socialText: 'rgba(125,212,232,0.65)',
+  bgDeep: SPORT_THEME.bg,
+  bgHero: '#0A0C10',
+  bgCard: 'rgba(255,255,255,0.04)',
+  borderDefault: SPORT_THEME.border,
+  borderActive: SPORT_THEME.active,
+  volt: SPORT_THEME.active,
+  voltGlow: 'rgba(212,255,0,0.16)',
+  textPrimary: SPORT_THEME.text,
+  textSecondary: SPORT_THEME.textMuted,
+  textTertiary: 'rgba(139,146,165,0.65)',
+  orange: SPORT_THEME.warning,
+  error: '#F87171',
+  divider: 'rgba(255,255,255,0.08)',
+  socialText: 'rgba(255,255,255,0.88)',
 };
 
 const loginSchema = z.object({
-  email: z.string().email('Gecerli bir e-posta gir'),
+  email: z.string().email('Geçerli bir e-posta gir'),
   password: z.string().min(1, 'Şifre gerekli'),
 });
 
@@ -79,21 +80,15 @@ const LoginScreen = (): JSX.Element => {
           start={{ x: 0, y: 0 }}
           style={[styles.heroSection, { paddingTop: Math.max(insets.top + 16, 48) }]}
         >
-          {/* Badge */}
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>🎣 Olty</Text>
+            <Text style={styles.badgeText}>OLTY.</Text>
           </View>
 
-          {/* Logo */}
-          <View style={styles.logoContainer}>
-            <Text style={styles.logoEmoji}>🎣</Text>
-          </View>
-
-          {/* Title */}
           <Text style={styles.heroTitle}>
-            Tekrar{'\n'}<Text style={styles.heroTitleAccent}>hoş geldin.</Text>
+            TRACK THE STRIKE.{"\n"}
+            <Text style={styles.heroTitleAccent}>OWN THE WATER.</Text>
           </Text>
-          <Text style={styles.heroSubtitle}>Av günlüğüne devam et</Text>
+          <Text style={styles.heroSubtitle}>Hesabina gir ve performansini loglamaya devam et.</Text>
         </LinearGradient>
 
         {/* Form Section */}
@@ -181,7 +176,7 @@ const LoginScreen = (): JSX.Element => {
             style={[styles.ctaButton, formState.isSubmitting && styles.ctaButtonDisabled]}
           >
             <Text style={styles.ctaButtonText}>
-              {formState.isSubmitting ? 'Giriş yapılıyor...' : 'Giriş Yap'}
+              {formState.isSubmitting ? 'Bağlanıyor...' : 'Giriş Yap'}
             </Text>
           </TouchableOpacity>
 
@@ -198,7 +193,7 @@ const LoginScreen = (): JSX.Element => {
             onPress={() => handleSocialLogin('Apple')}
             style={styles.socialButton}
           >
-            <Text style={styles.socialButtonText}>🍎  Apple ile devam et</Text>
+            <Text style={styles.socialButtonText}>Apple ile devam et</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -206,7 +201,7 @@ const LoginScreen = (): JSX.Element => {
             onPress={() => handleSocialLogin('Google')}
             style={styles.socialButton}
           >
-            <Text style={styles.socialButtonText}>G  Google ile devam et</Text>
+            <Text style={styles.socialButtonText}>Google ile devam et</Text>
           </TouchableOpacity>
 
           {/* Register Link */}
@@ -233,52 +228,42 @@ const styles = StyleSheet.create({
   },
   // Hero Section
   heroSection: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingHorizontal: 24,
-    paddingBottom: 32,
+    paddingBottom: 28,
   },
   badge: {
-    alignSelf: 'flex-end',
-    backgroundColor: COLORS.tealGlow,
+    alignSelf: 'flex-start',
+    backgroundColor: COLORS.bgCard,
     borderWidth: 1,
     borderColor: COLORS.borderDefault,
-    borderRadius: 20,
-    paddingVertical: 5,
-    paddingHorizontal: 12,
-    marginBottom: 24,
+    borderRadius: 14,
+    paddingVertical: 7,
+    paddingHorizontal: 14,
+    marginBottom: 28,
   },
   badgeText: {
-    fontSize: 12,
-    color: COLORS.teal,
-    fontWeight: '500',
-  },
-  logoContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 24,
-    backgroundColor: COLORS.tealGlow,
-    borderWidth: 1.5,
-    borderColor: 'rgba(125,212,232,0.3)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  logoEmoji: {
-    fontSize: 32,
+    fontSize: 20,
+    letterSpacing: 0.4,
+    color: COLORS.volt,
+    fontWeight: '700',
+    fontStyle: 'italic',
   },
   heroTitle: {
-    fontSize: 26,
-    fontWeight: '500',
+    fontSize: 34,
+    fontWeight: '700',
+    lineHeight: 40,
+    letterSpacing: 0.5,
     color: COLORS.textPrimary,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   heroTitleAccent: {
-    color: COLORS.teal,
+    color: COLORS.textSecondary,
   },
   heroSubtitle: {
-    fontSize: 12,
+    fontSize: 13,
     color: COLORS.textSecondary,
-    marginTop: 8,
+    marginTop: 14,
   },
   // Form Section
   formSection: {
@@ -304,7 +289,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgCard,
     borderWidth: 1,
     borderColor: COLORS.borderDefault,
-    borderRadius: 14,
+    borderRadius: 16,
     paddingVertical: 13,
     paddingHorizontal: 16,
     flexDirection: 'row',
@@ -313,7 +298,7 @@ const styles = StyleSheet.create({
   },
   inputContainerActive: {
     borderColor: COLORS.borderActive,
-    backgroundColor: 'rgba(125,212,232,0.10)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
   },
   inputText: {
     fontSize: 13,
@@ -325,7 +310,7 @@ const styles = StyleSheet.create({
   },
   forgotLinkText: {
     fontSize: 11,
-    color: COLORS.teal,
+    color: COLORS.volt,
   },
   errorText: {
     fontSize: 11,
@@ -333,19 +318,25 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
   },
   ctaButton: {
-    backgroundColor: COLORS.coral,
+    backgroundColor: COLORS.volt,
     borderRadius: 16,
     paddingVertical: 15,
     alignItems: 'center',
     marginTop: 4,
+    shadowColor: COLORS.volt,
+    shadowOpacity: 0.32,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
   },
   ctaButtonDisabled: {
     opacity: 0.5,
   },
   ctaButtonText: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: '#0A0C10',
+    letterSpacing: 0.2,
   },
   divider: {
     flexDirection: 'row',
@@ -366,7 +357,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bgCard,
     borderWidth: 1,
     borderColor: COLORS.borderDefault,
-    borderRadius: 14,
+    borderRadius: 12,
     paddingVertical: 13,
     alignItems: 'center',
   },
@@ -385,7 +376,7 @@ const styles = StyleSheet.create({
     color: COLORS.textTertiary,
   },
   ghostLinkAccent: {
-    color: COLORS.teal,
+    color: COLORS.volt,
   },
 });
 

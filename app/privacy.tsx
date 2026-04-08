@@ -19,7 +19,7 @@ const PrivacyScreen = (): JSX.Element => {
     <>
       <Stack.Screen options={{ title: 'Gizlilik Politikası', headerShown: true }} />
       <ScrollView
-        className="flex-1 bg-sand"
+        className="flex-1 bg-main"
         contentContainerStyle={{ gap: 16, paddingHorizontal: 16, paddingBottom: 40, paddingTop: 16 }}
       >
         <View className="gap-3 rounded-[28px] bg-[#16333B] px-5 py-6">

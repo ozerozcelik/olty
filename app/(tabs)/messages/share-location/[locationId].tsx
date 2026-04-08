@@ -100,7 +100,7 @@ const ShareLocationScreen = (): JSX.Element => {
       onPress={() => void shareMutation.mutateAsync({ userId: item.id })}
     >
       <View className="h-[52px] w-[52px] items-center justify-center rounded-full bg-white/10">
-        <Ionicons color="#7DD4E8" name="person" size={22} />
+        <Ionicons color="#D4FF00" name="person" size={22} />
       </View>
       <View className="flex-1 gap-1">
         <Text className="text-base font-semibold text-ink">@{item.username}</Text>
@@ -115,7 +115,7 @@ const ShareLocationScreen = (): JSX.Element => {
   );
 
   return (
-    <View className="flex-1 bg-sand px-4 pt-4">
+    <View className="flex-1 bg-main px-4 pt-4">
       <View className="mb-4 flex-row items-center gap-3">
         <TouchableOpacity
           activeOpacity={0.8}

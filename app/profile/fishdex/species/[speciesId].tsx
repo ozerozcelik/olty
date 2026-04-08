@@ -34,7 +34,7 @@ const FishdexSpeciesDetailScreen = (): JSX.Element => {
 
   if (!canViewFishdex) {
     return (
-      <View className="flex-1 bg-sand px-4 pt-4">
+      <View className="flex-1 bg-main px-4 pt-4">
         <Stack.Screen options={{ title: 'Fishdex' }} />
         <View className="rounded-[28px] border border-white/10 bg-white/10 p-5">
           <Text className="text-xl font-semibold text-ink">Fishdex gizli</Text>
@@ -51,7 +51,7 @@ const FishdexSpeciesDetailScreen = (): JSX.Element => {
 
   return (
     <ScrollView
-      className="flex-1 bg-sand"
+      className="flex-1 bg-main"
       contentContainerStyle={{ gap: 16, paddingHorizontal: 16, paddingBottom: 40, paddingTop: 16 }}
     >
       <Stack.Screen options={{ title: detail.species.name_tr }} />

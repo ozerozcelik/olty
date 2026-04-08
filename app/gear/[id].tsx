@@ -38,7 +38,7 @@ const GearDetailScreen = (): JSX.Element => {
   });
 
   if (!item) {
-    return <View className="flex-1 bg-sand" />;
+    return <View className="flex-1 bg-main" />;
   }
 
   const tier = GEAR_TIERS[item.tier as keyof typeof GEAR_TIERS] ?? GEAR_TIERS[1];
@@ -48,7 +48,7 @@ const GearDetailScreen = (): JSX.Element => {
   if (!isOwnGear && ownerProfileQuery.data && !canViewGear) {
     return (
       <ScrollView
-        className="flex-1 bg-sand"
+        className="flex-1 bg-main"
         contentContainerStyle={{ gap: 18, paddingHorizontal: 16, paddingBottom: 40, paddingTop: 16 }}
       >
         <View className="flex-row items-center justify-between">
@@ -90,7 +90,7 @@ const GearDetailScreen = (): JSX.Element => {
 
   return (
     <ScrollView
-      className="flex-1 bg-sand"
+      className="flex-1 bg-main"
       contentContainerStyle={{ gap: 18, paddingHorizontal: 16, paddingBottom: 40, paddingTop: 16 }}
     >
       <View className="flex-row items-center justify-between">

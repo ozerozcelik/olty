@@ -293,7 +293,7 @@ const CatchDetailScreen = (): JSX.Element => {
 
   if (!catchItem) {
     return (
-      <View className="flex-1 items-center justify-center bg-sand px-6">
+      <View className="flex-1 items-center justify-center bg-main px-6">
         <Text className="text-base text-white/70">Av kaydı yükleniyor...</Text>
       </View>
     );
@@ -314,7 +314,7 @@ const CatchDetailScreen = (): JSX.Element => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-sand"
+      className="flex-1 bg-main"
       keyboardVerticalOffset={Platform.OS === 'ios' ? Math.max(insets.top, 12) : 0}
     >
       <FlatList
@@ -642,7 +642,7 @@ const CatchDetailScreen = (): JSX.Element => {
       />
 
       <View
-        className="border-t border-white/10 bg-sand px-4 pt-3"
+        className="border-t border-white/10 bg-main px-4 pt-3"
         style={{ paddingBottom: Math.max(insets.bottom, 12) + 12 + keyboardInset }}
       >
         {replyToUsername ? (
@@ -680,7 +680,7 @@ const CatchDetailScreen = (): JSX.Element => {
             onPress={() => setMenuVisible(false)}
           />
           <View
-            className="self-end rounded-2xl border border-white/10 bg-sand p-2"
+            className="self-end rounded-2xl border border-white/10 bg-main p-2"
             style={{ marginRight: 16, marginTop: Math.max(insets.top, 12) + 60 }}
           >
             {isOwnCatch ? (

@@ -31,7 +31,7 @@ export const AddHighlightModal = ({
   return (
     <Modal animationType="slide" transparent visible={visible}>
       <View className="flex-1 justify-end bg-black/40">
-        <View className="max-h-[80%] rounded-t-[32px] bg-sand px-5 pb-8 pt-5">
+        <View className="max-h-[80%] rounded-t-[32px] bg-main px-5 pb-8 pt-5">
           <View className="mb-4 flex-row items-center justify-between">
             <Text className="text-xl font-semibold text-ink">Öne çıkar</Text>
             <TouchableOpacity activeOpacity={0.8} onPress={onClose}>

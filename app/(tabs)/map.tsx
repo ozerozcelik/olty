@@ -23,6 +23,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 import { GlassView } from '@/components/GlassView';
 import { publicEnv } from '@/lib/env';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { getMapCatches } from '@/services/catches.service';
 import {
   createFishingLocation,
@@ -49,16 +50,16 @@ const TILE_LAYERS = {
   gebco: 'https://tiles.gebco.net/tiles/gebco_latest_2/{z}/{x}/{y}.png',
 } as const;
 const COLORS = {
-  bg: '#0B1622',
-  surface: 'rgba(10,22,34,0.92)',
-  soft: 'rgba(255,255,255,0.07)',
-  border: 'rgba(255,255,255,0.16)',
-  text: '#F8FAFC',
-  subtext: 'rgba(248,250,252,0.70)',
-  muted: 'rgba(248,250,252,0.46)',
-  accent: '#00D084',
-  blue: '#3B82F6',
-  coral: '#E8845A',
+  bg: SPORT_THEME.bg,
+  surface: SPORT_THEME.surface,
+  soft: 'rgba(255,255,255,0.06)',
+  border: SPORT_THEME.border,
+  text: SPORT_THEME.text,
+  subtext: SPORT_THEME.textMuted,
+  muted: 'rgba(139,146,165,0.68)',
+  accent: SPORT_THEME.active,
+  blue: '#5C87FF',
+  coral: SPORT_THEME.warning,
 } as const;
 const MODES: { key: MapMode; label: string }[] = [
   { key: 'uydu', label: 'Uydu' },
@@ -345,7 +346,7 @@ const MapScreen = (): JSX.Element => {
           }}
           onLongPress={(feature) => void handleMapboxLongPress(feature)}
           onPress={() => { clearSelections(); dismissDepthCard(); }}
-          scaleBarEnabled
+          scaleBarEnabled={false}
           style={styles.map}
           styleURL={String(Mapbox.StyleURL.SatelliteStreet)}
         >
@@ -405,9 +406,9 @@ const MapScreen = (): JSX.Element => {
         </View>
       )}
 
-      <View style={[styles.header, { paddingTop: Math.max(insets.top, 20) + 24 }]}>
+      <View style={[styles.header, { paddingTop: Math.max(insets.top, 20) + 12 }]}>
         <View>
-          <Text style={styles.title}>Harita</Text>
+          <Text style={styles.title}>MAP</Text>
           <Text style={styles.subtitle}>{statsText}</Text>
         </View>
         <TouchableOpacity activeOpacity={0.85} onPress={() => setLayersOpen((current) => !current)} style={styles.pill}>
@@ -449,7 +450,7 @@ const MapScreen = (): JSX.Element => {
       ) : null}
 
       {selectedCatch ? (
-        <GlassView borderRadius={26} intensity={18} style={{ position: 'absolute', left: 16, right: 16, flexDirection: 'row', overflow: 'hidden', bottom: previewBottom }}>
+        <GlassView borderRadius={26} intensity={18} style={[styles.previewCard, { bottom: previewBottom }] }>
           <View style={styles.previewMedia}>
             {selectedCatch.photoUrl ? <Image contentFit="cover" source={{ uri: selectedCatch.photoUrl }} style={styles.previewImage} /> : <View style={styles.placeholder}><Text style={styles.placeholderEmoji}>🎣</Text><Text style={styles.placeholderText}>Fotoğraf yok</Text></View>}
           </View>
@@ -468,7 +469,7 @@ const MapScreen = (): JSX.Element => {
       ) : null}
 
       {selectedLocation && !selectedCatch ? (
-        <GlassView borderRadius={26} intensity={18} style={{ position: 'absolute', left: 16, right: 16, flexDirection: 'row', overflow: 'hidden', bottom: previewBottom }}>
+        <GlassView borderRadius={26} intensity={18} style={[styles.previewCard, { bottom: previewBottom }] }>
           <View style={[styles.previewMedia, styles.locationMedia]}>
             <View style={[styles.locationMarker, styles.locationPreviewMarker, { backgroundColor: LOCATION_MARKERS[selectedLocation.type].color, borderColor: LOCATION_MARKERS[selectedLocation.type].border }]}><Text style={styles.markerText}>{LOCATION_MARKERS[selectedLocation.type].emoji}</Text></View>
           </View>
@@ -499,7 +500,7 @@ const MapScreen = (): JSX.Element => {
           <TouchableOpacity activeOpacity={0.85} onPress={goToUserLocation} style={[styles.fab, !userLocation ? styles.disabled : null]}><Ionicons color={COLORS.blue} name="locate" size={22} /></TouchableOpacity>
         </GlassView>
         <GlassView borderRadius={26} intensity={18} style={{ borderRadius: 26 }}>
-          <TouchableOpacity activeOpacity={0.85} onPress={() => { clearSelections(); dismissDepthCard(); setLayersOpen(false); setPinDropMode(true); }} style={[styles.fab, styles.addFab]}><Ionicons color="#FFFFFF" name="add" size={26} /></TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.85} onPress={() => { clearSelections(); dismissDepthCard(); setLayersOpen(false); setPinDropMode(true); }} style={[styles.fab, styles.addFab]}><Ionicons color="#050608" name="add" size={26} /></TouchableOpacity>
         </GlassView>
       </View>
 
@@ -542,7 +543,7 @@ const styles = StyleSheet.create({
   loadingContainer: { alignItems: 'center', justifyContent: 'center', gap: 12 },
   loadingText: { color: COLORS.text, fontSize: 16, fontWeight: '500' },
   header: { position: 'absolute', left: 0, right: 0, paddingHorizontal: 16, paddingBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  title: { color: COLORS.text, fontSize: 28, fontWeight: '700' },
+  title: { color: COLORS.accent, fontSize: 28, fontWeight: '700', letterSpacing: 0.6, fontStyle: 'italic' },
   subtitle: { color: COLORS.subtext, fontSize: 13, marginTop: 4 },
   pill: { backgroundColor: COLORS.surface, borderWidth: 1, borderColor: 'rgba(255,255,255,0.22)', borderRadius: 22, paddingHorizontal: 14, paddingVertical: 8 },
   pillText: { color: COLORS.text, fontSize: 13, fontWeight: '700' },
@@ -564,12 +565,23 @@ const styles = StyleSheet.create({
   crosshairInner: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.coral },
   floatingNote: { position: 'absolute', alignSelf: 'center', borderRadius: 18, paddingHorizontal: 14, paddingVertical: 10 },
   floatingNoteText: { color: COLORS.text, fontSize: 13, fontWeight: '600' },
-  primaryFab: { position: 'absolute', backgroundColor: COLORS.coral, borderRadius: 999, minHeight: 50, minWidth: 148, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 18 },
-  primaryFabText: { color: '#FFFFFF', fontSize: 15, fontWeight: '700' },
+  primaryFab: { position: 'absolute', backgroundColor: COLORS.accent, borderRadius: 999, minHeight: 50, minWidth: 148, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 18, shadowColor: COLORS.accent, shadowOpacity: 0.32, shadowRadius: 14, shadowOffset: { width: 0, height: 7 }, elevation: 6 },
+  primaryFabText: { color: '#050608', fontSize: 15, fontWeight: '700' },
   depthCard: { position: 'absolute', maxWidth: 220, borderRadius: 16, paddingHorizontal: 12, paddingVertical: 10 },
   depthTitle: { color: COLORS.text, fontSize: 12, fontWeight: '700' },
   depthSubtitle: { color: COLORS.subtext, fontSize: 12, marginTop: 4 },
   preview: { position: 'absolute', left: 16, right: 16, flexDirection: 'row', overflow: 'hidden', borderRadius: 26 },
+  previewCard: {
+    position: 'absolute',
+    left: 16,
+    right: 16,
+    flexDirection: 'row',
+    overflow: 'hidden',
+    borderRadius: 26,
+    backgroundColor: 'rgba(10,14,20,0.96)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.14)',
+  },
   previewMedia: { width: 112, height: 116, backgroundColor: 'rgba(255,255,255,0.04)' },
   previewBody: { flex: 1, paddingHorizontal: 16, paddingVertical: 14 },
   previewImage: { width: '100%', height: '100%' },
@@ -589,12 +601,12 @@ const styles = StyleSheet.create({
   modeWrap: { position: 'absolute', left: 16, right: 16, alignItems: 'center' },
   modeRow: { flexDirection: 'row', gap: 8, padding: 6, borderRadius: 999, borderWidth: 1, borderColor: COLORS.border, backgroundColor: COLORS.surface },
   modePill: { borderRadius: 999, paddingHorizontal: 14, paddingVertical: 10, backgroundColor: 'rgba(10,22,34,0.88)' },
-  modePillActive: { backgroundColor: COLORS.coral },
+  modePillActive: { backgroundColor: COLORS.accent },
   modeText: { color: COLORS.text, fontSize: 13, fontWeight: '700' },
-  modeTextActive: { color: '#FFFFFF' },
+  modeTextActive: { color: '#050608' },
   fabStack: { position: 'absolute', right: 16, alignItems: 'center', gap: 10 },
   fab: { width: 52, height: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center' },
-  addFab: { backgroundColor: COLORS.coral, borderColor: 'rgba(232,132,90,0.60)' },
+  addFab: { backgroundColor: COLORS.accent, borderColor: 'rgba(212,255,0,0.60)' },
   disabled: { opacity: 0.55 },
   modalBackdrop: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.42)' },
   modalSpacer: { flex: 1 },
@@ -613,8 +625,8 @@ const styles = StyleSheet.create({
   visibility: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border, borderRadius: 18, paddingHorizontal: 14, paddingVertical: 14 },
   visibilityTitle: { color: COLORS.text, fontSize: 14, fontWeight: '700' },
   visibilitySubtitle: { color: COLORS.subtext, fontSize: 12, marginTop: 4, maxWidth: 240 },
-  submit: { minHeight: 52, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.coral, paddingHorizontal: 16 },
-  submitText: { color: '#FFFFFF', fontSize: 15, fontWeight: '700' },
+  submit: { minHeight: 52, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.accent, paddingHorizontal: 16, shadowColor: COLORS.accent, shadowOpacity: 0.32, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 5 },
+  submitText: { color: '#050608', fontSize: 15, fontWeight: '700' },
   cancel: { minHeight: 52, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border, paddingHorizontal: 16 },
   cancelText: { color: COLORS.text, fontSize: 15, fontWeight: '600' },
 });

@@ -136,11 +136,11 @@ export const FishIdCard = (): JSX.Element | null => {
 
               return (
                 <TouchableOpacity activeOpacity={0.8}
-                  className={`w-[48%] rounded-2xl border px-4 py-3 ${isSelected ? 'border-[#7DD4E8] bg-[rgba(125,212,232,0.20)]' : 'border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.08)]'}`}
+                  className={`w-[48%] rounded-2xl border px-4 py-3 ${isSelected ? 'border-[#D4FF00] bg-[rgba(212,255,0,0.16)]' : 'border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.08)]'}`}
                   key={`${challenge.id}-option-${option}`}
                   onPress={() => setSelectedOption(option)}
                 >
-                  <Text className={`text-sm ${isSelected ? 'font-semibold text-[#7DD4E8]' : 'text-[#F0F7F9]'}`}>{option}</Text>
+                  <Text className={`text-sm ${isSelected ? 'font-semibold text-[#D4FF00]' : 'text-[#FFFFFF]'}`}>{option}</Text>
                 </TouchableOpacity>
               );
             })}

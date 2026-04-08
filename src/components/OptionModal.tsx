@@ -3,12 +3,12 @@ import { Modal, Platform, ScrollView, StyleSheet, Text, View } from 'react-nativ
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 
 const COLORS = {
-  background: '#0B1622',
-  surface: 'rgba(255,255,255,0.10)',
+  background: '#050608',
+  surface: 'rgba(255,255,255,0.04)',
   border: 'rgba(255,255,255,0.10)',
-  text: '#F8FAFC',
-  accent: '#7DD4E8',
-  accentMuted: 'rgba(125,212,232,0.10)',
+  text: '#FFFFFF',
+  accent: '#D4FF00',
+  accentMuted: 'rgba(212,255,0,0.12)',
 };
 
 interface OptionModalProps {

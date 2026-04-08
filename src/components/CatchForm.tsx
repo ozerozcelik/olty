@@ -944,13 +944,13 @@ export const CatchForm = ({
 };
 
 const COLORS = {
-  background: '#0B1622',
+  background: '#050608',
   surface: 'rgba(255,255,255,0.05)',
   surfaceAlt: 'rgba(255,255,255,0.10)',
   border: 'rgba(255,255,255,0.10)',
   text: '#F8FAFC',
   textMuted: 'rgba(240,247,249,0.45)',
-  accent: '#7DD4E8',
+  accent: '#D4FF00',
   success: '#2F7A45',
   error: '#A6422B',
   sea: '#2F6F7E',

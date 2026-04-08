@@ -169,59 +169,65 @@ export const ProfileView = ({
               source={profile.avatar_url ? { uri: profile.avatar_url } : undefined}
               style={styles.avatar}
             />
-            <View style={styles.usernameSection}>
-              <Text style={styles.username}>@{profile.username}</Text>
-              {profile.display_name ? <Text style={styles.displayName}>{profile.display_name}</Text> : null}
-              {canShowCity && profile.city ? (
-                <Text style={styles.metaText}>{profile.city}</Text>
+            <View style={styles.profileMetaRow}>
+              <View style={styles.usernameSection}>
+                <Text style={styles.username}>@{profile.username}</Text>
+                {profile.display_name ? <Text style={styles.displayName}>{profile.display_name}</Text> : null}
+                {canShowCity && profile.city ? (
+                  <Text style={styles.metaText}>{profile.city}</Text>
+                ) : null}
+              </View>
+
+              {canShowFishingTypes && profile.fishing_type.length ? (
+                <View style={styles.fishingTypesWrapper}>
+                  {profile.fishing_type.slice(0, 3).map((item) => (
+                    <View key={item} style={styles.fishingTypePill}>
+                      <Text style={styles.fishingTypeText}>{item}</Text>
+                    </View>
+                  ))}
+                </View>
               ) : null}
             </View>
-            {canShowFishingTypes && profile.fishing_type.length ? (
-              <View style={styles.fishingTypesWrapper}>
-                {profile.fishing_type.map((item) => (
-                  <View key={item} style={styles.fishingTypePill}>
-                    <Text style={styles.fishingTypeText}>{item}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : null}
-            {isOwnProfile ? (
-              <View style={styles.actionRow}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => router.push('/settings')}
-                  style={styles.primaryButton}
-                >
-                  <Text style={styles.primaryButtonText}>Profili Düzenle</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={onOpenMessages}
-                  style={styles.secondaryButton}
-                >
-                  <Text style={styles.secondaryButtonText}>Mesajlar</Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View style={styles.actionRow}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  disabled={isFollowLoading}
-                  onPress={onToggleFollow}
-                  style={styles.primaryButton}
-                >
-                  <Text style={styles.primaryButtonText}>{isFollowing ? 'Takipten Çık' : 'Takip Et'}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  disabled={isMessageLoading}
-                  onPress={onMessagePress}
-                  style={styles.secondaryButton}
-                >
-                  <Text style={styles.secondaryButtonText}>Mesaj Gönder</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+
+            <View style={styles.actionRow}>
+              {isOwnProfile ? (
+                <>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => router.push('/settings')}
+                    style={styles.primaryButton}
+                  >
+                    <Text style={styles.primaryButtonText}>Profili Düzenle</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={onOpenMessages}
+                    style={styles.secondaryButton}
+                  >
+                    <Text style={styles.secondaryButtonText}>Mesajlar</Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    disabled={isFollowLoading}
+                    onPress={onToggleFollow}
+                    style={styles.primaryButton}
+                  >
+                    <Text style={styles.primaryButtonText}>{isFollowing ? 'Takipten Çık' : 'Takip Et'}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    disabled={isMessageLoading}
+                    onPress={onMessagePress}
+                    style={styles.secondaryButton}
+                  >
+                    <Text style={styles.secondaryButtonText}>Mesaj Gönder</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
             {canShowBio && profile.bio?.trim() ? (
               <View style={styles.bioCard}>
                 <Text style={styles.cardLabel}>
@@ -243,42 +249,47 @@ export const ProfileView = ({
                 </Text>
               </TouchableOpacity>
             ) : null}
-            {canShowSocialLinks && socialLinks.length ? (
-              <View style={styles.bioCard}>
-                <Text style={styles.cardLabel}>
-                  Sosyal Profiller
-                </Text>
-                <View style={styles.socialLinksRow}>
-                  {socialLinks.map((item) => (
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      style={styles.socialLinkPill}
-                      key={item.key}
-                      onPress={() => {
-                        void Linking.openURL(item.url);
-                      }}
-                    >
-                      <Ionicons color={T.teal} name="open-outline" size={16} />
-                      <Text style={styles.socialLinkText}>{item.label}</Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
+            {(canShowSocialLinks && socialLinks.length > 0) || canShowFishdex ? (
+              <View style={styles.featureGrid}>
+                {canShowSocialLinks && socialLinks.length ? (
+                  <View style={[styles.bioCard, styles.featureCard]}>
+                    <Text style={styles.cardLabel}>
+                      Sosyal Profiller
+                    </Text>
+                    <View style={styles.socialLinksRow}>
+                      {socialLinks.slice(0, 2).map((item) => (
+                        <TouchableOpacity
+                          activeOpacity={0.8}
+                          style={styles.socialLinkPill}
+                          key={item.key}
+                          onPress={() => {
+                            void Linking.openURL(item.url);
+                          }}
+                        >
+                          <Ionicons color={T.teal} name="open-outline" size={16} />
+                          <Text style={styles.socialLinkText}>{item.label}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </View>
+                ) : null}
+
+                {canShowFishdex ? (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={[styles.bioCard, styles.featureCard]}
+                    onPress={() => router.push(`/profile/fishdex/${profile.id}`)}
+                  >
+                    <Text style={styles.cardLabelSubtle}>
+                      Koleksiyon
+                    </Text>
+                    <Text style={styles.fishdexTitle}>Fishdex</Text>
+                    <Text style={styles.fishdexDescription}>
+                      Türlerini koleksiyon görünümünde takip et.
+                    </Text>
+                  </TouchableOpacity>
+                ) : null}
               </View>
-            ) : null}
-            {canShowFishdex ? (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.bioCard}
-                onPress={() => router.push(`/profile/fishdex/${profile.id}`)}
-              >
-                <Text style={styles.cardLabelSubtle}>
-                  Koleksiyon
-                </Text>
-                <Text style={styles.fishdexTitle}>Fishdex</Text>
-                <Text style={styles.fishdexDescription}>
-                  Yakaladığın türleri renkli koleksiyon kitabında takip et.
-                </Text>
-              </TouchableOpacity>
             ) : null}
             {canShowGear && profile.gearCount ? (
               <View style={styles.gearCard}>
@@ -304,7 +315,7 @@ export const ProfileView = ({
                 <View style={styles.gearSectionsWrapper}>
                   {profile.gearSections
                     .filter((section) => section.items.length)
-                    .slice(0, 3)
+                    .slice(0, 2)
                     .map((section) => (
                       <View style={styles.gearSectionItem} key={section.slug}>
                         <View style={styles.gearSectionHeaderRow}>
@@ -314,7 +325,7 @@ export const ProfileView = ({
                           <Text style={styles.gearSectionCount}>{section.items.length}</Text>
                         </View>
                         <FlatList
-                          data={section.items.slice(0, 6)}
+                          data={section.items.slice(0, 4)}
                           horizontal
                           keyExtractor={(item) => item.id}
                           renderItem={({ item }) => (
@@ -345,7 +356,7 @@ export const ProfileView = ({
             ) : null}
           </View>
 
-          <View style={styles.followStatsRow}>
+          <View style={styles.quickStatsGrid}>
             <TouchableOpacity activeOpacity={0.8} style={styles.followStatCard}>
               <Text style={styles.followStatLabel}>Av sayısı</Text>
               <Text style={styles.followStatValue}>{profile.catch_count}</Text>
@@ -366,39 +377,41 @@ export const ProfileView = ({
             </TouchableOpacity>
           </View>
 
-          <View style={styles.xpCard}>
-            <View style={styles.xpHeader}>
-              <Text style={styles.xpTitle}>Seviye {profile.level}</Text>
-              <Text style={styles.xpPercent}>%{progress.percent}</Text>
+          <View style={styles.dualPanelRow}>
+            <View style={styles.xpCard}>
+              <View style={styles.xpHeader}>
+                <Text style={styles.xpTitle}>Seviye {profile.level}</Text>
+                <Text style={styles.xpPercent}>%{progress.percent}</Text>
+              </View>
+              <View style={styles.xpTrack}>
+                <LinearGradient
+                  colors={['#00D084', '#3B82F6']}
+                  end={{ x: 1, y: 0.5 }}
+                  start={{ x: 0, y: 0.5 }}
+                  style={[styles.xpFill, { width: `${Math.max(progress.percent, 8)}%` }]}
+                />
+              </View>
+              <Text style={styles.xpSummary}>
+                {progress.current} / {progress.next} XP
+              </Text>
             </View>
-            <View style={styles.xpTrack}>
-              <LinearGradient
-                colors={['#00D084', '#3B82F6']}
-                end={{ x: 1, y: 0.5 }}
-                start={{ x: 0, y: 0.5 }}
-                style={[styles.xpFill, { width: `${Math.max(progress.percent, 8)}%` }]}
-              />
-            </View>
-            <Text style={styles.xpSummary}>
-              {progress.current} / {progress.next} XP
-            </Text>
-          </View>
 
-          <View style={styles.badgesCard}>
-            <View style={styles.badgesHeader}>
-              <Text style={styles.badgesTitle}>Rozetler</Text>
-              <TouchableOpacity activeOpacity={0.8}>
-                <Text style={styles.badgesActionText}>Tümünü Gör</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.badgesWrapper}>
-              {profile.badges.slice(0, 6).map((item) => (
-                <View key={`${item.badge_id}-${item.earned_at}`} style={styles.earnedBadgePill}>
-                  <Text style={styles.earnedBadgeText}>
-                    {item.badge_definitions?.name_tr ?? 'Rozet'}
-                  </Text>
-                </View>
-              ))}
+            <View style={styles.badgesCard}>
+              <View style={styles.badgesHeader}>
+                <Text style={styles.badgesTitle}>Rozetler</Text>
+                <TouchableOpacity activeOpacity={0.8}>
+                  <Text style={styles.badgesActionText}>Tümü</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.badgesWrapper}>
+                {profile.badges.slice(0, 4).map((item) => (
+                  <View key={`${item.badge_id}-${item.earned_at}`} style={styles.earnedBadgePill}>
+                    <Text style={styles.earnedBadgeText}>
+                      {item.badge_definitions?.name_tr ?? 'Rozet'}
+                    </Text>
+                  </View>
+                ))}
+              </View>
             </View>
           </View>
 
@@ -511,7 +524,7 @@ const styles = StyleSheet.create({
   catchTilePlaceholder: {
     alignItems: 'center',
     backgroundColor: T.bgCard,
-    height: 160,
+    height: 152,
     justifyContent: 'center',
   },
   catchTilePlaceholderText: {
@@ -519,17 +532,17 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   catchTileOverlay: {
-    backgroundColor: 'rgba(7,24,32,0.85)',
+    backgroundColor: 'rgba(5,6,8,0.90)',
     bottom: 0,
     left: 0,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
     position: 'absolute',
     right: 0,
   },
   catchTileTitle: {
     color: T.textPrimary,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
   },
   profileCard: {
@@ -538,9 +551,13 @@ const styles = StyleSheet.create({
     borderColor: T.glassBorder,
     borderRadius: 24,
     borderWidth: 1,
-    gap: 16,
-    padding: 20,
+    gap: 10,
+    padding: 18,
     position: 'relative',
+  },
+  profileMetaRow: {
+    width: '100%',
+    gap: 12,
   },
   settingsButton: {
     alignItems: 'center',
@@ -558,23 +575,23 @@ const styles = StyleSheet.create({
   avatar: {
     backgroundColor: T.bgCard,
     borderColor: 'rgba(77,184,204,0.40)',
-    borderRadius: 40,
+    borderRadius: 36,
     borderWidth: 2,
-    height: 80,
-    width: 80,
+    height: 72,
+    width: 72,
   },
   username: {
     color: T.textPrimary,
-    fontSize: 20,
+    fontSize: 19,
     fontWeight: '600',
   },
   displayName: {
     color: T.textSecondary,
-    fontSize: 14,
+    fontSize: 13,
   },
   metaText: {
     color: T.textTertiary,
-    fontSize: 13,
+    fontSize: 12,
   },
   fishingTypePill: {
     backgroundColor: T.tealGlow,
@@ -591,7 +608,8 @@ const styles = StyleSheet.create({
   },
   actionRow: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 10,
+    width: '100%',
   },
   primaryButton: {
     alignItems: 'center',
@@ -599,14 +617,15 @@ const styles = StyleSheet.create({
     borderColor: T.teal,
     borderRadius: 999,
     borderWidth: 1,
-    height: 44,
+    height: 42,
     justifyContent: 'center',
-    minWidth: 144,
-    paddingHorizontal: 18,
+    flex: 1,
+    minWidth: 0,
+    paddingHorizontal: 12,
   },
   primaryButtonText: {
     color: T.teal,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
   },
   secondaryButton: {
@@ -615,32 +634,37 @@ const styles = StyleSheet.create({
     borderColor: T.glassBorder,
     borderRadius: 999,
     borderWidth: 1,
-    height: 44,
+    height: 42,
     justifyContent: 'center',
-    minWidth: 120,
-    paddingHorizontal: 18,
+    flex: 1,
+    minWidth: 0,
+    paddingHorizontal: 12,
   },
   secondaryButtonText: {
     color: T.textSecondary,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
   },
-  followStatsRow: {
+  quickStatsGrid: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 8,
   },
   followStatCard: {
     backgroundColor: T.glass,
     borderColor: T.glassBorder,
-    borderRadius: 16,
+    borderRadius: 14,
     borderWidth: 1,
     flex: 1,
-    paddingHorizontal: 14,
-    paddingVertical: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+  },
+  dualPanelRow: {
+    flexDirection: 'row',
+    gap: 8,
   },
   followStatValue: {
     color: T.teal,
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '700',
     marginTop: 6,
     textAlign: 'center',
@@ -655,10 +679,11 @@ const styles = StyleSheet.create({
   xpCard: {
     backgroundColor: T.glass,
     borderColor: T.glassBorder,
-    borderRadius: 20,
+    borderRadius: 18,
     borderWidth: 1,
-    gap: 12,
-    padding: 20,
+    gap: 8,
+    padding: 14,
+    flex: 1,
   },
   xpHeader: {
     alignItems: 'center',
@@ -667,7 +692,7 @@ const styles = StyleSheet.create({
   },
   xpTitle: {
     color: T.textPrimary,
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '600',
   },
   xpPercent: {
@@ -692,10 +717,11 @@ const styles = StyleSheet.create({
   badgesCard: {
     backgroundColor: T.glass,
     borderColor: T.glassBorder,
-    borderRadius: 20,
+    borderRadius: 18,
     borderWidth: 1,
-    gap: 12,
-    padding: 20,
+    gap: 8,
+    padding: 14,
+    flex: 1,
   },
   badgesHeader: {
     alignItems: 'center',
@@ -704,12 +730,12 @@ const styles = StyleSheet.create({
   },
   badgesTitle: {
     color: T.textPrimary,
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '600',
   },
   badgesActionText: {
     color: T.teal,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
   },
   earnedBadgePill: {
@@ -718,13 +744,13 @@ const styles = StyleSheet.create({
     borderColor: T.teal,
     borderRadius: 20,
     borderWidth: 1,
-    minWidth: '30%',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    minWidth: '48%',
+    paddingHorizontal: 8,
+    paddingVertical: 5,
   },
   earnedBadgeText: {
     color: T.teal,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     textAlign: 'center',
   },
@@ -733,13 +759,13 @@ const styles = StyleSheet.create({
     borderColor: T.glassBorder,
     borderRadius: 20,
     borderWidth: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     width: '100%',
   },
   gearTitle: {
     color: T.textPrimary,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '600',
     marginTop: 8,
   },
@@ -755,7 +781,7 @@ const styles = StyleSheet.create({
   },
   gearManageButtonText: {
     color: T.teal,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
   },
   gearSectionTitle: {
@@ -772,7 +798,7 @@ const styles = StyleSheet.create({
   },
   postsTitle: {
     color: T.textPrimary,
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '700',
   },
   locationsCard: {
@@ -780,7 +806,7 @@ const styles = StyleSheet.create({
     borderColor: T.glassBorder,
     borderRadius: 20,
     borderWidth: 1,
-    padding: 18,
+    padding: 16,
   },
   locationsHeader: {
     alignItems: 'center',
@@ -789,7 +815,7 @@ const styles = StyleSheet.create({
   },
   locationsTitle: {
     color: T.textPrimary,
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '700',
     marginTop: 4,
   },
@@ -815,7 +841,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingVertical: 10,
   },
   locationPreviewBadge: {
     alignItems: 'center',
@@ -840,8 +866,8 @@ const styles = StyleSheet.create({
     backgroundColor: T.bg,
   },
   header: {
-    gap: 20,
-    paddingBottom: 24,
+    gap: 16,
+    paddingBottom: 20,
   },
   usernameSection: {
     alignItems: 'center',
@@ -860,8 +886,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: T.glassBorder,
     backgroundColor: T.bgDeep,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
   },
   bioCardEmpty: {
     width: '100%',
@@ -870,8 +896,8 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
     borderColor: T.glassBorder,
     backgroundColor: T.bgDeep,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
   },
   cardLabel: {
     fontSize: 10,
@@ -905,6 +931,15 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 12,
   },
+  featureGrid: {
+    width: '100%',
+    flexDirection: 'column',
+    gap: 10,
+  },
+  featureCard: {
+    flex: 1,
+    minHeight: 0,
+  },
   socialLinkPill: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -913,23 +948,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: T.glassBorder,
     backgroundColor: T.glass,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
   },
   socialLinkText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
     color: T.teal,
   },
   fishdexTitle: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: '600',
     color: T.textPrimary,
     marginTop: 8,
   },
   fishdexDescription: {
-    fontSize: 14,
-    lineHeight: 22,
+    fontSize: 12,
+    lineHeight: 20,
     color: T.textSecondary,
     marginTop: 4,
   },
@@ -939,8 +974,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   gearSectionsWrapper: {
-    marginTop: 16,
-    gap: 16,
+    marginTop: 12,
+    gap: 12,
   },
   gearSectionItem: {
     gap: 12,
@@ -953,14 +988,14 @@ const styles = StyleSheet.create({
   badgesWrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 12,
+    gap: 10,
   },
   locationsListWrapper: {
     marginTop: 16,
     gap: 12,
   },
   emptyLocationCard: {
-    marginTop: 16,
+    marginTop: 12,
     borderRadius: 20,
     borderWidth: 1,
     borderStyle: 'dashed',
@@ -970,7 +1005,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '600',
     color: T.textPrimary,
   },

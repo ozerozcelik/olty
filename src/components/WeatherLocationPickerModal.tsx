@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import MapView, {
   Marker,
   PROVIDER_DEFAULT,
@@ -33,14 +34,14 @@ const TURKEY_REGION = {
 };
 
 const COLORS = {
-  background: '#0A2028',
-  surface: 'rgba(255,255,255,0.10)',
-  border: 'rgba(255,255,255,0.10)',
-  text: '#F0F7F9',
-  textMuted: 'rgba(255,255,255,0.70)',
-  textLabel: 'rgba(255,255,255,0.45)',
-  accent: '#7DD4E8',
-  coral: '#E8845A',
+  background: SPORT_THEME.bg,
+  surface: 'rgba(255,255,255,0.04)',
+  border: SPORT_THEME.border,
+  text: SPORT_THEME.text,
+  textMuted: SPORT_THEME.textMuted,
+  textLabel: 'rgba(139,146,165,0.60)',
+  accent: SPORT_THEME.active,
+  coral: SPORT_THEME.warning,
   placeholder: '#8A958D',
 };
 

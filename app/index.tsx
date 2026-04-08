@@ -8,16 +8,18 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { SPORT_THEME } from '@/lib/sport-theme';
+
 const COLORS = {
-  bgDeep: '#0D2830',
-  bgHero: '#0D3D4A',
-  bgCard: 'rgba(125,212,232,0.06)',
-  borderDefault: 'rgba(125,212,232,0.18)',
-  teal: '#7DD4E8',
-  tealGlow: 'rgba(125,212,232,0.12)',
-  textPrimary: '#E8F7FA',
-  textSecondary: 'rgba(125,212,232,0.50)',
-  coral: '#E8845A',
+  bgDeep: SPORT_THEME.bg,
+  bgHero: '#0A0C10',
+  bgCard: 'rgba(255,255,255,0.04)',
+  borderDefault: SPORT_THEME.border,
+  teal: SPORT_THEME.active,
+  tealGlow: 'rgba(212,255,0,0.12)',
+  textPrimary: SPORT_THEME.text,
+  textSecondary: SPORT_THEME.textMuted,
+  coral: SPORT_THEME.warning,
 };
 
 export default function WelcomeScreen(): JSX.Element {
@@ -47,32 +49,29 @@ export default function WelcomeScreen(): JSX.Element {
         <Text style={styles.subtitle}>
           Avlarını kaydet, ilerlemeni takip et,{'\n'}topluluğa katıl.
         </Text>
+
+        <View style={styles.heroCtaGroup}>
+          <Pressable
+            onPress={() => openRoute('/register')}
+            style={({ pressed }) => [
+              styles.primaryButton,
+              pressed && styles.buttonPressed,
+            ]}
+          >
+            <Text style={styles.primaryButtonText}>Hesap Oluştur</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => openRoute('/login')}
+            style={({ pressed }) => [
+              styles.secondaryButton,
+              pressed && styles.buttonPressed,
+            ]}
+          >
+            <Text style={styles.secondaryButtonText}>Giriş Yap</Text>
+          </Pressable>
+        </View>
       </LinearGradient>
-
-      {/* Bottom Section */}
-      <View style={[styles.bottomSection, { paddingBottom: Math.max(insets.bottom + 24, 40) }]}>
-        {/* Primary CTA */}
-        <Pressable
-          onPress={() => openRoute('/register')}
-          style={({ pressed }) => [
-            styles.primaryButton,
-            pressed && styles.buttonPressed,
-          ]}
-        >
-          <Text style={styles.primaryButtonText}>Hesap Oluştur</Text>
-        </Pressable>
-
-        {/* Secondary CTA */}
-        <Pressable
-          onPress={() => openRoute('/login')}
-          style={({ pressed }) => [
-            styles.secondaryButton,
-            pressed && styles.buttonPressed,
-          ]}
-        >
-          <Text style={styles.secondaryButtonText}>Giriş Yap</Text>
-        </Pressable>
-      </View>
     </View>
   );
 }
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
   heroCard: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     paddingHorizontal: 32,
     paddingBottom: 48,
   },
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: COLORS.tealGlow,
     borderWidth: 1.5,
-    borderColor: 'rgba(125,212,232,0.3)',
+    borderColor: 'rgba(212,255,0,0.30)',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 24,
@@ -118,11 +117,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 24,
   },
-  bottomSection: {
-    paddingHorizontal: 24,
-    paddingTop: 24,
+  heroCtaGroup: {
+    width: '100%',
     gap: 12,
-    backgroundColor: COLORS.bgDeep,
+    marginTop: 28,
+    maxWidth: 360,
   },
   primaryButton: {
     backgroundColor: COLORS.coral,

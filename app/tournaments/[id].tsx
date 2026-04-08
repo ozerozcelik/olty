@@ -77,13 +77,13 @@ const TournamentDetailScreen = (): JSX.Element => {
   });
 
   if (!tournamentQuery.data) {
-    return <View className="flex-1 bg-sand" />;
+    return <View className="flex-1 bg-main" />;
   }
 
   const tournament = tournamentQuery.data;
 
   return (
-    <View className="flex-1 bg-sand">
+    <View className="flex-1 bg-main">
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
         <View className="relative">
           {tournament.cover_image_url ? (
@@ -98,7 +98,7 @@ const TournamentDetailScreen = (): JSX.Element => {
             </View>
           )}
           <TouchableOpacity activeOpacity={0.8}
-            className="absolute left-4 top-12 rounded-full border border-white/10 bg-sand/90 p-3"
+            className="absolute left-4 top-12 rounded-full border border-white/10 bg-main/90 p-3"
             onPress={() => router.back()}
           >
             <Text className="font-semibold text-ink">Geri</Text>

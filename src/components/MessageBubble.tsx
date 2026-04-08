@@ -40,39 +40,39 @@ export const MessageBubble = ({
           activeOpacity={0.85}
           onPress={() => router.push(`/catch/${catchId}`)}
         >
-          <Text className={`text-base ${isOwnMessage ? 'text-white' : 'text-ink'}`}>
+          <Text className={`text-base ${isOwnMessage ? 'text-main' : 'text-ink'}`}>
             {sharePreviewText}
           </Text>
           <View
             className={`mt-3 flex-row items-center justify-between rounded-[20px] border px-4 py-3 ${
               isOwnMessage
-                ? 'border-white/20 bg-white/10'
+                ? 'border-main/10 bg-main/5'
                 : 'border-white/10 bg-white/5'
             }`}
           >
             <View className="flex-row items-center gap-3">
               <View
                 className={`h-10 w-10 items-center justify-center rounded-full ${
-                  isOwnMessage ? 'bg-white/15' : 'bg-sea/10'
+                  isOwnMessage ? 'bg-main/10' : 'bg-sea/10'
                 }`}
               >
                 <Ionicons
-                  color={isOwnMessage ? '#FFFFFF' : '#7DD4E8'}
+                  color={isOwnMessage ? '#050608' : '#D4FF00'}
                   name="share-social-outline"
                   size={18}
                 />
               </View>
               <View>
-                <Text className={`text-sm font-semibold ${isOwnMessage ? 'text-white' : 'text-ink'}`}>
+                <Text className={`text-sm font-semibold ${isOwnMessage ? 'text-main' : 'text-ink'}`}>
                   Paylasilan gonderi
                 </Text>
-                <Text className={`text-xs ${isOwnMessage ? 'text-white/80' : 'text-white/70'}`}>
+                <Text className={`text-xs ${isOwnMessage ? 'text-main/70' : 'text-white/70'}`}>
                   Dokun ve gonderiyi ac
                 </Text>
               </View>
             </View>
             <Ionicons
-              color={isOwnMessage ? '#FFFFFF' : '#F0F7F9'}
+              color={isOwnMessage ? '#050608' : '#FFFFFF'}
               name="open-outline"
               size={18}
             />
@@ -87,39 +87,39 @@ export const MessageBubble = ({
           activeOpacity={0.85}
           onPress={() => router.push(`/locations/${locationId}` as Href)}
         >
-          <Text className={`text-base ${isOwnMessage ? 'text-white' : 'text-ink'}`}>
+          <Text className={`text-base ${isOwnMessage ? 'text-main' : 'text-ink'}`}>
             {locationPreviewText}
           </Text>
           <View
             className={`mt-3 flex-row items-center justify-between rounded-[20px] border px-4 py-3 ${
               isOwnMessage
-                ? 'border-white/20 bg-white/10'
+                ? 'border-main/10 bg-main/5'
                 : 'border-white/10 bg-white/5'
             }`}
           >
             <View className="flex-row items-center gap-3">
               <View
                 className={`h-10 w-10 items-center justify-center rounded-full ${
-                  isOwnMessage ? 'bg-white/15' : 'bg-sea/10'
+                  isOwnMessage ? 'bg-main/10' : 'bg-sea/10'
                 }`}
               >
                 <Ionicons
-                  color={isOwnMessage ? '#FFFFFF' : '#7DD4E8'}
+                  color={isOwnMessage ? '#050608' : '#D4FF00'}
                   name="location-outline"
                   size={18}
                 />
               </View>
               <View>
-                <Text className={`text-sm font-semibold ${isOwnMessage ? 'text-white' : 'text-ink'}`}>
+                <Text className={`text-sm font-semibold ${isOwnMessage ? 'text-main' : 'text-ink'}`}>
                   Paylasilan yer imi
                 </Text>
-                <Text className={`text-xs ${isOwnMessage ? 'text-white/80' : 'text-white/70'}`}>
+                <Text className={`text-xs ${isOwnMessage ? 'text-main/70' : 'text-white/70'}`}>
                   Dokun ve yer imini ac
                 </Text>
               </View>
             </View>
             <Ionicons
-              color={isOwnMessage ? '#FFFFFF' : '#F0F7F9'}
+              color={isOwnMessage ? '#050608' : '#FFFFFF'}
               name="open-outline"
               size={18}
             />
@@ -129,7 +129,7 @@ export const MessageBubble = ({
     }
 
     return (
-      <Text className={`text-base ${isOwnMessage ? 'text-white' : 'text-ink'}`}>
+      <Text className={`text-base ${isOwnMessage ? 'text-main' : 'text-ink'}`}>
         {item.body}
       </Text>
     );
@@ -138,7 +138,7 @@ export const MessageBubble = ({
   return (
     <View className={`mb-3 ${isOwnMessage ? 'items-end' : 'items-start'}`}>
       {isOwnMessage ? (
-        <View className="max-w-[82%] rounded-[24px] bg-sea px-4 py-3">
+        <View className="max-w-[82%] rounded-[24px] border border-water/30 bg-water px-4 py-3">
           {renderContent()}
         </View>
       ) : (

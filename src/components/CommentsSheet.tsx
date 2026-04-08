@@ -229,12 +229,12 @@ export const CommentsSheet = ({
 };
 
 const SHEET_COLORS = {
-  background: '#0A2028',
-  surface: 'rgba(255,255,255,0.08)',
+  background: '#050608',
+  surface: 'rgba(255,255,255,0.04)',
   border: 'rgba(255,255,255,0.10)',
-  text: '#F0F7F9',
-  textMuted: 'rgba(255,255,255,0.70)',
-  accent: '#7DD4E8',
+  text: '#FFFFFF',
+  textMuted: '#8B92A5',
+  accent: '#D4FF00',
 };
 
 const styles = StyleSheet.create({

@@ -1,5 +1,7 @@
 import { ActivityIndicator, Text, View } from 'react-native';
 
+import { SPORT_THEME } from '@/lib/sport-theme';
+
 export const SplashScreen = (): JSX.Element => {
   return (
     <View
@@ -7,11 +9,11 @@ export const SplashScreen = (): JSX.Element => {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#0B1622',
+        backgroundColor: SPORT_THEME.bg,
       }}
     >
-      <ActivityIndicator color="#7DD4E8" size="large" />
-      <Text style={{ color: '#F8FAFC', marginTop: 12, fontSize: 15, fontWeight: '600' }}>
+      <ActivityIndicator color={SPORT_THEME.active} size="large" />
+      <Text style={{ color: SPORT_THEME.text, marginTop: 12, fontSize: 15, fontWeight: '600' }}>
         Yükleniyor...
       </Text>
     </View>

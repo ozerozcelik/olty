@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gizlilik Politikası - Olty</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #050608 0%, #0a0c10 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(17, 20, 26, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #D4FF00;
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: #D4FF00;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+        .subtitle {
+            color: #8B92A5;
+            font-size: 0.95em;
+        }
+        h2 {
+            color: #D4FF00;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        h3 {
+            color: #E7FF66;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        p, li {
+            margin-bottom: 12px;
+            color: #ccc;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight {
+            background: rgba(212, 255, 0, 0.1);
+            border-left: 4px solid #D4FF00;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .last-updated {
+            text-align: center;
+            color: #8B92A5;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+        }
+        strong {
+            color: #E7FF66;
+        }
+        a {
+            color: #D4FF00;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #E7FF66;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OLTY</h1>
+            <p class="subtitle">Gizlilik Politikası</p>
+        </header>
+
+        <section>
+            <h2>1. Giriş ve Tanımlar</h2>
+            <p>
+                Olty ("Uygulama"), hobi balıkçıları için geliştirilmiş sosyal ve oyunlaştırılmış bir platformdur. 
+                Bu Gizlilik Politikası, kişisel verilerinizin nasıl toplandığını, kullanıldığını, korunduğunu ve 
+                silindiğini açıklamaktadır.
+            </p>
+            <p>
+                Olty olarak, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve tüm ilgili veri koruma 
+                mevzuatına uyum gösteriyoruz.
+            </p>
+        </section>
+
+        <section>
+            <h2>2. Topladığımız Veriler</h2>
+            
+            <h3>2.1 Kayıt ve Profil Bilgileri</h3>
+            <ul>
+                <li>E-posta adresi</li>
+                <li>Kullanıcı adı ve profil fotoğrafı</li>
+                <li>Şifre (tek yönlü şifrelenmiş)</li>
+                <li>Tam ad ve biyografi</li>
+                <li>Şehir/İl bilgisi</li>
+                <li>Balıkçılık türü tercihleri</li>
+            </ul>
+
+            <h3>2.2 Konum Verisi</h3>
+            <ul>
+                <li><strong>Hassas:</strong> Av kaydı yaparken ayrıntılı GPS koordinatları toplamaktadır</li>
+                <li><strong>Gizliliğin Korunması:</strong> Tam koordinatlar şifreli şekilde veri tabanında saklanır</li>
+                <li><strong>Halkın Görmesi:</strong> Besiyerlerinizde tam konum gösterilmez, fuzzy konum (±2km) gösterilir</li>
+                <li>Konum paylaşım tercihleri (kişi başına kontrol edilebilir)</li>
+            </ul>
+
+            <h3>2.3 Av Kaydı Verileri</h3>
+            <ul>
+                <li>Balık türü ve özellikleri (boy, ağırlık)</li>
+                <li>Av tarihi ve avlanma yöntemi</li>
+                <li>Fotoğraflar (maksimum 5MB, JPEG/PNG)</li>
+                <li>Yakalama ve yapay yayın notları</li>
+                <li>Hava koşulları bilgileri</li>
+            </ul>
+
+            <h3>2.4 İletişim Verisi</h3>
+            <ul>
+                <li>Mesajlaşmalar ve sohbet içerikleri</li>
+                <li>Yorum ve beğeni aktiviteleri</li>
+            </ul>
+
+            <h3>2.5 Teknik Veriler</h3>
+            <ul>
+                <li>Cihaz kimliği ve türü</li>
+                <li>İşletim sistemi sürümü</li>
+                <li>Uygulama kullanım alışkanlıkları (PostHog aracılığıyla)</li>
+                <li>IP adresi (anonim analytics amaçları için)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Verileri Nasıl Kullanıyoruz</h2>
+            <ul>
+                <li><strong>Hizmet Sunma:</strong> Uygulama işlevlerini sağlamak</li>
+                <li><strong>Sosyal Ağ:</strong> Profillerini tamamlamak ve takipçi bağlantıları kurmak</li>
+                <li><strong>Gamifikasyon:</strong> XP, seviye ve rozet sistemini yönetmek</li>
+                <li><strong>İletişim:</strong> Hesap doğrulama ve bildirimler göndermek</li>
+                <li><strong>Analytics:</strong> Kullanım desenleri analiz etmek ve hizmeti geliştirmek (anonim)</li>
+                <li><strong>Yasal Uyum:</strong> KVKK ve diğer yasal yükümlülükleri yerine getirmek</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>4. Veri Saklama Politikası</h2>
+            <div class="highlight">
+                <strong>Kullanıcı Hesabı Silme:</strong><br>
+                Hesabınızı silmek istediğinizde, tüm kişisel verileriniz 30 gün içinde kalıcı olarak silinir. 
+                Bu işlem geri alınamaz ve ilişkili tüm av kayıtları, mesajları ve sosyal bağlantıları siler.
+            </div>
+            <ul>
+                <li><strong>Aktif Hesaplar:</strong> Veriler etkin kullanım süresi boyunca saklanır</li>
+                <li><strong>İnaktif Hesaplar:</strong> 12 ay inaktiflik sonrasında veriler saklanabilir</li>
+                <li><strong>Av Kayıtları:</strong> Hesap silme işlemi ev kayıtlarını siler</li>
+                <li><strong>Mesajlaşma:</strong> Konuşma silme tarafından kontrol edilir</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. Konum Gizliği (Kritik)</h2>
+            <div class="highlight">
+                <strong>Konum Veriniz Nasıl Korunur:</strong><br>
+                Balıkçılık noktalarının tam konumları asla herkese açık API uç noktalarından döndürülmez. 
+                Bunun yerine, harita görünümünde bulanık konumlar (±2km) gösterilir.
+            </div>
+            <ul>
+                <li>Tam GPS koordinatları yalnızca sizin kayıtlı cihazlarınızda görünür</li>
+                <li>Başka kullanıcılar yalnızca belirsiz bölge bilgisini görür</li>
+                <li>Seçinde "Tam Konum Paylaş" seçeneği, tam koordinatları diğer kullanıcılara açabilir</li>
+                <li>Bu kontrol, av başına temelinde değiştirilir</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>6. Rıza ve Tercihler</h2>
+            <h3>6.1 Kayıt Sırasında Talep Edilen Rızalar</h3>
+            <ul>
+                <li><strong>Konum İzni:</strong> Av şi göndermek için gereken ayrı checkbox</li>
+                <li><strong>Pazarlama E-postaları:</strong> Promosyon ve güncellemeler için ayrı checkbox</li>
+                <li><strong>Veri İşleme:</strong> Kullanıcı anlaşması ve hizmet şartlarına uyum</li>
+            </ul>
+            <h3>6.2 Rıza Yönetimi</h3>
+            <p>Ayarlar → Gizlilik bölümünden rızalarınız istediğiniz zaman değiştirebilirsiniz.</p>
+        </section>
+
+        <section>
+            <h2>7. Veri Güvenliği</h2>
+            <ul>
+                <li><strong>Encryption:</strong> Hassas veriler SSL/TLS ile iletim sırasında şifrelenir</li>
+                <li><strong>Database:</strong> Koordinatlar şifreli şekilde Supabase'de saklanır</li>
+                <li><strong>Şifreler:</strong> Bcrypt ile tek yönlü şifreli saklanır</li>
+                <li><strong>Erişim Denetimi:</strong> Row Level Security (RLS) ile veri izole edilir</li>
+                <li><strong>Sunucu Konumu:</strong> AB Frankfurt veri merkezi, GDPR uyumlu</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>8. Üçüncü Taraf Hizmetler</h2>
+            <ul>
+                <li><strong>Supabase:</strong> Veritabanı, kimlik doğrulama ve dosya depolama</li>
+                <li><strong>Cloudflare R2:</strong> İçerik dağıtım (CDN) ve görsel depolama</li>
+                <li><strong>PostHog:</strong> Anonim kullanıcı analitikleri</li>
+                <li><strong>OneSignal:</strong> Anlık bildirimler (çıkış seçeneği mevcut)</li>
+                <li><strong>Mapbox:</strong> Harita ve konum hizmetleri</li>
+            </ul>
+            <p>
+                Bu hizmetler KVKK uyumlu veri işleme anlaşmalarına sahiptir 
+                ve verilerinizi kendi güvenlik politikalarına uygun olarak işlerler.
+            </p>
+        </section>
+
+        <section>
+            <h2>9. Haklarınız</h2>
+            <p>KVKK kapsamında aşağıdaki haklara sahipsiniz:</p>
+            <ul>
+                <li><strong>Erişim Hakkı:</strong> Saklanan kişisel verilerinizi isteme hakkı</li>
+                <li><strong>Düzeltme Hakkı:</strong> Yanlış veya eksik verileri düzeltme hakkı</li>
+                <li><strong>Silme Hakkı:</strong> "Unutulmak hakkı" - verilerinizi silme talebinde bulunma hakkı</li>
+                <li><strong>Sınırlama Hakkı:</strong> Veri işlemesini sınırlama hakkı</li>
+                <li><strong>Taşınabilirlik Hakkı:</strong> Verilerinizi başka hizmetlere aktarma hakkı</li>
+                <li><strong>İtiraz Hakkı:</strong> Belirli işleme faaliyetlerine itiraz etme hakkı</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>10. İletişim ve Başvuru</h2>
+            <p>Gizlilik, veri hakları veya bu politika hakkında sorularınız için:</p>
+            <div class="highlight">
+                <p><strong>E-posta:</strong> privacy@olty.app</p>
+                <p><strong>Ayarlar Bölümü:</strong> Profil → Ayarlar → Veri ve Gizlilik</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>11. Politika Değişiklikleri</h2>
+            <p>
+                Bu Gizlilik Politikası gerekli olduğunda güncellenebilir. Önemli değişiklikler yapıldığında, 
+                kullanıcılara e-posta yoluyla bildirilir. Değişikliklerin çalışmaya başladığı tarihten 
+                sonra uygulamayı kullanmaya devam etmek, yeni koşulları kabul ettiğiniz anlamına gelir.
+            </p>
+        </section>
+
+        <div class="last-updated">
+            <p><strong>Son Güncelleme:</strong> 7 Nisan 2026</p>
+            <p><strong>Yürürlük Tarihi:</strong> 7 Nisan 2026</p>
+        </div>
+    </div>
+</body>
+</html>

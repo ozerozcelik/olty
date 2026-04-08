@@ -46,7 +46,7 @@ const TournamentListScreen = (): JSX.Element => {
   }, [activeQuery.data, finishedQuery.data, tab]);
 
   return (
-    <View className="flex-1 bg-sand px-4 pt-4">
+    <View className="flex-1 bg-main px-4 pt-4">
       <View className="mb-4 flex-row items-center justify-between gap-3">
         <View>
           <Text className="text-3xl font-semibold text-ink">Turnuvalar</Text>

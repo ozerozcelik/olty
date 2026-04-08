@@ -29,6 +29,7 @@ import { SettingsSection } from '@/components/SettingsSection';
 import { SettingsRow } from '@/components/SettingsRow';
 import { SettingsToggleRow } from '@/components/SettingsToggleRow';
 import { FISHING_TYPE_OPTIONS, TURKEY_CITIES } from '@/lib/constants';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { requestAccountDeletion, signOut, updatePassword, exportUserData } from '@/services/auth.service';
 import { moderateImage } from '@/services/moderation.service';
 import { updateProfile } from '@/services/profiles.service';
@@ -586,7 +587,7 @@ const SettingsScreen = (): JSX.Element => {
             style={styles.accountButton}
           >
             {exportLoading ? (
-              <ActivityIndicator color="#7DD4E8" size="small" />
+              <ActivityIndicator color="#D4FF00" size="small" />
             ) : (
               <Text style={styles.accountButtonText}>Verilerimi İndir (KVKK)</Text>
             )}
@@ -666,14 +667,14 @@ const SettingsScreen = (): JSX.Element => {
 };
 
 const COLORS = {
-  background: '#0B1622',
+  background: SPORT_THEME.bg,
   surface: 'rgba(255,255,255,0.05)',
-  border: 'rgba(255,255,255,0.10)',
-  text: '#F8FAFC',
+  border: SPORT_THEME.border,
+  text: SPORT_THEME.text,
   textMuted: 'rgba(240,247,249,0.45)',
-  accent: '#7DD4E8',
+  accent: SPORT_THEME.active,
   error: '#A6422B',
-  coral: '#FF6B6B',
+  coral: SPORT_THEME.warning,
 };
 
 const styles = StyleSheet.create({

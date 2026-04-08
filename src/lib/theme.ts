@@ -6,33 +6,33 @@
 
 export const T = {
   // Backgrounds — Deeper & richer
-  bg: '#0A1A22',             // main screen - deeper
-  bgCard: '#122A34',         // card background - more visible
-  bgDeep: '#071418',         // deepest background
-  bgInput: 'rgba(45,212,191,0.10)',  // input field bg - more vibrant
-  bgInputActive: 'rgba(45,212,191,0.18)',
+  bg: '#050608',
+  bgCard: '#11141A',
+  bgDeep: '#050608',
+  bgInput: 'rgba(255,255,255,0.04)',
+  bgInputActive: 'rgba(255,255,255,0.08)',
 
   // Glass cards — More visible contrast
-  glass: 'rgba(45,212,191,0.12)',        // more visible glass
-  glassBorder: 'rgba(45,212,191,0.28)',  // stronger border
-  glassBorderActive: '#2DD4BF',
+  glass: 'rgba(255,255,255,0.04)',
+  glassBorder: 'rgba(255,255,255,0.10)',
+  glassBorderActive: '#D4FF00',
 
   // Brand colors — VIBRANT
-  teal: '#2DD4BF',           // bright teal (Tailwind teal-400)
-  tealBright: '#5EEAD4',     // extra bright for highlights
-  tealDim: 'rgba(45,212,191,0.65)',
-  tealGlow: 'rgba(45,212,191,0.20)',    // stronger glow
+  teal: '#D4FF00',
+  tealBright: '#E7FF66',
+  tealDim: 'rgba(212,255,0,0.72)',
+  tealGlow: 'rgba(212,255,0,0.20)',
   
-  coral: '#FF7A45',          // brighter coral/orange
-  coralBright: '#FF9966',    // lighter coral for hover
-  coralDim: 'rgba(255,122,69,0.65)',
-  coralGlass: 'rgba(255,122,69,0.20)',
+  coral: '#FF5500',
+  coralBright: '#FF7D3B',
+  coralDim: 'rgba(255,85,0,0.72)',
+  coralGlass: 'rgba(255,85,0,0.20)',
 
   // Text — Higher contrast
   textPrimary: '#FFFFFF',              // pure white for max contrast
-  textSecondary: 'rgba(255,255,255,0.75)',  // much brighter
-  textTertiary: 'rgba(255,255,255,0.50)',   // still readable
-  textTeal: '#2DD4BF',
+  textSecondary: '#8B92A5',
+  textTertiary: 'rgba(139,146,165,0.72)',
+  textTeal: '#D4FF00',
 
   // Semantic — Brighter & saturated
   green: '#34D399',          // emerald-400

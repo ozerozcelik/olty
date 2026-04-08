@@ -29,6 +29,18 @@ interface CatchCardProps {
   onOpenProfile: (item: CatchFeedItem) => void;
 }
 
+const SPORT = {
+  surface: '#11141A',
+  surfaceSoft: 'rgba(255,255,255,0.04)',
+  border: 'rgba(255,255,255,0.10)',
+  text: '#FFFFFF',
+  textMuted: '#8B92A5',
+  accent: '#D4FF00',
+  accentSoft: 'rgba(212,255,0,0.14)',
+  orange: '#FF5500',
+  orangeSoft: 'rgba(255,85,0,0.18)',
+};
+
 const CatchCardComponent = ({
   item,
   onToggleLike,
@@ -64,13 +76,13 @@ const CatchCardComponent = ({
     <View style={styles.badgesContainer}>
       {item.weight_g ? (
         <View style={styles.dataBadge}>
-          <Ionicons color={T.teal} name="scale-outline" size={12} />
+          <Ionicons color={SPORT.accent} name="scale-outline" size={12} />
           <Text style={styles.badgeText}>{item.weight_g >= 1000 ? `${(item.weight_g / 1000).toFixed(1)} kg` : `${item.weight_g} g`}</Text>
         </View>
       ) : null}
       {item.length_cm ? (
         <View style={styles.dataBadge}>
-          <Ionicons color={T.teal} name="resize-outline" size={12} />
+          <Ionicons color={SPORT.accent} name="resize-outline" size={12} />
           <Text style={styles.badgeText}>{item.length_cm} cm</Text>
         </View>
       ) : null}
@@ -136,7 +148,7 @@ const CatchCardComponent = ({
 
             {/* Gradient Overlay with Catch Data */}
             <LinearGradient
-              colors={['transparent', 'rgba(10,30,38,0.80)', 'rgba(7,24,32,0.95)']}
+              colors={['transparent', 'rgba(17,20,26,0.78)', 'rgba(5,6,8,0.95)']}
               locations={[0, 0.5, 1]}
               pointerEvents="none"
               style={styles.photoOverlay}
@@ -153,7 +165,7 @@ const CatchCardComponent = ({
                 {/* Location */}
                 {locationText ? (
                   <View style={styles.locationRow}>
-                    <Ionicons color={T.textTertiary} name="location-outline" size={13} />
+                    <Ionicons color={SPORT.textMuted} name="location-outline" size={13} />
                     <Text numberOfLines={1} style={styles.locationText}>
                       {locationText}
                     </Text>
@@ -176,7 +188,7 @@ const CatchCardComponent = ({
               {renderDataBadges()}
               {locationText ? (
                 <View style={styles.locationRow}>
-                  <Ionicons color={T.textTertiary} name="location-outline" size={13} />
+                  <Ionicons color={SPORT.textMuted} name="location-outline" size={13} />
                   <Text numberOfLines={1} style={styles.locationText}>
                     {locationText}
                   </Text>
@@ -214,7 +226,7 @@ const CatchCardComponent = ({
             }}
             style={styles.footerAction}
           >
-            <Ionicons color={T.textTertiary} name="chatbubble-outline" size={20} />
+            <Ionicons color={SPORT.textMuted} name="chatbubble-outline" size={20} />
             <Text style={styles.footerText}>{item.comment_count}</Text>
           </TouchableOpacity>
 
@@ -226,7 +238,7 @@ const CatchCardComponent = ({
             }}
             style={styles.footerAction}
           >
-            <Ionicons color={T.textTertiary} name="share-social-outline" size={20} />
+            <Ionicons color={SPORT.textMuted} name="share-social-outline" size={20} />
             <Text style={styles.footerText}>Paylaş</Text>
           </TouchableOpacity>
         </View>
@@ -278,9 +290,9 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 14,
     overflow: 'hidden',
-    backgroundColor: T.glass,
+    backgroundColor: SPORT.surfaceSoft,
     borderWidth: 1,
-    borderColor: T.glassBorder,
+    borderColor: SPORT.border,
     borderRadius: 24,
   },
   header: {
@@ -295,13 +307,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatarRing: {
-    borderColor: T.tealDim,
+    borderColor: SPORT.border,
     borderRadius: 21,
     borderWidth: 1.5,
     padding: 1,
   },
   avatar: {
-    backgroundColor: T.bgCard,
+    backgroundColor: SPORT.surface,
     borderRadius: 20,
     height: 40,
     width: 40,
@@ -311,12 +323,12 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   username: {
-    color: T.textPrimary,
+    color: SPORT.text,
     fontSize: 14,
     fontWeight: '600',
   },
   subtitle: {
-    color: T.textSecondary,
+    color: SPORT.textMuted,
     fontSize: 12,
     marginTop: 2,
   },
@@ -333,18 +345,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: T.bgCard,
+    backgroundColor: SPORT.surface,
   },
   placeholderIcon: {
     fontSize: 44,
   },
   placeholderText: {
-    color: T.textTertiary,
+    color: SPORT.textMuted,
     fontSize: 13,
     marginTop: 8,
   },
   noPhotoContainer: {
-    backgroundColor: T.bgCard,
+    backgroundColor: SPORT.surface,
   },
   photoOverlay: {
     bottom: 0,
@@ -385,7 +397,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   speciesTitle: {
-    color: T.textPrimary,
+    color: SPORT.text,
     fontSize: 20,
     fontWeight: '700',
   },
@@ -396,7 +408,7 @@ const styles = StyleSheet.create({
   },
   dataBadge: {
     alignItems: 'center',
-    backgroundColor: T.tealGlow,
+    backgroundColor: SPORT.accentSoft,
     borderRadius: 999,
     flexDirection: 'row',
     gap: 5,
@@ -404,18 +416,18 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   badgeText: {
-    color: T.teal,
+    color: SPORT.accent,
     fontSize: 12,
     fontWeight: '600',
   },
   dataBadgeAccent: {
-    backgroundColor: T.coralGlass,
+    backgroundColor: SPORT.orangeSoft,
     borderRadius: 999,
     paddingHorizontal: 10,
     paddingVertical: 6,
   },
   badgeTextAccent: {
-    color: T.coral,
+    color: SPORT.orange,
     fontSize: 12,
     fontWeight: '600',
   },
@@ -425,21 +437,21 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   locationText: {
-    color: T.tealDim,
+    color: SPORT.textMuted,
     fontSize: 13,
   },
   notesWrap: {
-    backgroundColor: T.bgDeep,
+    backgroundColor: '#050608',
     paddingHorizontal: 16,
     paddingVertical: 14,
   },
   notesText: {
-    color: T.textSecondary,
+    color: SPORT.textMuted,
     fontSize: 14,
     lineHeight: 21,
   },
   footer: {
-    borderTopColor: T.glassBorder,
+    borderTopColor: SPORT.border,
     borderTopWidth: 1,
     flexDirection: 'row',
     height: 52,
@@ -452,7 +464,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   footerText: {
-    color: T.textTertiary,
+    color: SPORT.textMuted,
     fontSize: 13,
     fontWeight: '600',
   },

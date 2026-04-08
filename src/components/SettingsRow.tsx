@@ -4,9 +4,9 @@ import { TouchableOpacity } from '@/components/TouchableOpacity';
 
 const COLORS = {
   surface: 'rgba(255,255,255,0.05)',
-  text: '#F8FAFC',
-  textMuted: 'rgba(240,247,249,0.45)',
-  accent: '#7DD4E8',
+  text: '#FFFFFF',
+  textMuted: 'rgba(139,146,165,0.72)',
+  accent: '#D4FF00',
 };
 
 interface SettingsRowProps {

@@ -58,7 +58,7 @@ const LocationListItem = ({
         <View className="flex-row items-start justify-between gap-3">
           <View className="flex-1">
             <View className="flex-row items-center gap-2">
-              <Ionicons color="#7DD4E8" name={typeIcon(item.type)} size={16} />
+              <Ionicons color="#D4FF00" name={typeIcon(item.type)} size={16} />
               <Text className="flex-1 text-base font-semibold text-ink">{item.name}</Text>
             </View>
             <Text className="mt-2 text-sm text-white/70">
@@ -137,7 +137,7 @@ const LocationsIndexScreen = (): JSX.Element => {
     <>
       <Stack.Screen options={{ title: 'Yer İmlerim' }} />
       <View
-        className="flex-1 bg-sand px-4"
+        className="flex-1 bg-main px-4"
         style={{ paddingTop: Math.max(insets.top, 16), paddingBottom: 24 }}
       >
         <View className="mb-4 flex-row items-center gap-3 rounded-[24px] border border-white/10 bg-white/10 px-4 py-3">
@@ -160,7 +160,7 @@ const LocationsIndexScreen = (): JSX.Element => {
 
         {query.isLoading ? (
           <View className="mt-10 items-center gap-3">
-            <ActivityIndicator color="#7DD4E8" />
+            <ActivityIndicator color="#D4FF00" />
             <Text className="text-sm text-white/70">Yer imleri yükleniyor...</Text>
           </View>
         ) : (

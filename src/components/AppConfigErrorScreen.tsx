@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 
+import { SPORT_THEME } from '@/lib/sport-theme';
+
 type AppConfigErrorScreenProps = {
   message: string;
 };
@@ -24,10 +26,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 24,
-    backgroundColor: '#0B1622',
+    backgroundColor: SPORT_THEME.bg,
   },
   eyebrow: {
-    color: '#7DD4E8',
+    color: SPORT_THEME.active,
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 0.6,
@@ -35,20 +37,20 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 12,
-    color: '#F8FAFC',
+    color: SPORT_THEME.text,
     fontSize: 28,
     fontWeight: '700',
     lineHeight: 34,
   },
   message: {
     marginTop: 14,
-    color: '#F8FAFC',
+    color: SPORT_THEME.text,
     fontSize: 15,
     lineHeight: 22,
   },
   hint: {
     marginTop: 14,
-    color: 'rgba(248,250,252,0.72)',
+    color: SPORT_THEME.textMuted,
     fontSize: 14,
     lineHeight: 21,
   },

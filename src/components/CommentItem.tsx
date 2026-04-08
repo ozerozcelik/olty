@@ -8,13 +8,13 @@ import type { CommentListItem } from '@/types/app.types';
 import { formatTimeAgo } from '@/utils/date';
 
 const COLORS = {
-  surface: 'rgba(255,255,255,0.10)',
+  surface: 'rgba(255,255,255,0.04)',
   border: 'rgba(255,255,255,0.10)',
-  text: '#F8FAFC',
-  textMuted: 'rgba(255,255,255,0.70)',
-  textFaint: 'rgba(255,255,255,0.45)',
-  accent: '#7DD4E8',
-  avatarBg: '#0F2C35',
+  text: '#FFFFFF',
+  textMuted: '#8B92A5',
+  textFaint: 'rgba(139,146,165,0.72)',
+  accent: '#D4FF00',
+  avatarBg: '#0B0E14',
 };
 
 interface CommentItemProps {

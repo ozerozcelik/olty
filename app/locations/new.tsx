@@ -197,7 +197,7 @@ const NewLocationScreen = (): JSX.Element => {
     <>
       <Stack.Screen options={{ title: 'Yer İmi Ekle' }} />
       <ScrollView
-        className="flex-1 bg-sand px-4"
+        className="flex-1 bg-main px-4"
         contentContainerStyle={{
           gap: 18,
           paddingBottom: 28,
@@ -214,7 +214,7 @@ const NewLocationScreen = (): JSX.Element => {
           />
           <View pointerEvents="none" style={styles.crosshairWrap}>
             <View style={styles.crosshair}>
-              <Text style={{ color: '#7DD4E8', fontSize: 20 }}>+</Text>
+              <Text style={{ color: '#D4FF00', fontSize: 20 }}>+</Text>
             </View>
           </View>
         </View>
