@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   cardSubtitle: {
-    color: SPORT_THEME.textMuted,
+    color: 'rgba(255,255,255,0.82)',
     fontSize: 13,
     marginTop: 4,
   },
@@ -407,9 +407,12 @@ const styles = StyleSheet.create({
   glassSegmentContainer: {
     borderRadius: 999,
     flex: 1,
+    backgroundColor: SPORT_THEME.surface,
+    borderWidth: 1,
+    borderColor: SPORT_THEME.border,
   },
   segmentText: {
-    color: '#D6DCE8',
+    color: SPORT_THEME.text,
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
@@ -437,13 +440,16 @@ const styles = StyleSheet.create({
   periodButtonContainer: {
     borderRadius: 999,
     flex: 1,
+    backgroundColor: SPORT_THEME.surface,
+    borderWidth: 1,
+    borderColor: SPORT_THEME.border,
   },
   periodButtonActive: {
     backgroundColor: SPORT_THEME.active,
     borderColor: SPORT_THEME.active,
   },
   periodButtonText: {
-    color: '#D6DCE8',
+    color: SPORT_THEME.text,
     fontSize: 13,
     fontWeight: '600',
     textAlign: 'center',

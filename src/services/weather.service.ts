@@ -1,5 +1,6 @@
 import * as Location from 'expo-location';
 
+import { publicEnv } from '@/lib/env';
 import { captureError } from '@/lib/sentry';
 import type {
   BestFishingTime,
@@ -73,6 +74,7 @@ interface MarineApiResponse {
 const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast';
 const MARINE_URL = 'https://marine-api.open-meteo.com/v1/marine';
 const OPEN_TOPO_DATA_URL = 'https://api.opentopodata.org/v1';
+const STORMGLASS_TIDE_URL = 'https://api.stormglass.io/v2/tide/extremes/point';
 const BATHYMETRY_TIMEOUT_MS = 3500;
 const FORECAST_DAYS = 7;
 
@@ -1048,7 +1050,7 @@ const calculateGoldenHour = (
 const formatTimeFromDate = (date: Date): string =>
   date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
 
-const calculateTideData = (
+const calculateEstimatedTideData = (
   latitude: number,
   moonPhase: { phase: number },
 ): TideData | null => {
@@ -1086,6 +1088,148 @@ const calculateTideData = (
     nextEvent,
     events,
   };
+};
+
+interface StormglassTideResponse {
+  data?: Array<{
+    height?: number;
+    time?: string;
+    type?: 'high' | 'low';
+  }>;
+}
+
+interface TideTimelineEvent {
+  date: Date;
+  event: TideEvent;
+}
+
+const buildStormglassTideUrl = (latitude: number, longitude: number): string => {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(start);
+  end.setDate(end.getDate() + 2);
+
+  const params = new URLSearchParams({
+    lat: latitude.toString(),
+    lng: longitude.toString(),
+    start: start.toISOString(),
+    end: end.toISOString(),
+  });
+
+  return `${STORMGLASS_TIDE_URL}?${params.toString()}`;
+};
+
+const parseStormglassEvents = (data: StormglassTideResponse): TideTimelineEvent[] => {
+  const rawEvents = data.data ?? [];
+
+  return rawEvents
+    .flatMap((item) => {
+      if (!item.time || (item.type !== 'high' && item.type !== 'low')) {
+        return [];
+      }
+
+      const parsedDate = new Date(item.time);
+      if (Number.isNaN(parsedDate.getTime())) {
+        return [];
+      }
+
+      const height = typeof item.height === 'number' && Number.isFinite(item.height)
+        ? item.height
+        : 0;
+
+      return [{
+        date: parsedDate,
+        event: {
+          time: parsedDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
+          type: item.type,
+          height,
+        },
+      } satisfies TideTimelineEvent];
+    })
+    .sort((left, right) => left.date.getTime() - right.date.getTime());
+};
+
+const deriveCurrentStateFromEvents = (
+  now: Date,
+  rawEvents: StormglassTideResponse['data'] | undefined,
+): TideData['currentState'] => {
+  const timeline = (rawEvents ?? [])
+    .flatMap((item) => {
+      if (!item.time || (item.type !== 'high' && item.type !== 'low')) {
+        return [];
+      }
+
+      const parsedDate = new Date(item.time);
+      if (Number.isNaN(parsedDate.getTime())) {
+        return [];
+      }
+
+      return [{ time: parsedDate, type: item.type }];
+    })
+    .sort((left, right) => left.time.getTime() - right.time.getTime());
+
+  if (!timeline.length) {
+    return 'slack';
+  }
+
+  const previous = [...timeline].reverse().find((item) => item.time.getTime() <= now.getTime()) ?? null;
+  const next = timeline.find((item) => item.time.getTime() > now.getTime()) ?? null;
+
+  if (!previous || !next) {
+    return 'slack';
+  }
+
+  if (previous.type === 'low' && next.type === 'high') {
+    return 'rising';
+  }
+
+  if (previous.type === 'high' && next.type === 'low') {
+    return 'falling';
+  }
+
+  return 'slack';
+};
+
+const fetchRealTideData = async (
+  latitude: number,
+  longitude: number,
+): Promise<TideData | null> => {
+  const apiKey = publicEnv.stormglassApiKey;
+
+  if (!apiKey) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(buildStormglassTideUrl(latitude, longitude), {
+      headers: {
+        Authorization: apiKey,
+      },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const payload = (await response.json()) as StormglassTideResponse;
+    const timeline = parseStormglassEvents(payload);
+    const events = timeline.map((item) => item.event);
+
+    if (!timeline.length) {
+      return null;
+    }
+
+    const currentState = deriveCurrentStateFromEvents(new Date(), payload.data);
+    const nextEvent = timeline.find((item) => item.date.getTime() > Date.now())?.event ?? events[0] ?? null;
+
+    return {
+      currentState,
+      nextEvent,
+      events,
+    };
+  } catch {
+    return null;
+  }
 };
 
 const getSpeciesRecommendations = (
@@ -1278,6 +1422,7 @@ const buildForecastDays = (
   marine: MarineApiResponse | null,
   currentWeather: WeatherData,
   hourlyWaveData: HourlyWaveDatum[],
+  realTideData: TideData | null,
 ): WeatherForecastDay[] => {
   const dayKeys = forecast.daily?.time ?? [];
   const currentHourlyWave = getCurrentHourlyWave(hourlyWaveData);
@@ -1428,7 +1573,10 @@ const buildForecastDays = (
     };
 
     const scoreResult = calculateFishingScore(snapshot);
-    const tideData = calculateTideData(currentWeather.latitude, snapshot.moonPhase);
+    const tideData =
+      index === 0 && realTideData
+        ? realTideData
+        : calculateEstimatedTideData(currentWeather.latitude, snapshot.moonPhase);
     const hourlyForDay = getHourlyForecastDataForDay(
       forecast,
       hourlyWaveData,
@@ -1518,11 +1666,12 @@ export const getWeatherAndFishingConditions = async (
   longitude: number,
 ): Promise<WeatherData> => {
   try {
-    const [forecast, marineData, seaDepthResult, locationLabel] = await Promise.all([
+    const [forecast, marineData, seaDepthResult, locationLabel, realTideData] = await Promise.all([
       fetchJson<ForecastApiResponse>(buildForecastUrl(latitude, longitude)),
       fetchMarineDataWithFallback(latitude, longitude),
       fetchSeaDepth(latitude, longitude),
       reverseGeocode(latitude, longitude),
+      fetchRealTideData(latitude, longitude),
     ]);
 
     if (__DEV__) {
@@ -1629,9 +1778,9 @@ export const getWeatherAndFishingConditions = async (
       fishingScore: fishingScore.score,
       fishingScoreLabel: fishingScore.label,
       fishingScoreFactors: fishingScore.factors,
-    }, hourlyWaveData);
+    }, hourlyWaveData, realTideData);
 
-    const tideData = calculateTideData(latitude, moonPhase);
+    const tideData = realTideData ?? calculateEstimatedTideData(latitude, moonPhase);
     const bestTimes = calculateBestTimes(
       baseData.sunrise,
       baseData.sunset,

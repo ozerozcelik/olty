@@ -28,9 +28,9 @@ const config: ExpoConfig = {
   android: {
     package: 'com.olty.app',
     adaptiveIcon: {
-      foregroundImage: './assets/android-icon-foreground.png',
+      foregroundImage: './assets/yenilogo.png',
       backgroundColor: '#f6f3ea',
-      monochromeImage: './assets/android-icon-monochrome.png',
+      monochromeImage: './assets/yenilogo.png',
     },
     permissions: ['ACCESS_COARSE_LOCATION', 'ACCESS_FINE_LOCATION'],
     intentFilters: [
@@ -69,6 +69,7 @@ const config: ExpoConfig = {
     cfR2PublicUrl: process.env.EXPO_PUBLIC_CF_R2_PUBLIC_URL,
     mapboxAccessToken: process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN,
     sentryDsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+    stormglassApiKey: process.env.EXPO_PUBLIC_STORMGLASS_API_KEY,
     eas: {
       projectId: '3bfd9faf-72e4-4cc7-9e22-0c23d7178805',
     },

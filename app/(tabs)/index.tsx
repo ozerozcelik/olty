@@ -130,7 +130,7 @@ const FeedScreen = (): JSX.Element => {
   }, [updateFeedCache, unlikeMutation, likeMutation]);
 
   const updatePostCache = useCallback((target: PostCardItem): void => {
-    queryClient.setQueryData(['posts'], (current: typeof postsQuery.data) => {
+    queryClient.setQueryData(['feed-posts'], (current: typeof postsQuery.data) => {
       if (!current) {
         return current;
       }
@@ -187,6 +187,28 @@ const FeedScreen = (): JSX.Element => {
   const handleCloseComments = useCallback(() => {
     setSelectedCatchId(null);
   }, []);
+
+  const handleCommentCountChange = useCallback((catchId: string, delta: number) => {
+    queryClient.setQueryData(['feed-catches'], (current: typeof query.data) => {
+      if (!current) {
+        return current;
+      }
+
+      return {
+        ...current,
+        pages: current.pages.map((page) =>
+          page.map((item) =>
+            item.id === catchId
+              ? {
+                  ...item,
+                  comment_count: Math.max(0, item.comment_count + delta),
+                }
+              : item,
+          ),
+        ),
+      };
+    });
+  }, [queryClient, query.data]);
 
   // FlatList performance: estimated item height for better scroll performance
   const ESTIMATED_CATCH_CARD_HEIGHT = 420; // approximate height of CatchCard
@@ -304,6 +326,7 @@ const FeedScreen = (): JSX.Element => {
       <CommentsSheet
         catchId={selectedCatchId}
         onClose={handleCloseComments}
+        onCommentCountChange={handleCommentCountChange}
         visible={selectedCatchId !== null}
       />
     </>

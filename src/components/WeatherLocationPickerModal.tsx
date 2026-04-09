@@ -13,6 +13,11 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 import { SPORT_THEME } from '@/lib/sport-theme';
+import MapView, {
+  Marker,
+  PROVIDER_DEFAULT,
+  type MapPressEvent,
+} from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
@@ -57,13 +62,27 @@ export const WeatherLocationPickerModal = ({
   const [pendingLocation, setPendingLocation] =
     useState<WeatherLocationSelection | null>(initialLocation);
   const [isBusy, setIsBusy] = useState<boolean>(false);
+  const [mapReady, setMapReady] = useState<boolean>(false);
 
   useEffect(() => {
     if (visible) {
       setPendingLocation(initialLocation);
       setSearchValue(initialLocation?.label ?? '');
+      const timer = setTimeout(() => setMapReady(true), 120);
+      return () => clearTimeout(timer);
+    } else {
+      setMapReady(false);
     }
   }, [initialLocation, visible]);
+
+  const handleMapPress = (event: MapPressEvent): void => {
+    const coordinate = event.nativeEvent.coordinate;
+    setPendingLocation({
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude,
+      label: pendingLocation?.label ?? 'Seçilen Konum',
+    });
+  };
 
   const handleSearch = async (): Promise<void> => {
     const trimmedValue = searchValue.trim();
@@ -179,13 +198,28 @@ export const WeatherLocationPickerModal = ({
           </View>
 
           <View style={styles.mapContainer}>
-            <View style={styles.mapLoading}>
-              <Text style={styles.mapEmoji}>📍</Text>
-              <Text style={styles.mapLoadingText}>Harita seçimi bu ekranda basitleştirildi.</Text>
-              <Text style={styles.mapHelperText}>
-                Arama yap veya mevcut konumunu kullan. Konum bilgisi aşağıda görünecek.
-              </Text>
-            </View>
+            {mapReady ? (
+              <MapView
+                initialRegion={mapRegion}
+                onPress={handleMapPress}
+                provider={PROVIDER_DEFAULT}
+                style={styles.map}
+              >
+                {pendingLocation ? (
+                  <Marker
+                    coordinate={{
+                      latitude: pendingLocation.latitude,
+                      longitude: pendingLocation.longitude,
+                    }}
+                  />
+                ) : null}
+              </MapView>
+            ) : (
+              <View style={styles.mapLoading}>
+                <ActivityIndicator color={COLORS.accent} size="small" />
+                <Text style={styles.mapLoadingText}>Harita yükleniyor...</Text>
+              </View>
+            )}
           </View>
 
           <View style={styles.footer}>
@@ -314,18 +348,9 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingHorizontal: 24,
   },
-  mapEmoji: {
-    fontSize: 34,
-  },
   mapLoadingText: {
     fontSize: 14,
     color: COLORS.textMuted,
-    textAlign: 'center',
-  },
-  mapHelperText: {
-    fontSize: 13,
-    lineHeight: 20,
-    color: COLORS.textLabel,
     textAlign: 'center',
   },
   footer: {

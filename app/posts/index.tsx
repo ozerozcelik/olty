@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PostCard } from '@/components/PostCard';
 import { TouchableOpacity } from '@/components/TouchableOpacity';
 import { POST_TYPE_OPTIONS } from '@/lib/posts';
+import { SPORT_THEME } from '@/lib/sport-theme';
 import { getPosts, likePost, unlikePost } from '@/services/posts.service';
 import type { PostCardItem, PostType } from '@/types/app.types';
 
@@ -77,14 +78,14 @@ const PostsIndexScreen = (): JSX.Element => {
     <View style={[styles.container, { paddingTop: Math.max(insets.top, 16) }]}>
       <View style={styles.header}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => router.back()} style={styles.iconButton}>
-          <Ionicons color="#F0F7F9" name="chevron-back" size={20} />
+          <Ionicons color={SPORT_THEME.text} name="chevron-back" size={20} />
         </TouchableOpacity>
         <View style={styles.headerTextWrap}>
           <Text style={styles.title}>Yazılar</Text>
           <Text style={styles.subtitle}>Taktikler, hikayeler ve spot notları</Text>
         </View>
         <TouchableOpacity activeOpacity={0.8} onPress={() => router.push(POST_NEW_ROUTE)} style={styles.newButton}>
-          <Ionicons color="#0A2028" name="add" size={18} />
+          <Ionicons color={SPORT_THEME.bg} name="add" size={18} />
         </TouchableOpacity>
       </View>
 
@@ -126,7 +127,7 @@ const PostsIndexScreen = (): JSX.Element => {
           <RefreshControl
             onRefresh={() => void postsQuery.refetch()}
             refreshing={postsQuery.isRefetching}
-            tintColor="#D4FF00"
+            tintColor={SPORT_THEME.active}
           />
         }
         renderItem={({ item }) => (
@@ -146,7 +147,7 @@ const PostsIndexScreen = (): JSX.Element => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0A2028',
+    backgroundColor: SPORT_THEME.bg,
     flex: 1,
     paddingHorizontal: 16,
   },
@@ -158,8 +159,8 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.07)',
-    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 20,
     borderWidth: 1,
     height: 40,
@@ -170,18 +171,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: '#F0F7F9',
+    color: SPORT_THEME.text,
     fontSize: 28,
     fontWeight: '700',
   },
   subtitle: {
-    color: 'rgba(240,247,249,0.65)',
+    color: SPORT_THEME.textMuted,
     fontSize: 13,
     marginTop: 2,
   },
   newButton: {
     alignItems: 'center',
-    backgroundColor: '#D4FF00',
+    backgroundColor: SPORT_THEME.active,
     borderRadius: 20,
     height: 40,
     justifyContent: 'center',
@@ -197,27 +198,27 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   filterPill: {
-    backgroundColor: 'rgba(255,255,255,0.07)',
-    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: SPORT_THEME.surface,
+    borderColor: SPORT_THEME.border,
     borderRadius: 999,
     borderWidth: 1,
     paddingHorizontal: 14,
     paddingVertical: 9,
   },
   filterPillActive: {
-    backgroundColor: '#D4FF00',
-    borderColor: '#D4FF00',
+    backgroundColor: SPORT_THEME.active,
+    borderColor: SPORT_THEME.active,
   },
   filterPillText: {
-    color: 'rgba(240,247,249,0.65)',
+    color: SPORT_THEME.textMuted,
     fontSize: 13,
     fontWeight: '600',
   },
   filterPillTextActive: {
-    color: '#0A2028',
+    color: SPORT_THEME.bg,
   },
   emptyText: {
-    color: 'rgba(240,247,249,0.65)',
+    color: SPORT_THEME.textMuted,
     fontSize: 15,
     paddingTop: 40,
     textAlign: 'center',

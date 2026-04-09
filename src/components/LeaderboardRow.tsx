@@ -23,7 +23,7 @@ const getRankClassName = (rank: number): string => {
     case 3:
       return 'bg-[#B46A43] text-white';
     default:
-      return 'bg-sea/10 text-sea';
+      return 'bg-white/10 text-white';
   }
 };
 
@@ -54,7 +54,7 @@ export const LeaderboardRow = ({
         <Text className="text-sm text-[rgba(240,247,249,0.65)]">{item.city ?? 'Şehir bilgisi yok'} • Lv {item.level}</Text>
       </View>
       <View className="items-end">
-        <Text className="text-lg font-semibold text-sea">{item.value}</Text>
+        <Text className="text-lg font-semibold text-[#D4FF00]">{item.value}</Text>
         <Text className="text-xs text-[rgba(240,247,249,0.55)]">{metricLabel}</Text>
       </View>
     </TouchableOpacity>

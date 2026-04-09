@@ -30,12 +30,14 @@ interface CommentsSheetProps {
   catchId: string | null;
   visible: boolean;
   onClose: () => void;
+  onCommentCountChange?: (catchId: string, delta: number) => void;
 }
 
 export const CommentsSheet = ({
   catchId,
   visible,
   onClose,
+  onCommentCountChange,
 }: CommentsSheetProps): JSX.Element => {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -100,6 +102,8 @@ export const CommentsSheet = ({
 
     setCommentBody('');
 
+    onCommentCountChange?.(catchId, 1);
+
     const optimisticComment: CommentListItem = {
       id: `temp-${Date.now()}`,
       catch_id: catchId,
@@ -130,6 +134,7 @@ export const CommentsSheet = ({
       queryClient.setQueryData(['sheet-comments', catchId], (current: CommentListItem[] | undefined) =>
         (current ?? []).filter((item) => item.id !== optimisticComment.id),
       );
+      onCommentCountChange?.(catchId, -1);
     }
   };
 

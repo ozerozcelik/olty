@@ -8,6 +8,7 @@ const values = {
   cfR2PublicUrl: clean(process.env.EXPO_PUBLIC_CF_R2_PUBLIC_URL),
   mapboxAccessToken: clean(process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN),
   sentryDsn: clean(process.env.EXPO_PUBLIC_SENTRY_DSN),
+  stormglassApiKey: clean(process.env.EXPO_PUBLIC_STORMGLASS_API_KEY),
 } as const;
 
 const missingRequired = [

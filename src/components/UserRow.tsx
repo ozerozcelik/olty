@@ -89,19 +89,19 @@ export const UserRow = ({
         </View>
       </TouchableOpacity>
 
-      <View className="mr-2 flex-row items-center gap-2 rounded-full bg-sea/10 px-3 py-1.5">
+      <View className="mr-2 flex-row items-center gap-2 rounded-full bg-white/10 px-3 py-1.5">
         <View className={`h-2.5 w-2.5 rounded-full ${getLevelDotClassName(profile.level)}`} />
-        <Text className="text-xs font-semibold text-sea">{levelMeta.name}</Text>
+        <Text className="text-xs font-semibold text-white">{levelMeta.name}</Text>
       </View>
 
       {!showFollowButton ? null : (
         <TouchableOpacity
           activeOpacity={0.8}
-          className={`rounded-full px-4 py-2 ${following ? 'border border-white/10 bg-[rgba(255,255,255,0.07)]' : 'bg-sea'}`}
+          className={`rounded-full px-4 py-2 ${following ? 'border border-white/10 bg-[rgba(255,255,255,0.07)]' : 'bg-coral'}`}
           disabled={followMutation.isPending || unfollowMutation.isPending}
           onPress={() => void handleToggleFollow()}
         >
-          <Text className={`text-sm font-semibold ${following ? 'text-[rgba(240,247,249,0.65)]' : 'text-[#0A2028]'}`}>
+          <Text className={`text-sm font-semibold ${following ? 'text-[rgba(240,247,249,0.65)]' : 'text-white'}`}>
             {following ? 'Takipten Cik' : 'Takip Et'}
           </Text>
         </TouchableOpacity>

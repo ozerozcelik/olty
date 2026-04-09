@@ -173,6 +173,11 @@ const isGoldenHour = (forecastDay: WeatherForecastDay): boolean => {
   return forecastDay.goldenHour?.isActive ?? false;
 };
 
+const getHourPart = (value: string): number => {
+  const parts = value.split(':');
+  return Number(parts[0] ?? '0');
+};
+
 // ============================================
 // SUB-COMPONENTS
 // ============================================
@@ -628,17 +633,32 @@ export const WeatherWidgetCompact = (): JSX.Element => {
   const goldenHourActive = isGoldenHour(displayForecastDay);
   const tideData = displayForecastDay.tideData;
   const bestTimes = displayForecastDay.bestTimes ?? [];
-  const chartSamples = hourlyTimelineEntries.slice(0, 6);
-  const chartTemps = chartSamples.map((item) => item.temperature);
-  const chartMaxTemp = Math.max(...chartTemps, 1);
-  const chartMinTemp = Math.min(...chartTemps, 0);
+  const chartSamples = hourlyTimelineEntries.slice(0, 8);
+  const waveSamples = chartSamples.map((item) => Math.max(0, item.waveHeight ?? 0));
+  const hourlyScoreSamples = chartSamples.map((item) =>
+    calculateFishingScore({
+      pressure: item.pressure,
+      windSpeed: item.windSpeed,
+      windDirection: item.windDirection,
+      moonPhase: displayForecastDay.moonPhase,
+      seaTemp: displayForecastDay.seaTemp,
+      sunrise: displayForecastDay.sunrise,
+      sunset: displayForecastDay.sunset,
+      weatherCode: item.weatherCode,
+      referenceTime: new Date(item.time),
+    }).score,
+  );
+  const chartMaxWave = Math.max(...waveSamples, 0.2);
+  const chartMaxScore = Math.max(...hourlyScoreSamples, 10);
+  const chartMinScore = Math.min(...hourlyScoreSamples, 1);
   const chartHeight = 110;
   const chartWidth = 308;
-  const yRange = Math.max(1, chartMaxTemp - chartMinTemp);
+  const scoreRange = Math.max(1, chartMaxScore - chartMinScore);
 
   const chartPoints = chartSamples.map((item, index) => {
+    const score = hourlyScoreSamples[index] ?? 1;
     const x = (index * (chartWidth - 16)) / Math.max(1, chartSamples.length - 1) + 8;
-    const y = 10 + (1 - (item.temperature - chartMinTemp) / yRange) * (chartHeight - 22);
+    const y = 10 + (1 - (score - chartMinScore) / scoreRange) * (chartHeight - 22);
 
     return { x, y, item };
   });
@@ -680,6 +700,14 @@ export const WeatherWidgetCompact = (): JSX.Element => {
             <Text style={styles.heroSubline}>
               En yüksek {Math.round(displayForecastDay.temperature + 3)}°  En düşük {Math.round(displayForecastDay.temperature - 4)}°
             </Text>
+            <TouchableOpacity
+              activeOpacity={0.85}
+              onPress={() => setDetailsVisible(true)}
+              style={[styles.heroScorePill, { backgroundColor: getScoreColor(activeFishingScore.score) }]}
+            >
+              <Text style={styles.heroScoreValue}>🎣 {activeFishingScore.score}</Text>
+              <Text style={styles.heroScoreLabel}>{activeFishingScore.label}</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.heroRight}>
             <Text style={styles.heroTemp}>{Math.round(displayedTemperature)}°C</Text>
@@ -687,11 +715,12 @@ export const WeatherWidgetCompact = (): JSX.Element => {
         </View>
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Zamana Göre Koşullar</Text>
+          <Text style={styles.sectionTitle}>Dalga ve Balık Skoru Grafiği</Text>
+          <Text style={styles.chartSubtitle}>Çubuk: dalga yüksekliği  Çizgi: saatlik balık skoru</Text>
           <View style={styles.legendRow}>
-            <Text style={styles.legendItem}>● Gelgit</Text>
-            <Text style={[styles.legendItem, styles.legendSafe]}>● Uygun Dalga</Text>
-            <Text style={[styles.legendItem, styles.legendHigh]}>● Yüksek Dalga</Text>
+            <Text style={[styles.legendItem, styles.legendSafe]}>● Güvenli dalga</Text>
+            <Text style={[styles.legendItem, styles.legendHigh]}>● Yüksek dalga</Text>
+            <Text style={styles.legendItem}>⟍ Balık skoru</Text>
           </View>
         </View>
 
@@ -704,17 +733,19 @@ export const WeatherWidgetCompact = (): JSX.Element => {
 
           <View style={styles.chartBarsRow}>
             {chartSamples.map((sample) => {
-              const rain = sample.precipitationProbability ?? 0;
               const wave = sample.waveHeight ?? 0;
-              const barHeight = Math.max(26, (rain / 100) * 96);
+              const barHeight = Math.max(14, (Math.max(0, wave) / chartMaxWave) * 96);
               const barColor = wave >= 1.5
                 ? 'rgba(255,85,0,0.28)'
                 : wave >= 0.8
                   ? 'rgba(120,170,255,0.20)'
                   : 'rgba(212,255,0,0.24)';
+              const sampleHour = getHourPart(formatHour24(sample.time));
+              const hasTideEvent = tideData?.events?.some((event) => getHourPart(event.time) === sampleHour) ?? false;
 
               return (
                 <View key={sample.time} style={styles.chartBarCol}>
+                  {hasTideEvent ? <Text style={styles.tideEventMark}>🌊</Text> : <View style={styles.tideEventSpacer} />}
                   <View style={[styles.chartBar, { backgroundColor: barColor, height: barHeight }]} />
                   <Text style={styles.chartTime}>{formatHour24(sample.time)}</Text>
                 </View>
@@ -834,14 +865,6 @@ export const WeatherWidgetCompact = (): JSX.Element => {
           ) : null}
         </View>
 
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => setDetailsVisible(true)}
-          style={styles.detailsBtn}
-        >
-          <Ionicons color={COLORS.secondary} name="information-circle-outline" size={16} />
-          <Text style={styles.detailsBtnText}>Detayları Gör</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Modals */}
@@ -917,6 +940,26 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 6,
   },
+  heroScorePill: {
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    borderRadius: 999,
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  heroScoreValue: {
+    color: '#050608',
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  heroScoreLabel: {
+    color: '#050608',
+    fontSize: 12,
+    fontWeight: '700',
+  },
   heroRight: {
     alignItems: 'flex-end',
   },
@@ -933,6 +976,11 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     fontSize: 13,
     fontWeight: '700',
+  },
+  chartSubtitle: {
+    color: COLORS.textSecondary,
+    fontSize: 11,
+    marginTop: 4,
   },
   legendRow: {
     flexDirection: 'row',
@@ -982,6 +1030,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'flex-end',
+  },
+  tideEventMark: {
+    fontSize: 12,
+    marginBottom: 2,
+  },
+  tideEventSpacer: {
+    height: 16,
   },
   chartBar: {
     borderRadius: 4,
@@ -1296,21 +1351,6 @@ const styles = StyleSheet.create({
   infoChipTextMuted: {
     color: COLORS.textSecondary,
     fontSize: 11,
-    fontWeight: '600',
-  },
-
-  // Details Button
-  detailsBtn: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    flexDirection: 'row',
-    gap: 4,
-    marginTop: 10,
-    paddingVertical: 4,
-  },
-  detailsBtnText: {
-    color: COLORS.secondary,
-    fontSize: 12,
     fontWeight: '600',
   },
 
