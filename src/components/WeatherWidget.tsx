@@ -29,6 +29,22 @@ import type {
   TideData,
   WeatherForecastDay,
 } from '@/types/app.types';
+import {
+  formatCompact as formatCompactUtil,
+  formatWindSpeed as formatWindSpeedUtil,
+  getDefaultHourlyTime,
+  getHourlyDayLabel,
+  getHourlyEntriesForDay,
+  getHourlyIndexFromScroll as getHourlyIndexFromScrollUtil,
+  getHourlyLabel,
+  getHourlyTimelineEntries,
+  getMaxHourlyOffset as getMaxHourlyOffsetUtil,
+  getPressureTrendArrow,
+  getScoreTone as getScoreToneUtil,
+  getWeatherEmoji,
+  getWeatherLabel,
+  getWindDirectionLabelLong as getWindDirectionLabel,
+} from '@/utils/weather';
 
 // Using centralized theme
 const COLORS = {
@@ -74,11 +90,6 @@ interface HourlyStripItemProps {
   item: HourlyForecastDatum;
   isNow: boolean;
   isSelected: boolean;
-}
-
-interface ScoreTone {
-  numberColor: string;
-  pillColor: string;
 }
 
 interface TideInfoProps {
@@ -195,134 +206,9 @@ const TomorrowTrendBadge = ({ trend }: TomorrowTrendProps): React.ReactElement |
   );
 };
 
-const getScoreColor = (score: number): string => {
-  if (score >= 8) return COLORS.green;
-  if (score >= 5) return COLORS.gold;
-  return COLORS.red;
-};
+const SCORE_COLORS = { green: COLORS.green, gold: COLORS.gold, red: COLORS.red, secondary: COLORS.secondary };
 
-const getWeatherEmoji = (code: number): string => {
-  if (code === 0) {
-    return '☀️';
-  }
-
-  if (code >= 1 && code <= 3) {
-    return '⛅';
-  }
-
-  if (code >= 45 && code <= 48) {
-    return '🌫️';
-  }
-
-  if (code >= 51 && code <= 67) {
-    return '🌧️';
-  }
-
-  if (code >= 71 && code <= 77) {
-    return '❄️';
-  }
-
-  if (code >= 80 && code <= 82) {
-    return '🌦️';
-  }
-
-  if (code >= 95 && code <= 99) {
-    return '⛈️';
-  }
-
-  return '🌤️';
-};
-
-const getWeatherLabel = (code: number): string => {
-  if (code === 0) {
-    return 'Açık';
-  }
-
-  if (code >= 1 && code <= 3) {
-    return 'Parçalı bulutlu';
-  }
-
-  if (code >= 45 && code <= 48) {
-    return 'Sisli';
-  }
-
-  if (code >= 51 && code <= 67) {
-    return 'Yağmurlu';
-  }
-
-  if (code >= 71 && code <= 77) {
-    return 'Karlı';
-  }
-
-  if (code >= 80 && code <= 82) {
-    return 'Sağanak';
-  }
-
-  if (code >= 95 && code <= 99) {
-    return 'Fırtınalı';
-  }
-
-  return 'Değişken';
-};
-
-const getWindDirectionLabel = (degrees: number): string => {
-  const dirs = ['Kuzey', 'KD', 'Doğu', 'GD', 'Güney', 'GB', 'Batı', 'KB'];
-  return dirs[Math.round(degrees / 45) % 8] ?? 'Kuzey';
-};
-
-const formatCompact = (value: number): string => {
-  const rounded = Number(value.toFixed(1));
-  return Number.isInteger(rounded) ? rounded.toFixed(0) : rounded.toFixed(1);
-};
-
-const formatWindSpeed = (
-  value: number,
-  unit: 'kmh' | 'kt',
-): string => {
-  if (unit === 'kt') {
-    return `${formatCompact(value / 1.852)} kt`;
-  }
-
-  return `${formatCompact(value)} km/sa`;
-};
-
-const getPressureTrendArrow = (
-  trend: WeatherForecastDay['pressureTrend'],
-): string => {
-  if (trend === 'rising') {
-    return '↑';
-  }
-
-  if (trend === 'falling') {
-    return '↓';
-  }
-
-  if (trend === 'stable') {
-    return '→';
-  }
-
-  return '';
-};
-
-const getScoreTone = (score: number): ScoreTone => {
-  if (score >= 8.5) {
-    return { numberColor: COLORS.green, pillColor: COLORS.green };
-  }
-
-  if (score >= 7) {
-    return { numberColor: COLORS.secondary, pillColor: COLORS.secondary };
-  }
-
-  if (score >= 5.5) {
-    return { numberColor: COLORS.gold, pillColor: COLORS.gold };
-  }
-
-  if (score >= 4) {
-    return { numberColor: '#F97316', pillColor: '#F97316' };
-  }
-
-  return { numberColor: COLORS.red, pillColor: COLORS.red };
-};
+const getScoreTone = (score: number) => getScoreToneUtil(score, SCORE_COLORS);
 
 const getFactorPillStyle = (
   impact: FishingScoreFactor['impact'],
@@ -338,7 +224,7 @@ const getFactorPillStyle = (
   return { backgroundColor: COLORS.cardAlt, color: COLORS.gray };
 };
 
-const isGoldenHour = (day: WeatherForecastDay): boolean =>
+const isGoldenHourActive = (day: WeatherForecastDay): boolean =>
   day.fishingScoreFactors.some(
     (factor) => factor.label === 'Altın Saat' && factor.impact === 'positive',
   );
@@ -406,120 +292,14 @@ const FactorItem = ({ factor }: FactorItemProps): JSX.Element => {
   );
 };
 
-const getHourlyLabel = (time: string, isNow: boolean): string => {
-  if (isNow) {
-    return 'Şimdi';
-  }
-
-  return new Date(time).toLocaleTimeString('tr-TR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-};
-
-const getHourlyEntriesForDay = (
-  hourlyForecastData: HourlyForecastDatum[],
-  dayKey: string,
-): HourlyForecastDatum[] => {
-  return hourlyForecastData.filter(
-    (item) => item.time.slice(0, 10) === dayKey,
-  );
-};
-
-const getHourlyTimelineEntries = (
-  hourlyForecastData: HourlyForecastDatum[],
-  dayKey: string,
-  isToday: boolean,
-): HourlyForecastDatum[] => {
-  if (!hourlyForecastData.length) {
-    return [];
-  }
-
-  const dayEntries = getHourlyEntriesForDay(hourlyForecastData, dayKey);
-
-  if (!dayEntries.length) {
-    return [];
-  }
-
-  const startTime = isToday
-    ? getDefaultHourlyTime(dayEntries, true) ?? dayEntries[0]?.time
-    : dayEntries[0]?.time;
-  const startIndex = hourlyForecastData.findIndex((item) => item.time === startTime);
-
-  if (startIndex < 0) {
-    return dayEntries.slice(0, 36);
-  }
-
-  return hourlyForecastData.slice(startIndex, startIndex + 36);
-};
-
-const getDefaultHourlyTime = (
-  hourlyEntries: HourlyForecastDatum[],
-  isToday: boolean,
-): string | null => {
-  if (!hourlyEntries.length) {
-    return null;
-  }
-
-  if (isToday) {
-    const now = Date.now();
-    const upcomingEntry = hourlyEntries.find(
-      (item) => new Date(item.time).getTime() >= now - 30 * 60 * 1000,
-    );
-
-    if (upcomingEntry) {
-      return upcomingEntry.time;
-    }
-  }
-
-  const preferredEntry = hourlyEntries.find(
-    (item) => item.time.slice(11, 16) === '12:00',
-  );
-
-  if (preferredEntry) {
-    return preferredEntry.time;
-  }
-
-  return hourlyEntries[0]?.time ?? null;
-};
-
-const getHourlyIndexFromScroll = (
+const getHourlyIndexFromScrollLocal = (
   offsetX: number,
   viewportWidth: number,
   itemCount: number,
-): number => {
-  if (itemCount <= 0 || viewportWidth <= 0) {
-    return 0;
-  }
+): number => getHourlyIndexFromScrollUtil(offsetX, viewportWidth, itemCount, HOURLY_ITEM_WIDTH, HOURLY_ITEM_SPAN);
 
-  const sidePadding = Math.max(0, (viewportWidth - HOURLY_ITEM_WIDTH) / 2);
-  const centeredPosition =
-    offsetX + viewportWidth / 2 - sidePadding - HOURLY_ITEM_WIDTH / 2;
-
-  return Math.max(
-    0,
-    Math.min(itemCount - 1, Math.round(centeredPosition / HOURLY_ITEM_SPAN)),
-  );
-};
-
-const getMaxHourlyOffset = (itemCount: number): number =>
-  Math.max(0, (itemCount - 1) * HOURLY_ITEM_SPAN);
-
-const getHourlyDayLabel = (hourlyTime: string | null, selectedDate: string): string => {
-  if (!hourlyTime) return '';
-  
-  const hourlyDate = hourlyTime.slice(0, 10);
-  if (hourlyDate === selectedDate) return '';
-  
-  const today = new Date().toISOString().slice(0, 10);
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
-  
-  if (hourlyDate === today) return 'Bugün';
-  if (hourlyDate === tomorrow) return 'Yarın';
-  
-  const date = new Date(hourlyDate);
-  return date.toLocaleDateString('tr-TR', { weekday: 'short', day: 'numeric', month: 'short' });
-};
+const getMaxHourlyOffsetLocal = (itemCount: number): number =>
+  getMaxHourlyOffsetUtil(itemCount, HOURLY_ITEM_SPAN);
 
 const HourlyStripItem = ({
   item,
@@ -615,9 +395,9 @@ export const WeatherWidget = (): JSX.Element => {
   ): void => {
     const clampedOffset = Math.min(
       event.nativeEvent.contentOffset.x,
-      getMaxHourlyOffset(hourlyEntries.length),
+      getMaxHourlyOffsetLocal(hourlyEntries.length),
     );
-    const index = getHourlyIndexFromScroll(
+    const index = getHourlyIndexFromScrollLocal(
       clampedOffset,
       hourlyViewportWidth,
       hourlyEntries.length,
@@ -643,9 +423,9 @@ export const WeatherWidget = (): JSX.Element => {
   ): void => {
     const clampedOffset = Math.min(
       event.nativeEvent.contentOffset.x,
-      getMaxHourlyOffset(hourlyEntries.length),
+      getMaxHourlyOffsetLocal(hourlyEntries.length),
     );
-    const index = getHourlyIndexFromScroll(
+    const index = getHourlyIndexFromScrollLocal(
       clampedOffset,
       hourlyViewportWidth,
       hourlyEntries.length,
@@ -738,7 +518,7 @@ export const WeatherWidget = (): JSX.Element => {
     );
     const displayForecastDay = weather.forecastDays[selectedHourlyDayIndex] ?? selectedForecastDay;
     const displayDailyForecast = weather.dailyForecast[selectedHourlyDayIndex] ?? selectedDailyForecast;
-    const forecastIsGoldenHour = isGoldenHour(displayForecastDay);
+    const forecastIsGoldenHour = isGoldenHourActive(displayForecastDay);
     const displayedTemperature = selectedHourlyEntry?.temperature ?? displayForecastDay.temperature;
     const displayedWeatherCode = selectedHourlyEntry?.weatherCode ?? displayForecastDay.weatherCode;
     const displayedWeatherLabel = selectedHourlyEntry
@@ -796,8 +576,13 @@ export const WeatherWidget = (): JSX.Element => {
     return (
       <View style={[styles.card, styles.shadowCard, { marginHorizontal: 16, marginBottom: 16 }]}>
         <View style={styles.loadingRow}>
-          <ActivityIndicator color={COLORS.primary} />
-          <Text style={styles.loadingText}>Balık hava koşulları yükleniyor...</Text>
+          <View style={styles.loadingIconWrap}>
+            <ActivityIndicator color={COLORS.primary} />
+          </View>
+          <View>
+            <Text style={styles.loadingTitle}>Balık hava koşulları yükleniyor</Text>
+            <Text style={styles.loadingSubtext}>Veriler hazırlanıyor...</Text>
+          </View>
         </View>
       </View>
     );
@@ -806,8 +591,21 @@ export const WeatherWidget = (): JSX.Element => {
   if (weatherQuery.isError || !weather) {
     return (
       <View style={[styles.card, styles.shadowCard, { marginHorizontal: 16, marginBottom: 16 }]}>
-        <Text style={styles.errorTitle}>Balık Koşulları</Text>
-        <Text style={styles.errorText}>Hava ve deniz verisi şu anda alınamadı.</Text>
+        <View style={styles.errorRow}>
+          <Ionicons color={COLORS.red} name="cloud-offline-outline" size={24} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.errorTitle}>Balık Koşulları</Text>
+            <Text style={styles.errorText}>Hava ve deniz verisi şu anda alınamadı.</Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => weatherQuery.refetch()}
+          style={styles.retryButton}
+        >
+          <Ionicons color={COLORS.background} name="refresh-outline" size={16} />
+          <Text style={styles.retryButtonText}>Tekrar Dene</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -949,14 +747,14 @@ export const WeatherWidget = (): JSX.Element => {
                 label="DALGA"
                 value={
                   displayedWaveHeight !== null
-                    ? `${formatCompact(displayedWaveHeight)} m`
+                    ? `${formatCompactUtil(displayedWaveHeight)} m`
                     : '--'
                 }
               />
               <MetricRow
                 icon="💨"
                 label="RÜZGAR"
-                value={`${formatWindSpeed(displayedWindSpeed, windSpeedUnit)} ${displayedWindDirectionLabel}`}
+                value={`${formatWindSpeedUtil(displayedWindSpeed, windSpeedUnit)} ${displayedWindDirectionLabel}`}
               />
             </View>
             <View style={styles.metricsRow}>
@@ -1555,23 +1353,63 @@ const styles = StyleSheet.create({
   loadingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 12,
+  },
+  loadingIconWrap: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(212,255,0,0.10)',
+    borderRadius: 14,
+    height: 44,
+    justifyContent: 'center',
+    width: 44,
+  },
+  loadingTitle: {
+    color: T.textPrimary,
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  loadingSubtext: {
+    color: T.textTertiary,
+    fontSize: 11,
+    marginTop: 2,
   },
   loadingText: {
     color: T.textSecondary,
     fontSize: 14,
     fontWeight: '600',
   },
+  errorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
+  },
   errorTitle: {
     color: T.textPrimary,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
   },
   errorText: {
     color: T.textSecondary,
-    fontSize: 14,
-    marginTop: 8,
+    fontSize: 13,
+    marginTop: 4,
     lineHeight: 20,
+  },
+  retryButton: {
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    backgroundColor: T.teal,
+    borderRadius: 999,
+    flexDirection: 'row',
+    gap: 6,
+    minHeight: 40,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  retryButtonText: {
+    color: T.bg,
+    fontSize: 13,
+    fontWeight: '700',
   },
   // Enhanced fishing features styles
   enhancedSection: {
