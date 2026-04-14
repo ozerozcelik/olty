@@ -872,9 +872,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     gap: 4,
-    minHeight: 36,
+    minHeight: 44,
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   daySelectorText: {
     color: C.textPrimary,
@@ -910,9 +910,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 6,
     marginTop: 10,
-    minHeight: 36,
+    minHeight: 44,
     paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   heroScoreValue: {
     color: C.bg,
